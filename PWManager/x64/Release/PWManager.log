@@ -1,6 +1,3 @@
-﻿  PWManager.cpp
-  login.cpp
-  main.cpp
-  moc_PWManager.cpp
+﻿  login.cpp
      Creating library C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Release\PWManager.lib and object C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Release\PWManager.exp
   PWManager.vcxproj -> C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Release\PWManager.exe

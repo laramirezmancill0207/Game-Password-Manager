@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
@@ -14,10 +15,21 @@ namespace passwordManager
 {
     bool checkMasterLogin(std::string inputU, std::string inputP)
     {
+        std::string server;
+        std::string username;
+        std::string password;
 
-        std::string server = "tcp://127.0.0.1:3306";
-        std::string username = "root";
-        std::string password = "";
+        // Read from the text file
+        std::ifstream rfile("pw.txt");
+
+        std::getline(rfile, server);
+        std::getline(rfile, username);
+        std::getline(rfile, password);
+
+        // Close the file
+        rfile.close();
+
+        
 
         //sql variables
         sql::Driver* driver;

@@ -1,3 +1,4 @@
 
 *.ipch
 PWManager/.vs/PWManager/v17/Browse.VC.opendb
+PWManager/pw.txt
