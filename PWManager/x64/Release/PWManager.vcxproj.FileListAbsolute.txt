@@ -1,0 +1,2 @@
+C:\Users\milta\Documents\GitHub\Password-Manager\pMan\PWManager\x64\Release\PWManager.exe
+C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Release\PWManager.exe
