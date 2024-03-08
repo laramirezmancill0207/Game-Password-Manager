@@ -10,7 +10,7 @@ namespace passwordManager
 
 	bool checkMasterLogin(std::string inputU, std::string inputP);
 
-
+	bool createMasterLogin(std::string inputU, std::string inputP);
 
 }
 

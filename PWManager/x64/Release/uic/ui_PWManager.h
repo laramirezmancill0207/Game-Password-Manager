@@ -11,13 +11,14 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QCommandLinkButton>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
 
@@ -28,15 +29,30 @@ class Ui_PWManagerClass
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
+    QSpacerItem *verticalSpacer_3;
     QSpacerItem *horizontalSpacer_2;
-    QFormLayout *formLayout;
-    QLabel *usernameLabel;
-    QLineEdit *username;
-    QLabel *passwordLabel;
-    QLineEdit *password;
-    QPushButton *login;
+    QSpacerItem *verticalSpacer_2;
+    QSpacerItem *verticalSpacer;
     QLabel *loginMessage;
     QSpacerItem *horizontalSpacer;
+    QLabel *title;
+    QStackedWidget *stackedWidget;
+    QWidget *Page1;
+    QGridLayout *gridLayout_3;
+    QPushButton *signup;
+    QLineEdit *spassword;
+    QLineEdit *susername;
+    QLabel *label;
+    QLabel *label_2;
+    QCommandLinkButton *switchl;
+    QWidget *Page0;
+    QGridLayout *gridLayout_2;
+    QLineEdit *username;
+    QLineEdit *password;
+    QPushButton *login;
+    QCommandLinkButton *switchs;
+    QLabel *passwordLabel;
+    QLabel *usernameLabel;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *PWManagerClass)
@@ -50,41 +66,22 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName("gridLayout");
+        gridLayout->setContentsMargins(9, -1, -1, -1);
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_3, 2, 1, 1, 1);
+
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer_2, 0, 2, 1, 1);
+        gridLayout->addItem(horizontalSpacer_2, 4, 2, 1, 1);
 
-        formLayout = new QFormLayout();
-        formLayout->setSpacing(6);
-        formLayout->setObjectName("formLayout");
-        formLayout->setHorizontalSpacing(100);
-        formLayout->setVerticalSpacing(100);
-        formLayout->setContentsMargins(175, 100, 175, 100);
-        usernameLabel = new QLabel(centralWidget);
-        usernameLabel->setObjectName("usernameLabel");
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, usernameLabel);
+        gridLayout->addItem(verticalSpacer_2, 5, 1, 1, 1);
 
-        username = new QLineEdit(centralWidget);
-        username->setObjectName("username");
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
-        formLayout->setWidget(1, QFormLayout::FieldRole, username);
-
-        passwordLabel = new QLabel(centralWidget);
-        passwordLabel->setObjectName("passwordLabel");
-
-        formLayout->setWidget(2, QFormLayout::LabelRole, passwordLabel);
-
-        password = new QLineEdit(centralWidget);
-        password->setObjectName("password");
-
-        formLayout->setWidget(2, QFormLayout::FieldRole, password);
-
-        login = new QPushButton(centralWidget);
-        login->setObjectName("login");
-        login->setIconSize(QSize(16, 16));
-
-        formLayout->setWidget(3, QFormLayout::FieldRole, login);
+        gridLayout->addItem(verticalSpacer, 0, 1, 1, 1);
 
         loginMessage = new QLabel(centralWidget);
         loginMessage->setObjectName("loginMessage");
@@ -93,20 +90,136 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(loginMessage->sizePolicy().hasHeightForWidth());
         loginMessage->setSizePolicy(sizePolicy);
-        loginMessage->setMaximumSize(QSize(16777215, 40));
+        loginMessage->setMinimumSize(QSize(200, 40));
+        loginMessage->setMaximumSize(QSize(100, 40));
         loginMessage->setBaseSize(QSize(0, 0));
         loginMessage->setFrameShape(QFrame::NoFrame);
         loginMessage->setAlignment(Qt::AlignCenter);
         loginMessage->setWordWrap(true);
 
-        formLayout->setWidget(0, QFormLayout::FieldRole, loginMessage);
-
-
-        gridLayout->addLayout(formLayout, 0, 1, 1, 1);
+        gridLayout->addWidget(loginMessage, 3, 1, 1, 1, Qt::AlignHCenter);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer, 0, 0, 1, 1);
+        gridLayout->addItem(horizontalSpacer, 4, 0, 1, 1);
+
+        title = new QLabel(centralWidget);
+        title->setObjectName("title");
+        QFont font;
+        font.setFamilies({QString::fromUtf8("Trebuchet MS")});
+        font.setPointSize(20);
+        font.setBold(true);
+        title->setFont(font);
+        title->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(title, 1, 1, 1, 1);
+
+        stackedWidget = new QStackedWidget(centralWidget);
+        stackedWidget->setObjectName("stackedWidget");
+        Page1 = new QWidget();
+        Page1->setObjectName("Page1");
+        gridLayout_3 = new QGridLayout(Page1);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName("gridLayout_3");
+        signup = new QPushButton(Page1);
+        signup->setObjectName("signup");
+
+        gridLayout_3->addWidget(signup, 2, 1, 1, 1);
+
+        spassword = new QLineEdit(Page1);
+        spassword->setObjectName("spassword");
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(spassword->sizePolicy().hasHeightForWidth());
+        spassword->setSizePolicy(sizePolicy1);
+
+        gridLayout_3->addWidget(spassword, 1, 1, 1, 1);
+
+        susername = new QLineEdit(Page1);
+        susername->setObjectName("susername");
+        sizePolicy1.setHeightForWidth(susername->sizePolicy().hasHeightForWidth());
+        susername->setSizePolicy(sizePolicy1);
+
+        gridLayout_3->addWidget(susername, 0, 1, 1, 1);
+
+        label = new QLabel(Page1);
+        label->setObjectName("label");
+        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy);
+
+        gridLayout_3->addWidget(label, 0, 0, 1, 1);
+
+        label_2 = new QLabel(Page1);
+        label_2->setObjectName("label_2");
+        sizePolicy.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy);
+
+        gridLayout_3->addWidget(label_2, 1, 0, 1, 1);
+
+        switchl = new QCommandLinkButton(Page1);
+        switchl->setObjectName("switchl");
+
+        gridLayout_3->addWidget(switchl, 2, 0, 1, 1);
+
+        stackedWidget->addWidget(Page1);
+        Page0 = new QWidget();
+        Page0->setObjectName("Page0");
+        gridLayout_2 = new QGridLayout(Page0);
+        gridLayout_2->setSpacing(100);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName("gridLayout_2");
+        gridLayout_2->setSizeConstraint(QLayout::SetNoConstraint);
+        gridLayout_2->setContentsMargins(175, 100, 175, 100);
+        username = new QLineEdit(Page0);
+        username->setObjectName("username");
+        sizePolicy1.setHeightForWidth(username->sizePolicy().hasHeightForWidth());
+        username->setSizePolicy(sizePolicy1);
+
+        gridLayout_2->addWidget(username, 1, 2, 1, 1);
+
+        password = new QLineEdit(Page0);
+        password->setObjectName("password");
+        sizePolicy1.setHeightForWidth(password->sizePolicy().hasHeightForWidth());
+        password->setSizePolicy(sizePolicy1);
+
+        gridLayout_2->addWidget(password, 2, 2, 1, 1);
+
+        login = new QPushButton(Page0);
+        login->setObjectName("login");
+        QSizePolicy sizePolicy2(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(login->sizePolicy().hasHeightForWidth());
+        login->setSizePolicy(sizePolicy2);
+        login->setIconSize(QSize(16, 16));
+
+        gridLayout_2->addWidget(login, 3, 2, 1, 1);
+
+        switchs = new QCommandLinkButton(Page0);
+        switchs->setObjectName("switchs");
+        switchs->setMouseTracking(false);
+
+        gridLayout_2->addWidget(switchs, 3, 1, 1, 1);
+
+        passwordLabel = new QLabel(Page0);
+        passwordLabel->setObjectName("passwordLabel");
+        sizePolicy.setHeightForWidth(passwordLabel->sizePolicy().hasHeightForWidth());
+        passwordLabel->setSizePolicy(sizePolicy);
+
+        gridLayout_2->addWidget(passwordLabel, 2, 1, 1, 1);
+
+        usernameLabel = new QLabel(Page0);
+        usernameLabel->setObjectName("usernameLabel");
+        sizePolicy.setHeightForWidth(usernameLabel->sizePolicy().hasHeightForWidth());
+        usernameLabel->setSizePolicy(sizePolicy);
+
+        gridLayout_2->addWidget(usernameLabel, 1, 1, 1, 1);
+
+        stackedWidget->addWidget(Page0);
+
+        gridLayout->addWidget(stackedWidget, 4, 1, 1, 1);
 
         PWManagerClass->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(PWManagerClass);
@@ -115,16 +228,25 @@ public:
 
         retranslateUi(PWManagerClass);
 
+        stackedWidget->setCurrentIndex(1);
+
+
         QMetaObject::connectSlotsByName(PWManagerClass);
     } // setupUi
 
     void retranslateUi(QMainWindow *PWManagerClass)
     {
         PWManagerClass->setWindowTitle(QCoreApplication::translate("PWManagerClass", "PWManager", nullptr));
-        usernameLabel->setText(QCoreApplication::translate("PWManagerClass", "Username:", nullptr));
-        passwordLabel->setText(QCoreApplication::translate("PWManagerClass", "Password: ", nullptr));
-        login->setText(QCoreApplication::translate("PWManagerClass", "Login", nullptr));
         loginMessage->setText(QString());
+        title->setText(QCoreApplication::translate("PWManagerClass", "Gamified Password Manager", nullptr));
+        signup->setText(QCoreApplication::translate("PWManagerClass", "Sign Up", nullptr));
+        label->setText(QCoreApplication::translate("PWManagerClass", "Username:", nullptr));
+        label_2->setText(QCoreApplication::translate("PWManagerClass", "Password:", nullptr));
+        switchl->setText(QCoreApplication::translate("PWManagerClass", "Log in Instead", nullptr));
+        login->setText(QCoreApplication::translate("PWManagerClass", "Login", nullptr));
+        switchs->setText(QCoreApplication::translate("PWManagerClass", "Sign Up Instead", nullptr));
+        passwordLabel->setText(QCoreApplication::translate("PWManagerClass", "Password: ", nullptr));
+        usernameLabel->setText(QCoreApplication::translate("PWManagerClass", "Username:", nullptr));
     } // retranslateUi
 
 };
