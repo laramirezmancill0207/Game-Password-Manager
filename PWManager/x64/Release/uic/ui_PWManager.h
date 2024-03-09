@@ -10,8 +10,8 @@
 #define UI_PWMANAGER_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCommandLinkButton>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -20,6 +20,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -27,14 +28,17 @@ QT_BEGIN_NAMESPACE
 class Ui_PWManagerClass
 {
 public:
+    QAction *actionSignUp;
+    QAction *actionLogIn;
+    QAction *actionpwvisible;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QSpacerItem *verticalSpacer_3;
     QSpacerItem *horizontalSpacer_2;
-    QSpacerItem *verticalSpacer_2;
-    QSpacerItem *verticalSpacer;
     QLabel *loginMessage;
     QSpacerItem *horizontalSpacer;
+    QSpacerItem *verticalSpacer;
+    QSpacerItem *verticalSpacer_2;
+    QSpacerItem *verticalSpacer_3;
     QLabel *title;
     QStackedWidget *stackedWidget;
     QWidget *Page1;
@@ -44,22 +48,31 @@ public:
     QLineEdit *susername;
     QLabel *label;
     QLabel *label_2;
-    QCommandLinkButton *switchl;
     QWidget *Page0;
     QGridLayout *gridLayout_2;
-    QLineEdit *username;
-    QLineEdit *password;
     QPushButton *login;
-    QCommandLinkButton *switchs;
-    QLabel *passwordLabel;
+    QLineEdit *username;
     QLabel *usernameLabel;
+    QLineEdit *password;
+    QLabel *passwordLabel;
     QStatusBar *statusBar;
+    QToolBar *toolBar;
 
     void setupUi(QMainWindow *PWManagerClass)
     {
         if (PWManagerClass->objectName().isEmpty())
             PWManagerClass->setObjectName("PWManagerClass");
         PWManagerClass->resize(805, 683);
+        actionSignUp = new QAction(PWManagerClass);
+        actionSignUp->setObjectName("actionSignUp");
+        actionSignUp->setMenuRole(QAction::NoRole);
+        actionLogIn = new QAction(PWManagerClass);
+        actionLogIn->setObjectName("actionLogIn");
+        actionLogIn->setMenuRole(QAction::NoRole);
+        actionpwvisible = new QAction(PWManagerClass);
+        actionpwvisible->setObjectName("actionpwvisible");
+        actionpwvisible->setCheckable(true);
+        actionpwvisible->setMenuRole(QAction::NoRole);
         centralWidget = new QWidget(PWManagerClass);
         centralWidget->setObjectName("centralWidget");
         gridLayout = new QGridLayout(centralWidget);
@@ -67,21 +80,9 @@ public:
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName("gridLayout");
         gridLayout->setContentsMargins(9, -1, -1, -1);
-        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        gridLayout->addItem(verticalSpacer_3, 2, 1, 1, 1);
-
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
         gridLayout->addItem(horizontalSpacer_2, 4, 2, 1, 1);
-
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        gridLayout->addItem(verticalSpacer_2, 5, 1, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        gridLayout->addItem(verticalSpacer, 0, 1, 1, 1);
 
         loginMessage = new QLabel(centralWidget);
         loginMessage->setObjectName("loginMessage");
@@ -102,6 +103,18 @@ public:
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
         gridLayout->addItem(horizontalSpacer, 4, 0, 1, 1);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer, 0, 1, 1, 1);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_2, 5, 1, 1, 1);
+
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_3, 2, 1, 1, 1);
 
         title = new QLabel(centralWidget);
         title->setObjectName("title");
@@ -134,6 +147,8 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(spassword->sizePolicy().hasHeightForWidth());
         spassword->setSizePolicy(sizePolicy1);
+        spassword->setEchoMode(QLineEdit::Password);
+        spassword->setClearButtonEnabled(false);
 
         gridLayout_3->addWidget(spassword, 1, 1, 1, 1);
 
@@ -158,11 +173,6 @@ public:
 
         gridLayout_3->addWidget(label_2, 1, 0, 1, 1);
 
-        switchl = new QCommandLinkButton(Page1);
-        switchl->setObjectName("switchl");
-
-        gridLayout_3->addWidget(switchl, 2, 0, 1, 1);
-
         stackedWidget->addWidget(Page1);
         Page0 = new QWidget();
         Page0->setObjectName("Page0");
@@ -172,20 +182,6 @@ public:
         gridLayout_2->setObjectName("gridLayout_2");
         gridLayout_2->setSizeConstraint(QLayout::SetNoConstraint);
         gridLayout_2->setContentsMargins(175, 100, 175, 100);
-        username = new QLineEdit(Page0);
-        username->setObjectName("username");
-        sizePolicy1.setHeightForWidth(username->sizePolicy().hasHeightForWidth());
-        username->setSizePolicy(sizePolicy1);
-
-        gridLayout_2->addWidget(username, 1, 2, 1, 1);
-
-        password = new QLineEdit(Page0);
-        password->setObjectName("password");
-        sizePolicy1.setHeightForWidth(password->sizePolicy().hasHeightForWidth());
-        password->setSizePolicy(sizePolicy1);
-
-        gridLayout_2->addWidget(password, 2, 2, 1, 1);
-
         login = new QPushButton(Page0);
         login->setObjectName("login");
         QSizePolicy sizePolicy2(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
@@ -197,18 +193,12 @@ public:
 
         gridLayout_2->addWidget(login, 3, 2, 1, 1);
 
-        switchs = new QCommandLinkButton(Page0);
-        switchs->setObjectName("switchs");
-        switchs->setMouseTracking(false);
+        username = new QLineEdit(Page0);
+        username->setObjectName("username");
+        sizePolicy1.setHeightForWidth(username->sizePolicy().hasHeightForWidth());
+        username->setSizePolicy(sizePolicy1);
 
-        gridLayout_2->addWidget(switchs, 3, 1, 1, 1);
-
-        passwordLabel = new QLabel(Page0);
-        passwordLabel->setObjectName("passwordLabel");
-        sizePolicy.setHeightForWidth(passwordLabel->sizePolicy().hasHeightForWidth());
-        passwordLabel->setSizePolicy(sizePolicy);
-
-        gridLayout_2->addWidget(passwordLabel, 2, 1, 1, 1);
+        gridLayout_2->addWidget(username, 1, 2, 1, 1);
 
         usernameLabel = new QLabel(Page0);
         usernameLabel->setObjectName("usernameLabel");
@@ -216,6 +206,22 @@ public:
         usernameLabel->setSizePolicy(sizePolicy);
 
         gridLayout_2->addWidget(usernameLabel, 1, 1, 1, 1);
+
+        password = new QLineEdit(Page0);
+        password->setObjectName("password");
+        sizePolicy1.setHeightForWidth(password->sizePolicy().hasHeightForWidth());
+        password->setSizePolicy(sizePolicy1);
+        password->setEchoMode(QLineEdit::Password);
+        password->setClearButtonEnabled(false);
+
+        gridLayout_2->addWidget(password, 2, 2, 1, 1);
+
+        passwordLabel = new QLabel(Page0);
+        passwordLabel->setObjectName("passwordLabel");
+        sizePolicy.setHeightForWidth(passwordLabel->sizePolicy().hasHeightForWidth());
+        passwordLabel->setSizePolicy(sizePolicy);
+
+        gridLayout_2->addWidget(passwordLabel, 2, 1, 1, 1);
 
         stackedWidget->addWidget(Page0);
 
@@ -225,6 +231,12 @@ public:
         statusBar = new QStatusBar(PWManagerClass);
         statusBar->setObjectName("statusBar");
         PWManagerClass->setStatusBar(statusBar);
+        toolBar = new QToolBar(PWManagerClass);
+        toolBar->setObjectName("toolBar");
+        PWManagerClass->addToolBar(Qt::TopToolBarArea, toolBar);
+
+        toolBar->addAction(actionLogIn);
+        toolBar->addAction(actionSignUp);
 
         retranslateUi(PWManagerClass);
 
@@ -236,17 +248,24 @@ public:
 
     void retranslateUi(QMainWindow *PWManagerClass)
     {
-        PWManagerClass->setWindowTitle(QCoreApplication::translate("PWManagerClass", "PWManager", nullptr));
+        PWManagerClass->setWindowTitle(QCoreApplication::translate("PWManagerClass", "Password Manager", nullptr));
+        actionSignUp->setText(QCoreApplication::translate("PWManagerClass", "Sign Up", nullptr));
+        actionLogIn->setText(QCoreApplication::translate("PWManagerClass", "Log In", nullptr));
+        actionpwvisible->setText(QCoreApplication::translate("PWManagerClass", "pwvisible", nullptr));
         loginMessage->setText(QString());
         title->setText(QCoreApplication::translate("PWManagerClass", "Gamified Password Manager", nullptr));
         signup->setText(QCoreApplication::translate("PWManagerClass", "Sign Up", nullptr));
+        spassword->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "password", nullptr));
+        susername->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "username", nullptr));
         label->setText(QCoreApplication::translate("PWManagerClass", "Username:", nullptr));
         label_2->setText(QCoreApplication::translate("PWManagerClass", "Password:", nullptr));
-        switchl->setText(QCoreApplication::translate("PWManagerClass", "Log in Instead", nullptr));
         login->setText(QCoreApplication::translate("PWManagerClass", "Login", nullptr));
-        switchs->setText(QCoreApplication::translate("PWManagerClass", "Sign Up Instead", nullptr));
-        passwordLabel->setText(QCoreApplication::translate("PWManagerClass", "Password: ", nullptr));
+        username->setText(QString());
+        username->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "username", nullptr));
         usernameLabel->setText(QCoreApplication::translate("PWManagerClass", "Username:", nullptr));
+        password->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "password", nullptr));
+        passwordLabel->setText(QCoreApplication::translate("PWManagerClass", "Password: ", nullptr));
+        toolBar->setWindowTitle(QCoreApplication::translate("PWManagerClass", "toolBar", nullptr));
     } // retranslateUi
 
 };

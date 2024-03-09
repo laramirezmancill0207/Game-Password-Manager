@@ -13,10 +13,12 @@ public:
     ~PWManager();
 
 private slots:
+    void visible();
+    void invisible();
     void on_login_clicked();
     void on_signup_clicked();
-    void on_switchs_clicked();
-    void on_switchl_clicked();
+    void on_actionSignUp_triggered();
+    void on_actionLogIn_triggered();
 
 private:
     Ui::PWManagerClass ui;

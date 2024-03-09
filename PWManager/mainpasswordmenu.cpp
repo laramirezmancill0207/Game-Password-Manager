@@ -6,10 +6,12 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	setupUi(this);
 }
 
+
 void mainpasswordmenu::closeEvent(QCloseEvent* event)
 {
 	QApplication::quit();
 }
+
 
 mainpasswordmenu::~mainpasswordmenu()
 {}
