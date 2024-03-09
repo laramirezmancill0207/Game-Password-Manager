@@ -111,14 +111,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="PWManager.qrc" />
+    <QtUic Include="mainpasswordmenu.ui" />
     <QtUic Include="PWManager.ui" />
     <QtMoc Include="PWManager.h" />
     <ClCompile Include="login.cpp" />
+    <ClCompile Include="mainpasswordmenu.cpp" />
     <ClCompile Include="PWManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="login.h" />
+    <QtMoc Include="mainpasswordmenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

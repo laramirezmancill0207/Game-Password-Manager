@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_PWManager.h"
+#include "mainpasswordmenu.h"
 
 class PWManager : public QMainWindow
 {
@@ -19,4 +20,5 @@ private slots:
 
 private:
     Ui::PWManagerClass ui;
+    mainpasswordmenu* window;
 };

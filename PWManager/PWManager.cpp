@@ -1,6 +1,7 @@
 #include "PWManager.h"
 #include "login.h"
 #include <string>
+#include "mainpasswordmenu.h"
 
 PWManager::PWManager(QWidget *parent)
     : QMainWindow(parent)
@@ -18,6 +19,11 @@ void PWManager::on_login_clicked()
     if (passwordManager::checkMasterLogin(textUser, textPass))
     {
         ui.loginMessage->setText("login successful");
+        hide();
+        window = new mainpasswordmenu(this);
+        window->setAttribute(Qt::WA_DeleteOnClose);
+        window->show();
+
         return;
     }
 
