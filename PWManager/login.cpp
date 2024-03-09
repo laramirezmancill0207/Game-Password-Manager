@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <regex>
 
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
@@ -89,6 +90,7 @@ namespace passwordManager
 
     bool createMasterLogin(std::string inputU, std::string inputP)
     {
+
         std::string server;
         std::string username;
         std::string password;
@@ -142,5 +144,27 @@ namespace passwordManager
 
         return true;
 
+    }
+
+    std::string checkPassword(std::string password)
+    {
+
+        std::regex rules("(?=.*\d)(?=.*[a-z])(?=.*[A-Z])((?=.*\W)|(?=.*_))^[^ ]+$");
+
+        if (!std::regex_match(password, rules))
+        {
+            return "Password rules: at least one lower case, upper case, digit, special character\nAlso no underscore, or spaces";
+        }
+
+        if (password.length() < 8)
+        {
+            return "Password must be 8 characters or more";
+        }
+
+        
+
+
+
+        return "good";
     }
 }

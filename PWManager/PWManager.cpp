@@ -107,6 +107,14 @@ void PWManager::on_signup_clicked()
     std::string textUser = ui.susername->text().toStdString();
     std::string textPass = ui.spassword->text().toStdString();
 
+    std::string check = passwordManager::checkPassword(textPass);
+
+    if (check != "good") {
+
+        ui.loginMessage->setText(QString::fromStdString(check));
+        return;
+    }
+
     if (passwordManager::createMasterLogin(textUser, textPass))
     {
         ui.loginMessage->setText("login successfully created");
