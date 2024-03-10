@@ -13,18 +13,18 @@
 
 namespace passwordManager
 {
-	bool createAccount(int userID, std::string email, std::string username, std::string url, std::string app)
+	bool createAccount(int userID, std::string email, std::string username, std::string password, std::string url, std::string app)
 	{
         std::string server;
-        std::string username;
-        std::string password;
+        std::string susername;
+        std::string spassword;
 
         // Read from the text file
         std::ifstream rfile("pw.txt");
 
         std::getline(rfile, server);
-        std::getline(rfile, username);
-        std::getline(rfile, password);
+        std::getline(rfile, susername);
+        std::getline(rfile, spassword);
 
         // Close the file
         rfile.close();
@@ -36,14 +36,12 @@ namespace passwordManager
         sql::Connection* con;
         sql::PreparedStatement* pstmt;
 
-        //storage variables
-        int userID;
 
         //try to get connection to sql server
         try
         {
             driver = get_driver_instance();
-            con = driver->connect(server, username, password);
+            con = driver->connect(server, susername, spassword);
         }
 
         catch (sql::SQLException e)
@@ -75,15 +73,15 @@ namespace passwordManager
 	bool deleteAccount(int id)
 	{
         std::string server;
-        std::string username;
-        std::string password;
+        std::string susername;
+        std::string spassword;
 
         // Read from the text file
         std::ifstream rfile("pw.txt");
 
         std::getline(rfile, server);
-        std::getline(rfile, username);
-        std::getline(rfile, password);
+        std::getline(rfile, susername);
+        std::getline(rfile, spassword);
 
         // Close the file
         rfile.close();
@@ -105,7 +103,7 @@ namespace passwordManager
         try
         {
             driver = get_driver_instance();
-            con = driver->connect(server, username, password);
+            con = driver->connect(server, susername, spassword);
         }
 
         catch (sql::SQLException e)
