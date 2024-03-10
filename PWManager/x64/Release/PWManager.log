@@ -1,5 +1,3 @@
-﻿  login.cpp
-C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\login.cpp(152,26): warning C4129: 'd': unrecognized character escape sequence
-C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\login.cpp(152,26): warning C4129: 'W': unrecognized character escape sequence
+﻿  accounts.cpp
      Creating library C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Release\PWManager.lib and object C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Release\PWManager.exp
   PWManager.vcxproj -> C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Release\PWManager.exe

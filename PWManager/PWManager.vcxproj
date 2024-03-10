@@ -114,12 +114,14 @@
     <QtUic Include="mainpasswordmenu.ui" />
     <QtUic Include="PWManager.ui" />
     <QtMoc Include="PWManager.h" />
+    <ClCompile Include="accounts.cpp" />
     <ClCompile Include="login.cpp" />
     <ClCompile Include="mainpasswordmenu.cpp" />
     <ClCompile Include="PWManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="accounts.h" />
     <ClInclude Include="login.h" />
     <QtMoc Include="mainpasswordmenu.h" />
   </ItemGroup>

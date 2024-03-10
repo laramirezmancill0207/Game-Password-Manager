@@ -91,9 +91,10 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(loginMessage->sizePolicy().hasHeightForWidth());
         loginMessage->setSizePolicy(sizePolicy);
-        loginMessage->setMinimumSize(QSize(200, 40));
-        loginMessage->setMaximumSize(QSize(100, 40));
+        loginMessage->setMinimumSize(QSize(250, 60));
+        loginMessage->setMaximumSize(QSize(250, 60));
         loginMessage->setBaseSize(QSize(0, 0));
+        loginMessage->setStyleSheet(QString::fromUtf8("QLabel { color : red; }"));
         loginMessage->setFrameShape(QFrame::NoFrame);
         loginMessage->setAlignment(Qt::AlignCenter);
         loginMessage->setWordWrap(true);
@@ -104,7 +105,7 @@ public:
 
         gridLayout->addItem(horizontalSpacer, 4, 0, 1, 1);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+        verticalSpacer = new QSpacerItem(0, 100, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
         gridLayout->addItem(verticalSpacer, 0, 1, 1, 1);
 

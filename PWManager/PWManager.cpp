@@ -127,11 +127,13 @@ void PWManager::on_signup_clicked()
 void PWManager::on_actionSignUp_triggered()
 {
     ui.stackedWidget->setCurrentIndex(0);
+    ui.loginMessage->setText("");
 }
 
 void PWManager::on_actionLogIn_triggered()
 {
     ui.stackedWidget->setCurrentIndex(1);
+    ui.loginMessage->setText("");
 }
 
 PWManager::~PWManager()
