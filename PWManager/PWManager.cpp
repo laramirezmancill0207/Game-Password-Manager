@@ -122,10 +122,10 @@ void PWManager::on_signup_clicked()
         return;
     }
 
-    //if (passwordManager::createMasterLogin(textUser, textPass))
+    if (passwordManager::createMasterLogin(textUser, textPass))
     {
-        //ui.loginMessage->setText("login successfully created");
-        //return;
+        ui.loginMessage->setText("login successfully created");
+        return;
     }
     ui.loginMessage->setText("login was not created");
 

@@ -3,7 +3,7 @@
 #include <iostream>;
 #include <fstream>
 
-
+#include <QMessageBox>
 
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
@@ -44,14 +44,17 @@ void mainpasswordmenu::on_addAccount_clicked()
 	if (accemail.empty() || accusername.empty() || accpassword.empty() || accurl.empty() || accapp.empty())
 	{
 		this->warning->setText("Please fill all fields");
+		QMessageBox::about(this, "Warning", "Please fill all fields");
+
 		return;
 	}
 
-	//bool created = passwordManager::createAccount(userID, accemail, accusername, accpassword, accurl, accapp);
+	bool created = passwordManager::createAccount(userID, accemail, accusername, accpassword, accurl, accapp);
 
-	//if (!created)
+	if (!created)
 	{
-		//this->warning->setText("account not able to be added");
+		this->warning->setText("account not able to be added");
+		QMessageBox::about(this, "Warning", "Account not able to be added");
 	}
 
 	

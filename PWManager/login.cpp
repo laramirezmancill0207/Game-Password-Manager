@@ -10,7 +10,6 @@
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QDebug>
-#include <QMessageBox>
 
 namespace passwordManager
 {
