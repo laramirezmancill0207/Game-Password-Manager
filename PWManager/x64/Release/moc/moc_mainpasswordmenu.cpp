@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "../../../mainpasswordmenu.h"
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #if __has_include(<QtCore/qtmochelpers.h>)
@@ -42,16 +43,18 @@ constexpr auto qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS = QtMocHelpers::
     "closeEvent",
     "",
     "QCloseEvent*",
-    "event"
+    "event",
+    "on_addAccount_clicked"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS_t {
-    uint offsetsAndSizes[10];
+    uint offsetsAndSizes[12];
     char stringdata0[17];
     char stringdata1[11];
     char stringdata2[1];
     char stringdata3[13];
     char stringdata4[6];
+    char stringdata5[22];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -61,13 +64,15 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS_t qt_m
         QT_MOC_LITERAL(17, 10),  // "closeEvent"
         QT_MOC_LITERAL(28, 0),  // ""
         QT_MOC_LITERAL(29, 12),  // "QCloseEvent*"
-        QT_MOC_LITERAL(42, 5)   // "event"
+        QT_MOC_LITERAL(42, 5),  // "event"
+        QT_MOC_LITERAL(48, 21)   // "on_addAccount_clicked"
     },
     "mainpasswordmenu",
     "closeEvent",
     "",
     "QCloseEvent*",
-    "event"
+    "event",
+    "on_addAccount_clicked"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -79,7 +84,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSmainpasswordmenuENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -87,10 +92,12 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSmainpasswordmenuENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   20,    2, 0x08,    1 /* Private */,
+       1,    1,   26,    2, 0x08,    1 /* Private */,
+       5,    0,   29,    2, 0x08,    3 /* Private */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -106,7 +113,9 @@ Q_CONSTINIT const QMetaObject mainpasswordmenu::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<mainpasswordmenu, std::true_type>,
         // method 'closeEvent'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QCloseEvent *, std::false_type>
+        QtPrivate::TypeAndForceComplete<QCloseEvent *, std::false_type>,
+        // method 'on_addAccount_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
@@ -118,6 +127,7 @@ void mainpasswordmenu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         (void)_t;
         switch (_id) {
         case 0: _t->closeEvent((*reinterpret_cast< std::add_pointer_t<QCloseEvent*>>(_a[1]))); break;
+        case 1: _t->on_addAccount_clicked(); break;
         default: ;
         }
     }
@@ -144,13 +154,13 @@ int mainpasswordmenu::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 2)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 1;
+        _id -= 2;
     }
     return _id;
 }

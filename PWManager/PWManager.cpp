@@ -83,7 +83,7 @@ void PWManager::on_login_clicked()
     std::string textPass = ui.password->text().toStdString();
 
     //exit function if username or password is empty
-    if (textUser == "" || textPass == "")
+    if (textUser.empty() || textPass.empty())
     {
         ui.loginMessage->setText("Please enter both a username and password");
         return;
@@ -91,10 +91,13 @@ void PWManager::on_login_clicked()
 
     if (passwordManager::checkMasterLogin(textUser, textPass))
     {
-        hide();
-        window = new mainpasswordmenu(this);
+        
+        window = new mainpasswordmenu();
+
         window->setAttribute(Qt::WA_DeleteOnClose);
         window->show();
+
+        this->close();
 
         return;
     }
