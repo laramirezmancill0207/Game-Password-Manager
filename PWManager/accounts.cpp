@@ -1,15 +1,10 @@
 #include "accounts.h"
-
-#include <stdlib.h>
-#include <iostream>
-#include <string>
 #include <fstream>
-#include <regex>
 
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
+#include <QApplication>
+#include <QtSql>
+#include <QSqlDatabase>
+#include <QDebug>
 
 namespace passwordManager
 {
@@ -29,49 +24,40 @@ namespace passwordManager
         // Close the file
         rfile.close();
 
+        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+        db.setHostName(QString::fromStdString(server));
+        db.setUserName(QString::fromStdString(susername));
+        db.setPassword(QString::fromStdString(spassword));
+        db.setDatabaseName("passwordmanager");
 
-
-        //sql variables
-        sql::Driver* driver;
-        sql::Connection* con;
-        sql::PreparedStatement* pstmt;
-
-
-        //try to get connection to sql server
-        try
+        if (!db.open())
         {
-            driver = get_driver_instance();
-            con = driver->connect(server, susername, spassword);
+            qDebug() << db.lastError();
+            db.close();
+            return false;
         }
 
-        catch (sql::SQLException e)
+        QSqlQuery qry;
+        qry.prepare("INSERT INTO accounts(email, username, password, url, application, userID) VALUES(?,?,?,?,?,?)");
+        qry.addBindValue(QString::fromStdString(email));
+        qry.addBindValue(QString::fromStdString(username));
+        qry.addBindValue(QString::fromStdString(password));
+        qry.addBindValue(QString::fromStdString(url));
+        qry.addBindValue(QString::fromStdString(app));
+        qry.addBindValue(userID);
+
+        if (qry.exec())
         {
-            std::cout << "Could not connect to server. Error message: " << e.what() << std::endl;
-            system("pause");
-            exit(1);
+            db.close();
+            return true;
         }
 
-        //existing master schema for application
-        con->setSchema("passwordmanager");
-
-        //select all rows from masterUser
-        pstmt = con->prepareStatement("INSERT INTO accounts(email, username, password, url, application, userID) VALUES(?,?,?,?,?,?)");
-
-        pstmt->setString(1, email);
-        pstmt->setString(2, username);
-        pstmt->setString(3, password);
-        pstmt->setString(4, url);
-        pstmt->setString(5, app);
-        pstmt->setInt(6, userID);
-        pstmt->execute();
-
-        delete pstmt;
-        delete con;
-
-        return true;
+        db.close();
+        return false;
 	}
-	bool deleteAccount(int id)
-	{
+
+    bool deleteAccount(int id)
+    {
         std::string server;
         std::string susername;
         std::string spassword;
@@ -88,46 +74,30 @@ namespace passwordManager
 
 
 
-        //sql variables
-        sql::Driver* driver;
-        sql::Connection* con;
-        sql::PreparedStatement* pstmt;
-        sql::ResultSet* result;
+        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+        db.setHostName(QString::fromStdString(server));
+        db.setUserName(QString::fromStdString(susername));
+        db.setPassword(QString::fromStdString(spassword));
+        db.setDatabaseName("passwordmanager");
 
-        //storage variables
-        int userID;
-        std::string masterUser;
-        std::string masterPass;
-
-        //try to get connection to sql server
-        try
+        if (!db.open())
         {
-            driver = get_driver_instance();
-            con = driver->connect(server, susername, spassword);
+            qDebug() << db.lastError();
+            db.close();
+            return false;
         }
 
-        catch (sql::SQLException e)
+        QSqlQuery qry;
+        qry.prepare("DELETE FROM accounts WHERE id = ?");
+        qry.addBindValue(id);
+
+        if (qry.exec())
         {
-            std::cout << "Could not connect to server. Error message: " << e.what() << std::endl;
-            system("pause");
-            exit(1);
+            db.close();
+            return true;
         }
 
-        //existing master schema for application
-        con->setSchema("passwordmanager");
-
-        //select all rows from masterUser
-        pstmt = con->prepareStatement("DELETE FROM accounts WHERE id = ?;");
-
-        pstmt->setInt(1, id);
-
-        result = pstmt->executeQuery();
-
-
-        delete result;
-        delete pstmt;
-        delete con;
-
-        return true;
-	}
+        db.close();
+        return false;
+    }
 }

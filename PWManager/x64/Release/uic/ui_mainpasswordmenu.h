@@ -43,6 +43,7 @@ public:
     QAction *actionAbout;
     QAction *actionDocumentation;
     QAction *actionGithub;
+    QAction *actionUsername;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QStackedWidget *stackedWidget;
@@ -61,6 +62,7 @@ public:
     QLineEdit *accusername;
     QPushButton *addAccount;
     QLabel *warning;
+    QLabel *label_6;
     QTableWidget *tableWidget;
     QWidget *Page2;
     QMenuBar *menuBar;
@@ -97,6 +99,10 @@ public:
         actionDocumentation->setObjectName("actionDocumentation");
         actionGithub = new QAction(mainpasswordmenuClass);
         actionGithub->setObjectName("actionGithub");
+        actionUsername = new QAction(mainpasswordmenuClass);
+        actionUsername->setObjectName("actionUsername");
+        actionUsername->setEnabled(false);
+        actionUsername->setMenuRole(QAction::NoRole);
         centralWidget = new QWidget(mainpasswordmenuClass);
         centralWidget->setObjectName("centralWidget");
         gridLayout = new QGridLayout(centralWidget);
@@ -188,6 +194,11 @@ public:
 
         gridLayout_4->addWidget(warning, 3, 1, 1, 1);
 
+        label_6 = new QLabel(Page1);
+        label_6->setObjectName("label_6");
+
+        gridLayout_4->addWidget(label_6, 3, 0, 1, 1);
+
 
         horizontalLayout->addLayout(gridLayout_4);
 
@@ -262,6 +273,7 @@ public:
         menuHelp->addAction(actionAbout);
         menuHelp->addAction(actionDocumentation);
         menuHelp->addAction(actionGithub);
+        mainToolBar->addAction(actionUsername);
 
         retranslateUi(mainpasswordmenuClass);
 
@@ -285,6 +297,7 @@ public:
         actionAbout->setText(QCoreApplication::translate("mainpasswordmenuClass", "About", nullptr));
         actionDocumentation->setText(QCoreApplication::translate("mainpasswordmenuClass", "Documentation", nullptr));
         actionGithub->setText(QCoreApplication::translate("mainpasswordmenuClass", "Github", nullptr));
+        actionUsername->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
         label_2->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
         label_5->setText(QCoreApplication::translate("mainpasswordmenuClass", "Application", nullptr));
         label_3->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
@@ -292,6 +305,7 @@ public:
         label_4->setText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
         addAccount->setText(QCoreApplication::translate("mainpasswordmenuClass", "Add Account", nullptr));
         warning->setText(QString());
+        label_6->setText(QString());
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("mainpasswordmenuClass", "Email", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);

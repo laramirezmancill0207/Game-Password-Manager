@@ -6,15 +6,15 @@
 #include <fstream>
 #include <regex>
 
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
-
+#include <QApplication>
+#include <QtSql>
+#include <QSqlDatabase>
+#include <QDebug>
+#include <QMessageBox>
 
 namespace passwordManager
 {
-    bool checkMasterLogin(std::string inputU, std::string inputP)
+    User checkMasterLogin(std::string inputU, std::string inputP)
     {
         std::string server;
         std::string username;
@@ -32,61 +32,37 @@ namespace passwordManager
 
 
 
-        //sql variables
-        sql::Driver* driver;
-        sql::Connection* con;
-        sql::PreparedStatement* pstmt;
-        sql::ResultSet* result;
+        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+        db.setHostName(QString::fromStdString(server));
+        db.setUserName(QString::fromStdString(username));
+        db.setPassword(QString::fromStdString(password));
+        db.setDatabaseName("passwordmanager");
 
-        //storage variables
-        int userID;
-        std::string masterUser;
-        std::string masterPass;
-
-        //try to get connection to sql server
-        try
+        if (!db.open())
         {
-            driver = get_driver_instance();
-            con = driver->connect(server, username, password);
+            qDebug() << db.lastError();
+            db.close();
+            return User("", "", -1);
         }
 
-        catch (sql::SQLException e)
+        QSqlQuery qry;
+        qry.prepare("SELECT * FROM masteruser WHERE username = ? AND password = ?");
+        qry.addBindValue(QString::fromStdString(inputU));
+        qry.addBindValue(QString::fromStdString(inputP));
+
+        if (qry.exec())
         {
-            std::cout << "Could not connect to server. Error message: " << e.what() << std::endl;
-            system("pause");
-            exit(1);
+            if (qry.next())
+            {
+                db.close();
+                return User(qry.value("username").toString().toStdString(), qry.value("password").toString().toStdString(), qry.value("id").toInt());
+            }
         }
+        db.close();
+        return User("", "", -1);
 
-        //existing master schema for application
-        con->setSchema("passwordmanager");
-
-        //select all rows from masterUser
-        pstmt = con->prepareStatement("SELECT * FROM masteruser WHERE username = ?;");
-
-        pstmt->setString(1, inputU);
-
-        result = pstmt->executeQuery();
-
-        //convert result to get login info
-        while (result->next())
-        {
-            userID = result->getInt(1);
-            masterUser = result->getString("username").c_str();
-            masterPass = result->getString("password").c_str();
-        }
-
-
-        delete result;
-        delete pstmt;
-        delete con;
-
-        //check if sql matches user input
-        if (inputU == masterUser && inputP == masterPass)
-        {
-            return true;
-        }
-        return false;
     }
+    
 
     bool createMasterLogin(std::string inputU, std::string inputP)
     {
@@ -105,46 +81,35 @@ namespace passwordManager
         // Close the file
         rfile.close();
 
+        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+        db.setHostName(QString::fromStdString(server));
+        db.setUserName(QString::fromStdString(username));
+        db.setPassword(QString::fromStdString(password));
+        db.setDatabaseName("passwordmanager");
 
-
-        //sql variables
-        sql::Driver* driver;
-        sql::Connection* con;
-        sql::PreparedStatement* pstmt;
-
-        //storage variables
-        int userID;
-
-        //try to get connection to sql server
-        try
+        if (!db.open())
         {
-            driver = get_driver_instance();
-            con = driver->connect(server, username, password);
+            qDebug() << db.lastError();
+            db.close();
+            return false;
         }
 
-        catch (sql::SQLException e)
+        QSqlQuery qry;
+        qry.prepare("INSERT INTO masteruser(username, password) VALUES(?,?)");
+        qry.addBindValue(QString::fromStdString(inputU));
+        qry.addBindValue(QString::fromStdString(inputP));
+
+        if (qry.exec())
         {
-            std::cout << "Could not connect to server. Error message: " << e.what() << std::endl;
-            system("pause");
-            exit(1);
+            db.close();
+            return true;
         }
 
-        //existing master schema for application
-        con->setSchema("passwordmanager");
-
-        //select all rows from masterUser
-        pstmt = con->prepareStatement("INSERT INTO masteruser(username, password) VALUES(?,?)");
-
-        pstmt->setString(1, inputU);
-        pstmt->setString(2, inputP);
-        pstmt->execute();
-
-        delete pstmt;
-        delete con;
-
-        return true;
+        db.close();
+        return false;
 
     }
+    
 
     std::string checkPassword(std::string password)
     {

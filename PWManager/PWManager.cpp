@@ -89,20 +89,24 @@ void PWManager::on_login_clicked()
         return;
     }
 
-    if (passwordManager::checkMasterLogin(textUser, textPass))
+    passwordManager::User masteruser = passwordManager::checkMasterLogin(textUser, textPass);
+
+    if (masteruser.getUsername().empty() || masteruser.getUserID() == -1)
     {
-        
-        window = new mainpasswordmenu();
-
-        window->setAttribute(Qt::WA_DeleteOnClose);
-        window->show();
-
-        this->close();
-
+        ui.loginMessage->setText("Either username or password is incorrect");
         return;
     }
 
-    ui.loginMessage->setText("Either username or password is incorrect");
+    window = new mainpasswordmenu();
+
+    window->setAttribute(Qt::WA_DeleteOnClose);
+    window->show();
+    window->actionUsername->setText(QString::fromStdString(textUser));
+
+    window->label_6->setText(QString::number(masteruser.getUserID()));
+    window->label_6->setHidden(true);
+
+    this->close();
 }
 
 void PWManager::on_signup_clicked()
@@ -118,10 +122,10 @@ void PWManager::on_signup_clicked()
         return;
     }
 
-    if (passwordManager::createMasterLogin(textUser, textPass))
+    //if (passwordManager::createMasterLogin(textUser, textPass))
     {
-        ui.loginMessage->setText("login successfully created");
-        return;
+        //ui.loginMessage->setText("login successfully created");
+        //return;
     }
     ui.loginMessage->setText("login was not created");
 

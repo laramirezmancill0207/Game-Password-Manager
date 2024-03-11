@@ -1,10 +1,16 @@
 #include "mainpasswordmenu.h"
 #include "accounts.h"
+#include <iostream>;
+#include <fstream>
+
+
 
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
 {
 	setupUi(this);
+
+	
 }
 
 
@@ -23,6 +29,17 @@ void mainpasswordmenu::on_addAccount_clicked()
 
 	int userID;
 
+	try
+	{
+		userID = stoi(this->label_6->text().toStdString());
+	}
+
+	catch (std::exception &err)
+	{
+		this->warning->setText("error please log out and log back in");
+		return;
+	}
+
 	//check if all fields entered
 	if (accemail.empty() || accusername.empty() || accpassword.empty() || accurl.empty() || accapp.empty())
 	{
@@ -30,12 +47,14 @@ void mainpasswordmenu::on_addAccount_clicked()
 		return;
 	}
 
-	bool created = passwordManager::createAccount(userID, accemail, accusername, accpassword, accurl, accapp);
+	//bool created = passwordManager::createAccount(userID, accemail, accusername, accpassword, accurl, accapp);
 
-	if (!created)
+	//if (!created)
 	{
-		this->warning->setText("account not able to be added");
+		//this->warning->setText("account not able to be added");
 	}
+
+	
 }
 
 
