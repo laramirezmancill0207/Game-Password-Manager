@@ -23,7 +23,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -63,8 +63,8 @@ public:
     QPushButton *addAccount;
     QLabel *warning;
     QLabel *label_6;
-    QTableWidget *tableWidget;
     QWidget *Page2;
+    QTableView *tableView;
     QMenuBar *menuBar;
     QMenu *menuNew;
     QMenu *menuDelete;
@@ -76,7 +76,7 @@ public:
     {
         if (mainpasswordmenuClass->objectName().isEmpty())
             mainpasswordmenuClass->setObjectName("mainpasswordmenuClass");
-        mainpasswordmenuClass->resize(600, 400);
+        mainpasswordmenuClass->resize(793, 400);
         actionPassword = new QAction(mainpasswordmenuClass);
         actionPassword->setObjectName("actionPassword");
         actionGame_Password = new QAction(mainpasswordmenuClass);
@@ -202,39 +202,6 @@ public:
 
         horizontalLayout->addLayout(gridLayout_4);
 
-        tableWidget = new QTableWidget(Page1);
-        if (tableWidget->columnCount() < 5)
-            tableWidget->setColumnCount(5);
-        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
-        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
-        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
-        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(4, __qtablewidgetitem4);
-        tableWidget->setObjectName("tableWidget");
-        QSizePolicy sizePolicy1(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Expanding);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
-        tableWidget->setSizePolicy(sizePolicy1);
-        tableWidget->setMinimumSize(QSize(500, 0));
-        tableWidget->setAutoFillBackground(false);
-        tableWidget->setStyleSheet(QString::fromUtf8(""));
-        tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
-        tableWidget->setAlternatingRowColors(true);
-        tableWidget->setSortingEnabled(false);
-        tableWidget->horizontalHeader()->setCascadingSectionResizes(false);
-        tableWidget->horizontalHeader()->setDefaultSectionSize(150);
-        tableWidget->horizontalHeader()->setProperty("showSortIndicator", QVariant(false));
-        tableWidget->horizontalHeader()->setStretchLastSection(true);
-        tableWidget->verticalHeader()->setProperty("showSortIndicator", QVariant(false));
-
-        horizontalLayout->addWidget(tableWidget);
-
         stackedWidget->addWidget(Page1);
         Page2 = new QWidget();
         Page2->setObjectName("Page2");
@@ -242,10 +209,23 @@ public:
 
         gridLayout->addWidget(stackedWidget, 0, 0, 1, 1);
 
+        tableView = new QTableView(centralWidget);
+        tableView->setObjectName("tableView");
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
+        tableView->setSizePolicy(sizePolicy1);
+        tableView->setMinimumSize(QSize(450, 0));
+        tableView->horizontalHeader()->setDefaultSectionSize(150);
+        tableView->horizontalHeader()->setStretchLastSection(true);
+
+        gridLayout->addWidget(tableView, 0, 1, 1, 1);
+
         mainpasswordmenuClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(mainpasswordmenuClass);
         menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 600, 22));
+        menuBar->setGeometry(QRect(0, 0, 793, 22));
         menuNew = new QMenu(menuBar);
         menuNew->setObjectName("menuNew");
         menuDelete = new QMenu(menuBar);
@@ -306,16 +286,6 @@ public:
         addAccount->setText(QCoreApplication::translate("mainpasswordmenuClass", "Add Account", nullptr));
         warning->setText(QString());
         label_6->setText(QString());
-        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("mainpasswordmenuClass", "Email", nullptr));
-        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
-        QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
-        QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
-        QTableWidgetItem *___qtablewidgetitem4 = tableWidget->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QCoreApplication::translate("mainpasswordmenuClass", "Application", nullptr));
         menuNew->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "New", nullptr));
         menuDelete->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Edit", nullptr));
         menuHelp->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Help", nullptr));

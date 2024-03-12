@@ -1,18 +1,47 @@
 #include "mainpasswordmenu.h"
 #include "accounts.h"
-#include <iostream>;
+#include <iostream>
 #include <fstream>
 
 #include <QMessageBox>
+
+#include <QApplication>
+#include <QtSql>
+#include <QSqlDatabase>
+#include <QDebug>
 
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
 {
 	setupUi(this);
-
-	
 }
 
+void mainpasswordmenu::refreshTable()
+{
+	int userID = -1;
+
+	try
+	{
+		userID = stoi(this->label_6->text().toStdString());
+	}
+
+	catch (std::exception& err)
+	{
+		this->warning->setText("error please log out and log back in");
+		return;
+	}
+
+	QSqlQueryModel* model = passwordManager::getAccounts(userID);
+
+	this->tableView->setModel(model);
+}
+
+void mainpasswordmenu::showEvent(QShowEvent* event)
+{
+	QWidget::showEvent(event);
+
+	refreshTable();
+}
 
 void mainpasswordmenu::closeEvent(QCloseEvent* event)
 {
@@ -57,6 +86,7 @@ void mainpasswordmenu::on_addAccount_clicked()
 		QMessageBox::about(this, "Warning", "Account not able to be added");
 	}
 
+	mainpasswordmenu::refreshTable();
 	
 }
 

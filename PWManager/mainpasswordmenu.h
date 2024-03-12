@@ -17,6 +17,8 @@ public:
 private slots:
 	void closeEvent(QCloseEvent* event);
 	void on_addAccount_clicked();
+	void showEvent(QShowEvent* event);
+	void refreshTable();
 
 private:
 	 
