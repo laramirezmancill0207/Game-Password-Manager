@@ -14,6 +14,10 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
 {
 	setupUi(this);
+
+	this->tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void mainpasswordmenu::refreshTable()
@@ -27,7 +31,9 @@ void mainpasswordmenu::refreshTable()
 
 	catch (std::exception& err)
 	{
-		this->warning->setText("error please log out and log back in");
+		//this->warning->setText("error please log out and log back in");
+		QMessageBox::about(this, "Error", "Please log out and log back in");
+
 		return;
 	}
 
@@ -65,14 +71,16 @@ void mainpasswordmenu::on_addAccount_clicked()
 
 	catch (std::exception &err)
 	{
-		this->warning->setText("error please log out and log back in");
+		//this->warning->setText("error please log out and log back in");
+		QMessageBox::about(this, "Error", "Please log out and log back in");
+
 		return;
 	}
 
 	//check if all fields entered
 	if (accemail.empty() || accusername.empty() || accpassword.empty() || accurl.empty() || accapp.empty())
 	{
-		this->warning->setText("Please fill all fields");
+		//this->warning->setText("Please fill all fields");
 		QMessageBox::about(this, "Warning", "Please fill all fields");
 
 		return;
@@ -82,7 +90,7 @@ void mainpasswordmenu::on_addAccount_clicked()
 
 	if (!created)
 	{
-		this->warning->setText("account not able to be added");
+		//this->warning->setText("account not able to be added");
 		QMessageBox::about(this, "Warning", "Account not able to be added");
 	}
 

@@ -13,8 +13,8 @@ public:
     ~PWManager();
 
 private slots:
-    void visible();
-    void invisible();
+    void visible(QLineEdit* pwField);
+    void invisible(QLineEdit* pwField);
     void on_login_clicked();
     void on_signup_clicked();
     void on_actionSignUp_triggered();

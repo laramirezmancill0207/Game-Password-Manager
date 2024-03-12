@@ -217,8 +217,15 @@ public:
         sizePolicy1.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
         tableView->setSizePolicy(sizePolicy1);
         tableView->setMinimumSize(QSize(450, 0));
+        tableView->setStyleSheet(QString::fromUtf8("QTableView::item:alternate { background-color: #bfffbf; } \n"
+"QTableView::item { background-color: #deffde;}\n"
+"QTableView::item:selected{ background-color: #000000;}"));
+        tableView->setAlternatingRowColors(true);
+        tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        tableView->setWordWrap(true);
         tableView->horizontalHeader()->setDefaultSectionSize(150);
         tableView->horizontalHeader()->setStretchLastSection(true);
+        tableView->verticalHeader()->setStretchLastSection(false);
 
         gridLayout->addWidget(tableView, 0, 1, 1, 1);
 

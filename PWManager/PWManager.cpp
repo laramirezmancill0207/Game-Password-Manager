@@ -2,6 +2,7 @@
 #include "login.h"
 #include <string>
 #include "mainpasswordmenu.h"
+
 #include <QSignalMapper>
 
 
@@ -14,75 +15,35 @@ PWManager::PWManager(QWidget *parent)
     QAction* vaction = ui.password->addAction(QIcon("eyeopen.png"), QLineEdit::TrailingPosition);
     QAction* vsaction = ui.spassword->addAction(QIcon("eyeopen.png"), QLineEdit::TrailingPosition);
 
-    //connect qaction with visible function when clicked
-    QObject::connect(vaction, SIGNAL(triggered()), this, SLOT(visible()));
-    QObject::connect(vsaction, SIGNAL(triggered()), this, SLOT(visible()));
-
-    //QSignalMapper* signalMapper = new QSignalMapper(this);
-
-    
-    //QObject::connect(vaction, SIGNAL(triggered()), signalMapper, SLOT(map()));
-    //QObject::connect(vsaction, SIGNAL(triggered()), signalMapper, SLOT(map()));
-
-    /*
-    signalMapper->setMapping(vaction, ui.password);
-    signalMapper->setMapping(vsaction, ui.spassword);
-    
-    QObject::connect(signalMapper, SIGNAL(mapped(QLineEdit*)), this, SLOT(visible(QLineEdit*)));
-    */
-
+    //lambda function to connect eye action buttons to visible function
+    QObject::connect(vaction, &QAction::triggered, this, [vaction, this] { visible(ui.password); });
+    QObject::connect(vsaction, &QAction::triggered, this, [vsaction, this] { visible(ui.spassword); });
 }
 
 //set passwordfield be visible and change icon. used for both sign up and login page
-void PWManager::visible()
+void PWManager::visible(QLineEdit* pwField)
 {
-    //login page
-    if (ui.stackedWidget->currentIndex() == 1)
-    {
-        ui.password->setEchoMode(QLineEdit::Normal);
+    //use either sign up or login pw field to get corresponding action
+    pwField->setEchoMode(QLineEdit::Normal);
+    QAction* vaction = pwField->findChild<QAction*>();
+    vaction->setIcon(QIcon("eyeclose.png"));
 
-        QAction* vaction = ui.password->findChild<QAction*>();
-        vaction->setIcon(QIcon("eyeclose.png"));
+    vaction->disconnect();
+    //connect toggle back to invisible function
+    QObject::connect(vaction, &QAction::triggered, this, [vaction, this, pwField] { invisible(pwField); });
 
-        QObject::connect(vaction, SIGNAL(triggered()), this, SLOT(invisible()));
-    }
-    //sign up page
-    else if (ui.stackedWidget->currentIndex() == 0)
-    {
-        ui.spassword->setEchoMode(QLineEdit::Normal);
-
-        QAction* vsaction = ui.spassword->findChild<QAction*>();
-        vsaction->setIcon(QIcon("eyeclose.png"));
-
-        QObject::connect(vsaction, SIGNAL(triggered()), this, SLOT(invisible()));
-    }
-    
 }
 
-void PWManager::invisible()
+void PWManager::invisible(QLineEdit* pwField)
 {
-    //login page
-    if (ui.stackedWidget->currentIndex() == 1)
-    {
-        ui.password->setEchoMode(QLineEdit::Password);
+    //use either sign up or login pw field to get corresponding action
+    pwField->setEchoMode(QLineEdit::Password);
+    QAction* vaction = pwField->findChild<QAction*>();
+    vaction->setIcon(QIcon("eyeopen.png"));
 
-        QAction* vaction = ui.password->findChild<QAction*>();
-        vaction->setIcon(QIcon("eyeopen.png"));
-
-        //connect toggle to visible function
-        QObject::connect(vaction, SIGNAL(triggered()), this, SLOT(visible()));
-    }
-    //sign up page
-    else if (ui.stackedWidget->currentIndex() == 0)
-    {
-        ui.spassword->setEchoMode(QLineEdit::Password);
-
-        QAction* vsaction = ui.spassword->findChild<QAction*>();
-        vsaction->setIcon(QIcon("eyeopen.png"));
-
-        //connect toggle to visible function
-        QObject::connect(vsaction, SIGNAL(triggered()), this, SLOT(visible()));
-    }
+    vaction->disconnect();
+    //connect toggle back to visible function
+    QObject::connect(vaction, &QAction::triggered, this, [vaction, this, pwField] { visible(pwField); });
 }
 
 //login page to log in to password manager
@@ -98,7 +59,6 @@ void PWManager::on_login_clicked()
     }
 
     //get user object from mysql database using entered username and passowrd
-    //serves to check if they exist in db
     passwordManager::User masteruser = passwordManager::checkMasterLogin(textUser, textPass);
 
     //if either is empty username or password was incorrect
@@ -114,7 +74,7 @@ void PWManager::on_login_clicked()
     //set hidden label to userID for later use
     window->label_6->setText(QString::number(masteruser.getUserID()));
     window->label_6->setHidden(true);
-    //set text to show user username
+
     window->actionUsername->setText(QString::fromStdString(textUser));
 
     window->setAttribute(Qt::WA_DeleteOnClose);

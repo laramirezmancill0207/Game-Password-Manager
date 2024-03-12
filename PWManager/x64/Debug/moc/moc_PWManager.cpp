@@ -42,6 +42,8 @@ constexpr auto qt_meta_stringdata_CLASSPWManagerENDCLASS = QtMocHelpers::stringD
     "PWManager",
     "visible",
     "",
+    "QLineEdit*",
+    "pwField",
     "invisible",
     "on_login_clicked",
     "on_signup_clicked",
@@ -50,15 +52,17 @@ constexpr auto qt_meta_stringdata_CLASSPWManagerENDCLASS = QtMocHelpers::stringD
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSPWManagerENDCLASS_t {
-    uint offsetsAndSizes[16];
+    uint offsetsAndSizes[20];
     char stringdata0[10];
     char stringdata1[8];
     char stringdata2[1];
-    char stringdata3[10];
-    char stringdata4[17];
-    char stringdata5[18];
-    char stringdata6[26];
-    char stringdata7[25];
+    char stringdata3[11];
+    char stringdata4[8];
+    char stringdata5[10];
+    char stringdata6[17];
+    char stringdata7[18];
+    char stringdata8[26];
+    char stringdata9[25];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSPWManagerENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -67,15 +71,19 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSPWManagerENDCLASS_t qt_meta_str
         QT_MOC_LITERAL(0, 9),  // "PWManager"
         QT_MOC_LITERAL(10, 7),  // "visible"
         QT_MOC_LITERAL(18, 0),  // ""
-        QT_MOC_LITERAL(19, 9),  // "invisible"
-        QT_MOC_LITERAL(29, 16),  // "on_login_clicked"
-        QT_MOC_LITERAL(46, 17),  // "on_signup_clicked"
-        QT_MOC_LITERAL(64, 25),  // "on_actionSignUp_triggered"
-        QT_MOC_LITERAL(90, 24)   // "on_actionLogIn_triggered"
+        QT_MOC_LITERAL(19, 10),  // "QLineEdit*"
+        QT_MOC_LITERAL(30, 7),  // "pwField"
+        QT_MOC_LITERAL(38, 9),  // "invisible"
+        QT_MOC_LITERAL(48, 16),  // "on_login_clicked"
+        QT_MOC_LITERAL(65, 17),  // "on_signup_clicked"
+        QT_MOC_LITERAL(83, 25),  // "on_actionSignUp_triggered"
+        QT_MOC_LITERAL(109, 24)   // "on_actionLogIn_triggered"
     },
     "PWManager",
     "visible",
     "",
+    "QLineEdit*",
+    "pwField",
     "invisible",
     "on_login_clicked",
     "on_signup_clicked",
@@ -100,16 +108,16 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSPWManagerENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   50,    2, 0x08,    1 /* Private */,
-       3,    0,   51,    2, 0x08,    2 /* Private */,
-       4,    0,   52,    2, 0x08,    3 /* Private */,
-       5,    0,   53,    2, 0x08,    4 /* Private */,
-       6,    0,   54,    2, 0x08,    5 /* Private */,
-       7,    0,   55,    2, 0x08,    6 /* Private */,
+       1,    1,   50,    2, 0x08,    1 /* Private */,
+       5,    1,   53,    2, 0x08,    3 /* Private */,
+       6,    0,   56,    2, 0x08,    5 /* Private */,
+       7,    0,   57,    2, 0x08,    6 /* Private */,
+       8,    0,   58,    2, 0x08,    7 /* Private */,
+       9,    0,   59,    2, 0x08,    8 /* Private */,
 
  // slots: parameters
-    QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -129,8 +137,10 @@ Q_CONSTINIT const QMetaObject PWManager::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<PWManager, std::true_type>,
         // method 'visible'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QLineEdit *, std::false_type>,
         // method 'invisible'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QLineEdit *, std::false_type>,
         // method 'on_login_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_signup_clicked'
@@ -149,16 +159,33 @@ void PWManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         auto *_t = static_cast<PWManager *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->visible(); break;
-        case 1: _t->invisible(); break;
+        case 0: _t->visible((*reinterpret_cast< std::add_pointer_t<QLineEdit*>>(_a[1]))); break;
+        case 1: _t->invisible((*reinterpret_cast< std::add_pointer_t<QLineEdit*>>(_a[1]))); break;
         case 2: _t->on_login_clicked(); break;
         case 3: _t->on_signup_clicked(); break;
         case 4: _t->on_actionSignUp_triggered(); break;
         case 5: _t->on_actionLogIn_triggered(); break;
         default: ;
         }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+        case 0:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QLineEdit* >(); break;
+            }
+            break;
+        case 1:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QLineEdit* >(); break;
+            }
+            break;
+        }
     }
-    (void)_a;
 }
 
 const QMetaObject *PWManager::metaObject() const
@@ -185,7 +212,7 @@ int PWManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         if (_id < 6)
-            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+            qt_static_metacall(this, _c, _id, _a);
         _id -= 6;
     }
     return _id;
