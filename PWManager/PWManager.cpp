@@ -3,7 +3,6 @@
 #include <string>
 #include "mainpasswordmenu.h"
 
-#include <QSignalMapper>
 
 
 PWManager::PWManager(QWidget *parent)

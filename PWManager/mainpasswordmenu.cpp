@@ -15,9 +15,11 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 {
 	setupUi(this);
 
+		
 	this->tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	QObject::connect(this->accapp, &QLineEdit::textChanged, this, [this] { refreshTable(); });
 }
 
 void mainpasswordmenu::refreshTable()
@@ -39,7 +41,17 @@ void mainpasswordmenu::refreshTable()
 
 	QSqlQueryModel* model = passwordManager::getAccounts(userID);
 
-	this->tableView->setModel(model);
+	QSortFilterProxyModel* m = new QSortFilterProxyModel();
+
+	QString test = this->accapp->text();
+
+	m->setSourceModel(model);
+	m->setFilterKeyColumn(5);
+	m->setFilterFixedString(test);
+
+	
+
+	this->tableView->setModel(m);
 }
 
 void mainpasswordmenu::showEvent(QShowEvent* event)
