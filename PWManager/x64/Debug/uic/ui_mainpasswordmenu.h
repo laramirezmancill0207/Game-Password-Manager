@@ -77,6 +77,43 @@ public:
         if (mainpasswordmenuClass->objectName().isEmpty())
             mainpasswordmenuClass->setObjectName("mainpasswordmenuClass");
         mainpasswordmenuClass->resize(793, 400);
+        mainpasswordmenuClass->setStyleSheet(QString::fromUtf8("QMainWindow\n"
+"{\n"
+"	background-color: rgb(35, 35, 35)\n"
+"}\n"
+"\n"
+"QToolButton\n"
+"{\n"
+"	color: #FFF;\n"
+"}\n"
+"\n"
+"QLineEdit\n"
+"{\n"
+"	border: 2px solid rgb(37, 39, 48);\n"
+"	color: #FFF;\n"
+"	padding-left: 20px;\n"
+"	padding-right: 20px;\n"
+"	padding-top: 5px;\n"
+"	padding-bottom: 5px;\n"
+"	background-color: rgb(34, 36, 44);\n"
+"	border-radius: 10px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover\n"
+"{\n"
+"	border: 2px solid rgb(48, 50, 62);\n"
+"}\n"
+"\n"
+"QLineEdit:focus\n"
+"{\n"
+"	border: 2px solid rgb(85, 170, 255);\n"
+"	background-color: rgb(43,45,56);\n"
+"}\n"
+"\n"
+"QLabel\n"
+"{\n"
+"	color: #FFF\n"
+"}"));
         actionPassword = new QAction(mainpasswordmenuClass);
         actionPassword->setObjectName("actionPassword");
         actionGame_Password = new QAction(mainpasswordmenuClass);
@@ -105,6 +142,10 @@ public:
         actionUsername->setMenuRole(QAction::NoRole);
         centralWidget = new QWidget(mainpasswordmenuClass);
         centralWidget->setObjectName("centralWidget");
+        centralWidget->setStyleSheet(QString::fromUtf8("QWidget\n"
+"{\n"
+"	background-color: rgb(25, 25, 25)\n"
+"}"));
         gridLayout = new QGridLayout(centralWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -123,6 +164,8 @@ public:
         label_2 = new QLabel(Page1);
         label_2->setObjectName("label_2");
         QFont font;
+        font.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font.setPointSize(11);
         font.setBold(true);
         label_2->setFont(font);
 
@@ -173,7 +216,11 @@ public:
 
         label_4 = new QLabel(Page1);
         label_4->setObjectName("label_4");
-        label_4->setFont(font);
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font1.setPointSize(12);
+        font1.setBold(true);
+        label_4->setFont(font1);
 
         gridLayout_4->addWidget(label_4, 2, 0, 1, 1, Qt::AlignHCenter);
 
@@ -184,6 +231,25 @@ public:
 
         addAccount = new QPushButton(Page1);
         addAccount->setObjectName("addAccount");
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font2.setPointSize(11);
+        addAccount->setFont(font2);
+        addAccount->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: #0d6efd;\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: #0055ff;\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
 
         gridLayout_4->addWidget(addAccount, 3, 2, 1, 1);
 
