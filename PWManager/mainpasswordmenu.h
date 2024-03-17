@@ -21,6 +21,7 @@ private slots:
 	void refreshTable();
 	void on_addMenu_clicked();
 	void on_deleteMenu_clicked();
+	void on_chessMenu_clicked();
 
 private:
 	 

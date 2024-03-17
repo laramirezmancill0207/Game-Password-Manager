@@ -10,6 +10,10 @@
 #include <QSqlDatabase>
 #include <QDebug>
 
+#include <shlobj.h>
+#include <shlwapi.h>
+#include <objbase.h>
+
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -19,7 +23,20 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	this->tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+	this->tableView_2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	this->tableView_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	this->tableView_2->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
+
+	//connect all menubar actions to appropriate function
+	QObject::connect(this->actionGithub, &QAction::triggered, this, [this] { ShellExecute(NULL, L"open", L"https://github.com/laramirezmancill0207/Game-Password-Manager", nullptr, nullptr, SW_SHOWNORMAL); });
+	QObject::connect(this->actionAbout, &QAction::triggered, this, [this] { aboutMenu(); });
+}
+
+void aboutMenu()
+{
+
 }
 
 void mainpasswordmenu::refreshTable()
@@ -118,6 +135,11 @@ void mainpasswordmenu::on_addMenu_clicked()
 void mainpasswordmenu::on_deleteMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(1);
+}
+
+void mainpasswordmenu::on_chessMenu_clicked()
+{
+	this->stackedWidget->setCurrentIndex(2);
 }
 
 mainpasswordmenu::~mainpasswordmenu()

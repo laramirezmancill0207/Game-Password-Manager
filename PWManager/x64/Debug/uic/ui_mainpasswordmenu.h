@@ -48,6 +48,7 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QWidget *widget;
     QVBoxLayout *verticalLayout;
+    QLabel *label_7;
     QPushButton *addMenu;
     QPushButton *deleteMenu;
     QPushButton *chessMenu;
@@ -80,6 +81,15 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QTableView *tableView;
     QWidget *Page2;
+    QVBoxLayout *verticalLayout_3;
+    QFrame *frame_5;
+    QHBoxLayout *horizontalLayout_6;
+    QLineEdit *searchBar2;
+    QPushButton *pushButton;
+    QFrame *frame_4;
+    QHBoxLayout *horizontalLayout_7;
+    QTableView *tableView_2;
+    QWidget *Page3;
     QMenuBar *menuBar;
     QMenu *menuNew;
     QMenu *menuDelete;
@@ -100,6 +110,7 @@ public:
 "	border: 2px solid rgb(255, 255, 255);\n"
 "	border-radius: 20px;\n"
 "}\n"
+"\n"
 "\n"
 "QToolButton\n"
 "{\n"
@@ -202,25 +213,45 @@ public:
 "QPushButton\n"
 "{\n"
 "	border: none;\n"
+"	color: rgb(255, 0, 4);\n"
 "}"));
         verticalLayout = new QVBoxLayout(widget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName("verticalLayout");
+        verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        label_7 = new QLabel(widget);
+        label_7->setObjectName("label_7");
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
+        label_7->setSizePolicy(sizePolicy1);
+        QFont font;
+        font.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font.setPointSize(12);
+        label_7->setFont(font);
+        label_7->setAlignment(Qt::AlignCenter);
+
+        verticalLayout->addWidget(label_7);
+
         addMenu = new QPushButton(widget);
         addMenu->setObjectName("addMenu");
+        addMenu->setFont(font);
         addMenu->setCursor(QCursor(Qt::PointingHandCursor));
 
         verticalLayout->addWidget(addMenu);
 
         deleteMenu = new QPushButton(widget);
         deleteMenu->setObjectName("deleteMenu");
+        deleteMenu->setFont(font);
         deleteMenu->setCursor(QCursor(Qt::PointingHandCursor));
 
         verticalLayout->addWidget(deleteMenu);
 
         chessMenu = new QPushButton(widget);
         chessMenu->setObjectName("chessMenu");
+        chessMenu->setFont(font);
         chessMenu->setCursor(QCursor(Qt::PointingHandCursor));
 
         verticalLayout->addWidget(chessMenu);
@@ -247,9 +278,6 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         searchBar = new QLineEdit(frame_3);
         searchBar->setObjectName("searchBar");
-        QFont font;
-        font.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font.setPointSize(12);
         searchBar->setFont(font);
 
         horizontalLayout->addWidget(searchBar);
@@ -361,11 +389,11 @@ public:
 
         accemail = new QLineEdit(frame);
         accemail->setObjectName("accemail");
-        QSizePolicy sizePolicy1(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(accemail->sizePolicy().hasHeightForWidth());
-        accemail->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(accemail->sizePolicy().hasHeightForWidth());
+        accemail->setSizePolicy(sizePolicy2);
 
         gridLayout_4->addWidget(accemail, 0, 1, 1, 1);
 
@@ -401,11 +429,11 @@ public:
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         tableView = new QTableView(frame_2);
         tableView->setObjectName("tableView");
-        QSizePolicy sizePolicy2(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
-        tableView->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Expanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
+        tableView->setSizePolicy(sizePolicy3);
         tableView->setMinimumSize(QSize(450, 0));
         tableView->setStyleSheet(QString::fromUtf8(""));
         tableView->setAlternatingRowColors(true);
@@ -426,7 +454,69 @@ public:
         stackedWidget->addWidget(Page1);
         Page2 = new QWidget();
         Page2->setObjectName("Page2");
+        verticalLayout_3 = new QVBoxLayout(Page2);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName("verticalLayout_3");
+        frame_5 = new QFrame(Page2);
+        frame_5->setObjectName("frame_5");
+        frame_5->setFrameShape(QFrame::StyledPanel);
+        frame_5->setFrameShadow(QFrame::Raised);
+        horizontalLayout_6 = new QHBoxLayout(frame_5);
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_6->setObjectName("horizontalLayout_6");
+        searchBar2 = new QLineEdit(frame_5);
+        searchBar2->setObjectName("searchBar2");
+        searchBar2->setFont(font);
+
+        horizontalLayout_6->addWidget(searchBar2);
+
+
+        verticalLayout_3->addWidget(frame_5);
+
+        pushButton = new QPushButton(Page2);
+        pushButton->setObjectName("pushButton");
+        pushButton->setFont(font);
+        pushButton->setCursor(QCursor(Qt::PointingHandCursor));
+        pushButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: #0d6efd;\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: #0055ff;\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
+
+        verticalLayout_3->addWidget(pushButton);
+
+        frame_4 = new QFrame(Page2);
+        frame_4->setObjectName("frame_4");
+        frame_4->setFrameShape(QFrame::StyledPanel);
+        frame_4->setFrameShadow(QFrame::Raised);
+        horizontalLayout_7 = new QHBoxLayout(frame_4);
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_7->setObjectName("horizontalLayout_7");
+        tableView_2 = new QTableView(frame_4);
+        tableView_2->setObjectName("tableView_2");
+
+        horizontalLayout_7->addWidget(tableView_2);
+
+
+        verticalLayout_3->addWidget(frame_4);
+
         stackedWidget->addWidget(Page2);
+        Page3 = new QWidget();
+        Page3->setObjectName("Page3");
+        stackedWidget->addWidget(Page3);
 
         horizontalLayout_4->addWidget(stackedWidget);
 
@@ -478,6 +568,7 @@ public:
         actionAbout->setText(QCoreApplication::translate("mainpasswordmenuClass", "About", nullptr));
         actionDocumentation->setText(QCoreApplication::translate("mainpasswordmenuClass", "Documentation", nullptr));
         actionGithub->setText(QCoreApplication::translate("mainpasswordmenuClass", "Github", nullptr));
+        label_7->setText(QCoreApplication::translate("mainpasswordmenuClass", "Menu", nullptr));
         addMenu->setText(QCoreApplication::translate("mainpasswordmenuClass", "Add", nullptr));
         deleteMenu->setText(QCoreApplication::translate("mainpasswordmenuClass", "Delete", nullptr));
         chessMenu->setText(QCoreApplication::translate("mainpasswordmenuClass", "Chess", nullptr));
@@ -490,6 +581,8 @@ public:
         label_2->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
         label_6->setText(QString());
         label_5->setText(QCoreApplication::translate("mainpasswordmenuClass", "Application", nullptr));
+        searchBar2->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Search", nullptr));
+        pushButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Delete", nullptr));
         menuNew->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "New", nullptr));
         menuDelete->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Edit", nullptr));
         menuHelp->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Help", nullptr));
