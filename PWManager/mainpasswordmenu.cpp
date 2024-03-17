@@ -34,7 +34,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	QObject::connect(this->actionAbout, &QAction::triggered, this, [this] { aboutMenu(); });
 }
 
-void aboutMenu()
+void mainpasswordmenu::aboutMenu()
 {
 
 }
