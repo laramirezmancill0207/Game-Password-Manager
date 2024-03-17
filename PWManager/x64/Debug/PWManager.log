@@ -1,7 +1,2 @@
-﻿  moc mainpasswordmenu.h
-  mainpasswordmenu.cpp
-  PWManager.cpp
-  main.cpp
-  moc_PWManager.cpp
-  moc_mainpasswordmenu.cpp
+﻿  mainpasswordmenu.cpp
   PWManager.vcxproj -> C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Debug\PWManager.exe

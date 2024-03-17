@@ -19,6 +19,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 {
 	setupUi(this);
 
+	this->addMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
 		
 	this->tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -32,6 +33,8 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	//connect all menubar actions to appropriate function
 	QObject::connect(this->actionGithub, &QAction::triggered, this, [this] { ShellExecute(NULL, L"open", L"https://github.com/laramirezmancill0207/Game-Password-Manager", nullptr, nullptr, SW_SHOWNORMAL); });
 	QObject::connect(this->actionAbout, &QAction::triggered, this, [this] { aboutMenu(); });
+
+
 }
 
 void mainpasswordmenu::aboutMenu()
@@ -130,16 +133,25 @@ void mainpasswordmenu::on_addAccount_clicked()
 void mainpasswordmenu::on_addMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(0);
+	this->addMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
+	this->deleteMenu->setStyleSheet("");
+	this->chessMenu->setStyleSheet("");
 }
 
 void mainpasswordmenu::on_deleteMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(1);
+	this->deleteMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
+	this->addMenu->setStyleSheet("");
+	this->chessMenu->setStyleSheet("");
 }
 
 void mainpasswordmenu::on_chessMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(2);
+	this->chessMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
+	this->deleteMenu->setStyleSheet("");
+	this->addMenu->setStyleSheet("");
 }
 
 mainpasswordmenu::~mainpasswordmenu()

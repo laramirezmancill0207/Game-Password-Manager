@@ -208,6 +208,7 @@ public:
         widget->setStyleSheet(QString::fromUtf8("QWidget\n"
 "{\n"
 "	background-color: rgb(156, 156, 156);\n"
+"	border: 2px solid rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 "QPushButton\n"
@@ -556,7 +557,7 @@ public:
 
     void retranslateUi(QMainWindow *mainpasswordmenuClass)
     {
-        mainpasswordmenuClass->setWindowTitle(QCoreApplication::translate("mainpasswordmenuClass", "mainpasswordmenu", nullptr));
+        mainpasswordmenuClass->setWindowTitle(QCoreApplication::translate("mainpasswordmenuClass", "Gamified Password Manager", nullptr));
         actionPassword->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         actionGame_Password->setText(QCoreApplication::translate("mainpasswordmenuClass", "Game Password", nullptr));
         actionSelected->setText(QCoreApplication::translate("mainpasswordmenuClass", "Cut", nullptr));
@@ -572,7 +573,7 @@ public:
         addMenu->setText(QCoreApplication::translate("mainpasswordmenuClass", "Add", nullptr));
         deleteMenu->setText(QCoreApplication::translate("mainpasswordmenuClass", "Delete", nullptr));
         chessMenu->setText(QCoreApplication::translate("mainpasswordmenuClass", "Chess", nullptr));
-        searchBar->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Search", nullptr));
+        searchBar->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Search based on application name", nullptr));
         warning->setText(QString());
         label_3->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         addAccount->setText(QCoreApplication::translate("mainpasswordmenuClass", "Add Account", nullptr));
