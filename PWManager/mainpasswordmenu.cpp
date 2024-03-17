@@ -19,7 +19,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	this->tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	QObject::connect(this->accapp, &QLineEdit::textChanged, this, [this] { refreshTable(); });
+	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
 }
 
 void mainpasswordmenu::refreshTable()
@@ -43,7 +43,7 @@ void mainpasswordmenu::refreshTable()
 
 	QSortFilterProxyModel* m = new QSortFilterProxyModel();
 
-	QString test = this->accapp->text();
+	QString test = this->searchBar->text();
 
 	m->setSourceModel(model);
 	m->setFilterKeyColumn(5);
@@ -110,6 +110,15 @@ void mainpasswordmenu::on_addAccount_clicked()
 	
 }
 
+void mainpasswordmenu::on_addMenu_clicked()
+{
+	this->stackedWidget->setCurrentIndex(0);
+}
+
+void mainpasswordmenu::on_deleteMenu_clicked()
+{
+	this->stackedWidget->setCurrentIndex(1);
+}
 
 mainpasswordmenu::~mainpasswordmenu()
 {}

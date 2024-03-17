@@ -74,8 +74,6 @@ void PWManager::on_login_clicked()
     window->label_6->setText(QString::number(masteruser.getUserID()));
     window->label_6->setHidden(true);
 
-    window->actionUsername->setText(QString::fromStdString(textUser));
-
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
 

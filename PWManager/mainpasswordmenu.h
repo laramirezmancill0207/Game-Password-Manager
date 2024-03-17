@@ -19,6 +19,8 @@ private slots:
 	void on_addAccount_clicked();
 	void showEvent(QShowEvent* event);
 	void refreshTable();
+	void on_addMenu_clicked();
+	void on_deleteMenu_clicked();
 
 private:
 	 
