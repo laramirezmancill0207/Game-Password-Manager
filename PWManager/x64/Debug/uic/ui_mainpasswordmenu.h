@@ -149,25 +149,32 @@ public:
 "\n"
 "QTableView::item:alternate \n"
 "{ \n"
-"	background-color: #bfffbf;\n"
+"	background-color: rgb(36, 36, 36);\n"
 "} \n"
 "QTableView::item \n"
 "{ \n"
-"	background-color: #deffde;\n"
+"	background-color: rgb(25, 25, 25);\n"
+"	color: white;\n"
 "	padding: 40px;\n"
 "}\n"
 "QTableView::item:selected\n"
 "{ \n"
-"	background-color: #000000;\n"
+"	background-color: rgb(0, 44, 131);\n"
 "}\n"
 "\n"
-"QHeaderView::section\n"
+"QHeaderView::sect"
+                        "ion\n"
 "{\n"
-"	background-color: rgb(138, 1"
-                        "38, 138);\n"
+"	background-color: rgb(138, 138, 138);\n"
 "	border: none;\n"
+"	border-radius: 10px;\n"
 "	color: white;\n"
 "	font-weight: bold;\n"
+"}\n"
+"\n"
+"QTableView\n"
+"{\n"
+"	border: none;\n"
 "}"));
         actionPassword = new QAction(mainpasswordmenuClass);
         actionPassword->setObjectName("actionPassword");
@@ -562,7 +569,7 @@ public:
         mainpasswordmenuClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(mainpasswordmenuClass);
         menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 1149, 22));
+        menuBar->setGeometry(QRect(0, 0, 1149, 21));
         menuNew = new QMenu(menuBar);
         menuNew->setObjectName("menuNew");
         menuDelete = new QMenu(menuBar);
