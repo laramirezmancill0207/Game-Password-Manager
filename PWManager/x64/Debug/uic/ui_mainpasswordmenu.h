@@ -158,10 +158,6 @@ public:
 "	background-color: #000000;\n"
 "}\n"
 "\n"
-"QGridLayout::item\n"
-"{\n"
-"	border: 2px solid rgb(255, 255, 255);\n"
-"}\n"
 ""));
         actionPassword = new QAction(mainpasswordmenuClass);
         actionPassword->setObjectName("actionPassword");
@@ -207,20 +203,26 @@ public:
         widget->setMinimumSize(QSize(250, 0));
         widget->setStyleSheet(QString::fromUtf8("QWidget\n"
 "{\n"
-"	background-color: rgb(156, 156, 156);\n"
+"	background-color: rgb(113, 134, 184);\n"
+"}\n"
+"\n"
+".QWidget\n"
+"{\n"
 "	border: 2px solid rgb(255, 255, 255);\n"
 "}\n"
+"\n"
 "\n"
 "QPushButton\n"
 "{\n"
 "	border: none;\n"
-"	color: rgb(255, 0, 4);\n"
+"	color: black;\n"
 "}"));
         verticalLayout = new QVBoxLayout(widget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout->setContentsMargins(2, 9, 2, -1);
         label_7 = new QLabel(widget);
         label_7->setObjectName("label_7");
         QSizePolicy sizePolicy1(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
@@ -228,9 +230,11 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
         label_7->setSizePolicy(sizePolicy1);
+        label_7->setMinimumSize(QSize(0, 50));
         QFont font;
         font.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font.setPointSize(12);
+        font.setPointSize(18);
+        font.setBold(true);
         label_7->setFont(font);
         label_7->setAlignment(Qt::AlignCenter);
 
@@ -238,22 +242,33 @@ public:
 
         addMenu = new QPushButton(widget);
         addMenu->setObjectName("addMenu");
-        addMenu->setFont(font);
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font1.setPointSize(12);
+        addMenu->setFont(font1);
         addMenu->setCursor(QCursor(Qt::PointingHandCursor));
+        addMenu->setIconSize(QSize(32, 32));
 
         verticalLayout->addWidget(addMenu);
 
         deleteMenu = new QPushButton(widget);
         deleteMenu->setObjectName("deleteMenu");
-        deleteMenu->setFont(font);
+        deleteMenu->setFont(font1);
         deleteMenu->setCursor(QCursor(Qt::PointingHandCursor));
+        deleteMenu->setIconSize(QSize(32, 32));
 
         verticalLayout->addWidget(deleteMenu);
 
         chessMenu = new QPushButton(widget);
         chessMenu->setObjectName("chessMenu");
-        chessMenu->setFont(font);
+        QSizePolicy sizePolicy2(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(chessMenu->sizePolicy().hasHeightForWidth());
+        chessMenu->setSizePolicy(sizePolicy2);
+        chessMenu->setFont(font1);
         chessMenu->setCursor(QCursor(Qt::PointingHandCursor));
+        chessMenu->setIconSize(QSize(32, 32));
 
         verticalLayout->addWidget(chessMenu);
 
@@ -279,7 +294,7 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         searchBar = new QLineEdit(frame_3);
         searchBar->setObjectName("searchBar");
-        searchBar->setFont(font);
+        searchBar->setFont(font1);
 
         horizontalLayout->addWidget(searchBar);
 
@@ -313,20 +328,20 @@ public:
 
         label_3 = new QLabel(frame);
         label_3->setObjectName("label_3");
-        QFont font1;
-        font1.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font1.setPointSize(11);
-        font1.setBold(true);
-        label_3->setFont(font1);
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font2.setPointSize(11);
+        font2.setBold(true);
+        label_3->setFont(font2);
 
         gridLayout_4->addWidget(label_3, 1, 1, 1, 1, Qt::AlignHCenter);
 
         addAccount = new QPushButton(frame);
         addAccount->setObjectName("addAccount");
-        QFont font2;
-        font2.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font2.setPointSize(11);
-        addAccount->setFont(font2);
+        QFont font3;
+        font3.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font3.setPointSize(11);
+        addAccount->setFont(font3);
         addAccount->setCursor(QCursor(Qt::PointingHandCursor));
         addAccount->setStyleSheet(QString::fromUtf8("QPushButton\n"
 "{\n"
@@ -348,17 +363,17 @@ public:
 
         label = new QLabel(frame);
         label->setObjectName("label");
-        label->setFont(font1);
+        label->setFont(font2);
 
         gridLayout_4->addWidget(label, 0, 0, 1, 1, Qt::AlignHCenter);
 
         label_4 = new QLabel(frame);
         label_4->setObjectName("label_4");
-        QFont font3;
-        font3.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font3.setPointSize(12);
-        font3.setBold(true);
-        label_4->setFont(font3);
+        QFont font4;
+        font4.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font4.setPointSize(12);
+        font4.setBold(true);
+        label_4->setFont(font4);
 
         gridLayout_4->addWidget(label_4, 2, 0, 1, 1, Qt::AlignHCenter);
 
@@ -369,7 +384,7 @@ public:
 
         label_2 = new QLabel(frame);
         label_2->setObjectName("label_2");
-        label_2->setFont(font1);
+        label_2->setFont(font2);
 
         gridLayout_4->addWidget(label_2, 0, 2, 1, 1, Qt::AlignHCenter);
 
@@ -390,11 +405,11 @@ public:
 
         accemail = new QLineEdit(frame);
         accemail->setObjectName("accemail");
-        QSizePolicy sizePolicy2(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(accemail->sizePolicy().hasHeightForWidth());
-        accemail->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(accemail->sizePolicy().hasHeightForWidth());
+        accemail->setSizePolicy(sizePolicy3);
 
         gridLayout_4->addWidget(accemail, 0, 1, 1, 1);
 
@@ -405,7 +420,7 @@ public:
 
         label_5 = new QLabel(frame);
         label_5->setObjectName("label_5");
-        label_5->setFont(font1);
+        label_5->setFont(font2);
         label_5->setFrameShape(QFrame::NoFrame);
 
         gridLayout_4->addWidget(label_5, 2, 2, 1, 1, Qt::AlignHCenter);
@@ -430,16 +445,22 @@ public:
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         tableView = new QTableView(frame_2);
         tableView->setObjectName("tableView");
-        QSizePolicy sizePolicy3(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Expanding);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
-        tableView->setSizePolicy(sizePolicy3);
-        tableView->setMinimumSize(QSize(450, 0));
+        QSizePolicy sizePolicy4(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
+        tableView->setSizePolicy(sizePolicy4);
+        tableView->setMinimumSize(QSize(0, 0));
+        QFont font5;
+        font5.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font5.setPointSize(9);
+        tableView->setFont(font5);
         tableView->setStyleSheet(QString::fromUtf8(""));
         tableView->setAlternatingRowColors(true);
         tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        tableView->setTextElideMode(Qt::ElideNone);
         tableView->setWordWrap(true);
+        tableView->horizontalHeader()->setMinimumSectionSize(20);
         tableView->horizontalHeader()->setDefaultSectionSize(150);
         tableView->horizontalHeader()->setStretchLastSection(true);
         tableView->verticalHeader()->setStretchLastSection(false);
@@ -469,7 +490,7 @@ public:
         horizontalLayout_6->setObjectName("horizontalLayout_6");
         searchBar2 = new QLineEdit(frame_5);
         searchBar2->setObjectName("searchBar2");
-        searchBar2->setFont(font);
+        searchBar2->setFont(font1);
 
         horizontalLayout_6->addWidget(searchBar2);
 
@@ -478,7 +499,7 @@ public:
 
         pushButton = new QPushButton(Page2);
         pushButton->setObjectName("pushButton");
-        pushButton->setFont(font);
+        pushButton->setFont(font1);
         pushButton->setCursor(QCursor(Qt::PointingHandCursor));
         pushButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
 "{\n"

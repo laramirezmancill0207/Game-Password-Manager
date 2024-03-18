@@ -19,15 +19,24 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 {
 	setupUi(this);
 
+	this->addMenu->setIcon(QIcon("add.png"));
+	this->deleteMenu->setIcon(QIcon("trash.png"));
+	this->chessMenu->setIcon(QIcon("home.png"));
+
+	this->searchBar->addAction(QIcon("search.png"), QLineEdit::LeadingPosition);
+
 	this->addMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
 		
-	this->tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	this->tableView->horizontalHeader()->setFont(QFont("Lucida Sans Unicode"));
+	this->tableView->verticalHeader()->setFont(QFont("Lucida Sans Unicode"));
 
-	this->tableView_2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	this->tableView_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	this->tableView_2->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->tableView_2->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	this->tableView_2->horizontalHeader()->setFont(QFont("Lucida Sans Unicode"));
+	this->tableView_2->verticalHeader()->setFont(QFont("Lucida Sans Unicode"));
+
 	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
 
 	//connect all menubar actions to appropriate function
