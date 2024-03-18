@@ -141,7 +141,7 @@ namespace passwordManager
 
         //qry to select all accounts from a user
         QSqlQuery qry;
-        qry.prepare("SELECT * FROM accounts WHERE userID = ?");
+        qry.prepare("SELECT id, email, username, url, application FROM accounts WHERE userID = ?");
         qry.addBindValue(userID);
 
         //if qry executes set model based on qry selection

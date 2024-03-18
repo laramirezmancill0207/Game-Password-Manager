@@ -17,11 +17,12 @@ public:
 private slots:
 	void closeEvent(QCloseEvent* event);
 	void on_addAccount_clicked();
+	void on_deleteAccount_clicked();
 	void showEvent(QShowEvent* event);
 	void refreshTable();
-	void on_addMenu_clicked();
-	void on_deleteMenu_clicked();
-	void on_chessMenu_clicked();
+	void on_homeMenu_clicked();
+	void on_gameMenu_clicked();
+	void on_settingsMenu_clicked();
 	void aboutMenu();
 
 private:

@@ -9,6 +9,7 @@
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QDebug>
+#include <QFontDatabase>
 
 #include <shlobj.h>
 #include <shlwapi.h>
@@ -19,23 +20,20 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 {
 	setupUi(this);
 
-	this->addMenu->setIcon(QIcon("add.png"));
-	this->deleteMenu->setIcon(QIcon("trash.png"));
-	this->chessMenu->setIcon(QIcon("home.png"));
+	this->homeMenu->setIcon(QIcon("home.png"));
+	this->gameMenu->setIcon(QIcon("game.png"));
+	this->settingsMenu->setIcon(QIcon("settings.png"));
 
 	this->searchBar->addAction(QIcon("search.png"), QLineEdit::LeadingPosition);
 
-	this->addMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
+	this->homeMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
 		
 	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	this->tableView->horizontalHeader()->setFont(QFont("Lucida Sans Unicode"));
-	this->tableView->verticalHeader()->setFont(QFont("Lucida Sans Unicode"));
+	this->tableView->verticalHeader()->hide();
 
-	this->tableView_2->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-	this->tableView_2->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	this->tableView_2->horizontalHeader()->setFont(QFont("Lucida Sans Unicode"));
-	this->tableView_2->verticalHeader()->setFont(QFont("Lucida Sans Unicode"));
+	this->tableView->horizontalHeader()->setFont(QFont("Dubai", 12, QFont::Bold));
+	//this->tableView->verticalHeader()->setFont(QFont("Dubai"));
 
 	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
 
@@ -63,7 +61,7 @@ void mainpasswordmenu::refreshTable()
 	catch (std::exception& err)
 	{
 		//this->warning->setText("error please log out and log back in");
-		QMessageBox::about(this, "Error", "Please log out and log back in");
+		QMessageBox::about(NULL, "Error", "Please log out and log back in");
 
 		return;
 	}
@@ -75,7 +73,7 @@ void mainpasswordmenu::refreshTable()
 	QString test = this->searchBar->text();
 
 	m->setSourceModel(model);
-	m->setFilterKeyColumn(5);
+	m->setFilterKeyColumn(4);
 	m->setFilterFixedString(test);
 
 	
@@ -113,7 +111,7 @@ void mainpasswordmenu::on_addAccount_clicked()
 	catch (std::exception &err)
 	{
 		//this->warning->setText("error please log out and log back in");
-		QMessageBox::about(this, "Error", "Please log out and log back in");
+		QMessageBox::about(NULL, "Error", "Please log out and log back in");
 
 		return;
 	}
@@ -122,7 +120,7 @@ void mainpasswordmenu::on_addAccount_clicked()
 	if (accemail.empty() || accusername.empty() || accpassword.empty() || accurl.empty() || accapp.empty())
 	{
 		//this->warning->setText("Please fill all fields");
-		QMessageBox::about(this, "Warning", "Please fill all fields");
+		QMessageBox::about(NULL, "Warning", "Please fill all fields");
 
 		return;
 	}
@@ -132,35 +130,86 @@ void mainpasswordmenu::on_addAccount_clicked()
 	if (!created)
 	{
 		//this->warning->setText("account not able to be added");
-		QMessageBox::about(this, "Warning", "Account not able to be added");
+		QMessageBox::about(NULL, "Warning", "Account not able to be added");
+		return;
 	}
 
 	mainpasswordmenu::refreshTable();
 	
 }
 
-void mainpasswordmenu::on_addMenu_clicked()
+void mainpasswordmenu::on_deleteAccount_clicked()
+{
+	QModelIndexList selection = tableView->selectionModel()->selectedRows();
+
+	if (selection.isEmpty())
+	{
+		QMessageBox::about(NULL, "Account Deletion", "No Account Selected");
+		return;
+	}
+
+	QMessageBox::StandardButton reply;
+	reply = QMessageBox::question(NULL, "Account Deletion", "Delete Account?",
+		QMessageBox::Yes | QMessageBox::No);
+
+	if (reply == QMessageBox::No) {
+		return;
+	}
+
+	// Multiple rows can be selected
+	for (int i = 0; i < selection.count(); i++)
+	{
+		QModelIndex index = selection.at(i);
+		//qDebug() << index.data().toString();
+
+		int id = -1;
+
+		try
+		{
+			id = stoi(index.data().toString().toStdString());
+		}
+
+		catch (std::exception& err)
+		{
+			//this->warning->setText("error please log out and log back in");
+			QMessageBox::about(NULL, "Error", "Please log out and log back in");
+
+			return;
+		}
+
+		if (passwordManager::deleteAccount(id))
+		{
+			QMessageBox::about(NULL, "Error", "Account does not exist");
+
+			return;
+		}
+	}
+
+	mainpasswordmenu::refreshTable();
+}
+
+void mainpasswordmenu::on_homeMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(0);
-	this->addMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
-	this->deleteMenu->setStyleSheet("");
-	this->chessMenu->setStyleSheet("");
+	this->homeMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
+	this->gameMenu->setStyleSheet("");
+	this->settingsMenu->setStyleSheet("");
 }
 
-void mainpasswordmenu::on_deleteMenu_clicked()
+void mainpasswordmenu::on_gameMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(1);
-	this->deleteMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
-	this->addMenu->setStyleSheet("");
-	this->chessMenu->setStyleSheet("");
+	this->gameMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
+	this->homeMenu->setStyleSheet("");
+	this->settingsMenu->setStyleSheet("");
 }
 
-void mainpasswordmenu::on_chessMenu_clicked()
+void mainpasswordmenu::on_settingsMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(2);
-	this->chessMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
-	this->deleteMenu->setStyleSheet("");
-	this->addMenu->setStyleSheet("");
+	this->settingsMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
+	this->gameMenu->setStyleSheet("");
+	this->homeMenu->setStyleSheet("");
 }
 
 mainpasswordmenu::~mainpasswordmenu()
