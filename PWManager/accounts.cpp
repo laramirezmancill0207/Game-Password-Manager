@@ -6,6 +6,8 @@
 #include <QSqlDatabase>
 #include <QDebug>
 
+#include "bcrypt/BCrypt.hpp"
+
 namespace passwordManager
 {
     //create ne account in accounts table
@@ -38,12 +40,15 @@ namespace passwordManager
             return false;
         }
 
+        //hash using bcrypt
+        QString hashed = QString::fromStdString(BCrypt::generateHash(password));
+
         //create insertion query for account into accounts table
         QSqlQuery qry;
         qry.prepare("INSERT INTO accounts(email, username, password, url, application, userID) VALUES(?,?,?,?,?,?)");
         qry.addBindValue(QString::fromStdString(email));
         qry.addBindValue(QString::fromStdString(username));
-        qry.addBindValue(QString::fromStdString(password));
+        qry.addBindValue(hashed);
         qry.addBindValue(QString::fromStdString(url));
         qry.addBindValue(QString::fromStdString(app));
         qry.addBindValue(userID);

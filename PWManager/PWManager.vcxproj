@@ -77,7 +77,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\libraries\mysql-connector-c++-8.3.0-winx64\include\jdbc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\libraries\bcrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>STATIC_CONCPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -115,6 +115,11 @@
     <QtUic Include="PWManager.ui" />
     <QtMoc Include="PWManager.h" />
     <ClCompile Include="accounts.cpp" />
+    <ClCompile Include="libraries\bcrypt\src\bcrypt.c" />
+    <ClCompile Include="libraries\bcrypt\src\crypt_blowfish.c" />
+    <ClCompile Include="libraries\bcrypt\src\crypt_gensalt.c" />
+    <ClCompile Include="libraries\bcrypt\src\main.cpp" />
+    <ClCompile Include="libraries\bcrypt\src\wrapper.c" />
     <ClCompile Include="login.cpp" />
     <ClCompile Include="mainpasswordmenu.cpp" />
     <ClCompile Include="PWManager.cpp" />
@@ -122,8 +127,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="accounts.h" />
+    <ClInclude Include="libraries\bcrypt\include\bcrypt\bcrypt.h" />
+    <ClInclude Include="libraries\bcrypt\include\bcrypt\BCrypt.hpp" />
+    <ClInclude Include="libraries\bcrypt\include\bcrypt\crypt.h" />
+    <ClInclude Include="libraries\bcrypt\include\bcrypt\crypt_blowfish.h" />
+    <ClInclude Include="libraries\bcrypt\include\bcrypt\crypt_gensalt.h" />
+    <ClInclude Include="libraries\bcrypt\include\bcrypt\ow-crypt.h" />
+    <ClInclude Include="libraries\bcrypt\include\bcrypt\winbcrypt.h" />
     <ClInclude Include="login.h" />
     <QtMoc Include="mainpasswordmenu.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libraries\bcrypt\src\x86.S" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

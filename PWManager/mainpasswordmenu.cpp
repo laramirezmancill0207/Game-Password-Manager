@@ -1,4 +1,5 @@
 #include "mainpasswordmenu.h"
+#include "PWManager.h"
 #include "accounts.h"
 #include <iostream>
 #include <fstream>
@@ -25,6 +26,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	this->settingsMenu->setIcon(QIcon("settings.png"));
 
 	this->searchBar->addAction(QIcon("search.png"), QLineEdit::LeadingPosition);
+	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
 
 	this->homeMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
 		
@@ -32,17 +34,21 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	this->tableView->verticalHeader()->hide();
 
-	this->tableView->horizontalHeader()->setFont(QFont("Dubai", 12, QFont::Bold));
-	//this->tableView->verticalHeader()->setFont(QFont("Dubai"));
-
-	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
-
 	//connect all menubar actions to appropriate function
 	QObject::connect(this->actionGithub, &QAction::triggered, this, [this] { ShellExecute(NULL, L"open", L"https://github.com/laramirezmancill0207/Game-Password-Manager", nullptr, nullptr, SW_SHOWNORMAL); });
 	QObject::connect(this->actionAbout, &QAction::triggered, this, [this] { aboutMenu(); });
 
+	this->actionAdd_Menu->setChecked(true);
+	QObject::connect(this->actionAdd_Menu, &QAction::triggered, this, [this] { if (this->actionAdd_Menu->isChecked()) { this->addFrame->show(); } else { this->addFrame->hide(); }; });
+	
+	this->actionDelete_Menu->setChecked(true);
+	QObject::connect(this->actionDelete_Menu, &QAction::triggered, this, [this] { if (this->actionDelete_Menu->isChecked()) { this->deleteWidget->show(); } else { this->deleteWidget->hide(); }; });
 
 }
+
+/// <summary>
+/// home menu functions
+/// </summary>
 
 void mainpasswordmenu::aboutMenu()
 {
@@ -194,6 +200,9 @@ void mainpasswordmenu::on_homeMenu_clicked()
 	this->homeMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
 	this->gameMenu->setStyleSheet("");
 	this->settingsMenu->setStyleSheet("");
+
+	this->menuWindow->menuAction()->setVisible(true);
+	//this->menuWindow->setEnabled(true);
 }
 
 void mainpasswordmenu::on_gameMenu_clicked()
@@ -202,6 +211,9 @@ void mainpasswordmenu::on_gameMenu_clicked()
 	this->gameMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
 	this->homeMenu->setStyleSheet("");
 	this->settingsMenu->setStyleSheet("");
+
+	this->menuWindow->menuAction()->setVisible(false);
+	//this->menuWindow->setEnabled(false);
 }
 
 void mainpasswordmenu::on_settingsMenu_clicked()
@@ -210,7 +222,16 @@ void mainpasswordmenu::on_settingsMenu_clicked()
 	this->settingsMenu->setStyleSheet("background-color: rgb(255, 255, 255);");
 	this->gameMenu->setStyleSheet("");
 	this->homeMenu->setStyleSheet("");
+
+	this->menuWindow->menuAction()->setVisible(false);
+	//this->menuWindow->setEnabled(false);
 }
+
+/// <summary>
+/// game menu functions
+/// </summary>
+
+
 
 mainpasswordmenu::~mainpasswordmenu()
 {}

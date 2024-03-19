@@ -49,7 +49,7 @@ public:
     QAction *actionAdd_Menu;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout_4;
-    QWidget *widget;
+    QWidget *dashboardWidget;
     QVBoxLayout *verticalLayout;
     QLabel *label_7;
     QPushButton *homeMenu;
@@ -58,41 +58,41 @@ public:
     QStackedWidget *stackedWidget;
     QWidget *Page1;
     QVBoxLayout *verticalLayout_2;
-    QFrame *frame_3;
+    QFrame *searchFrame;
     QHBoxLayout *horizontalLayout;
     QLineEdit *searchBar;
+    QWidget *deleteWidget;
+    QVBoxLayout *verticalLayout_4;
     QLabel *label_8;
     QPushButton *deleteAccount;
     QWidget *widget_2;
     QHBoxLayout *horizontalLayout_5;
-    QFrame *frame;
+    QFrame *addFrame;
     QHBoxLayout *horizontalLayout_2;
     QGridLayout *gridLayout_4;
-    QLabel *warning;
-    QLabel *label_3;
-    QPushButton *addAccount;
-    QLabel *label;
-    QLabel *label_4;
-    QLineEdit *accusername;
     QLabel *label_2;
+    QLabel *label_5;
+    QLineEdit *accusername;
+    QLineEdit *accapp;
+    QLabel *label_4;
+    QPushButton *addAccount;
+    QLabel *label_3;
+    QLabel *label;
+    QLineEdit *accemail;
     QLineEdit *accpassword;
     QLineEdit *accurl;
-    QLineEdit *accapp;
-    QLineEdit *accemail;
     QLabel *label_6;
-    QLabel *label_5;
     QSpacerItem *horizontalSpacer;
-    QFrame *frame_2;
+    QFrame *tableFrame;
     QHBoxLayout *horizontalLayout_3;
     QTableView *tableView;
     QWidget *Page2;
     QVBoxLayout *verticalLayout_3;
-    QFrame *frame_4;
+    QFrame *gameWidget;
     QHBoxLayout *horizontalLayout_7;
     QOpenGLWidget *openGLWidget;
     QWidget *Page3;
-    QMenuBar *menuBar;
-    QMenu *menuNew;
+    QMenuBar *menuB;
     QMenu *menuDelete;
     QMenu *menuHelp;
     QMenu *menuWindow;
@@ -201,9 +201,11 @@ public:
         actionDelete_Menu = new QAction(mainpasswordmenuClass);
         actionDelete_Menu->setObjectName("actionDelete_Menu");
         actionDelete_Menu->setCheckable(true);
+        actionDelete_Menu->setChecked(true);
         actionAdd_Menu = new QAction(mainpasswordmenuClass);
         actionAdd_Menu->setObjectName("actionAdd_Menu");
         actionAdd_Menu->setCheckable(true);
+        actionAdd_Menu->setChecked(true);
         centralWidget = new QWidget(mainpasswordmenuClass);
         centralWidget->setObjectName("centralWidget");
         centralWidget->setStyleSheet(QString::fromUtf8("QWidget\n"
@@ -215,16 +217,16 @@ public:
         horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_4->setObjectName("horizontalLayout_4");
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        widget = new QWidget(centralWidget);
-        widget->setObjectName("widget");
-        widget->setEnabled(true);
+        dashboardWidget = new QWidget(centralWidget);
+        dashboardWidget->setObjectName("dashboardWidget");
+        dashboardWidget->setEnabled(true);
         QSizePolicy sizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy);
-        widget->setMinimumSize(QSize(250, 0));
-        widget->setStyleSheet(QString::fromUtf8("QWidget\n"
+        sizePolicy.setHeightForWidth(dashboardWidget->sizePolicy().hasHeightForWidth());
+        dashboardWidget->setSizePolicy(sizePolicy);
+        dashboardWidget->setMinimumSize(QSize(250, 0));
+        dashboardWidget->setStyleSheet(QString::fromUtf8("QWidget\n"
 "{\n"
 "	background-color: rgb(113, 134, 184);\n"
 "}\n"
@@ -240,13 +242,13 @@ public:
 "	border: none;\n"
 "	color: black;\n"
 "}"));
-        verticalLayout = new QVBoxLayout(widget);
+        verticalLayout = new QVBoxLayout(dashboardWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayout->setContentsMargins(2, 9, 2, -1);
-        label_7 = new QLabel(widget);
+        label_7 = new QLabel(dashboardWidget);
         label_7->setObjectName("label_7");
         QSizePolicy sizePolicy1(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
@@ -263,7 +265,7 @@ public:
 
         verticalLayout->addWidget(label_7);
 
-        homeMenu = new QPushButton(widget);
+        homeMenu = new QPushButton(dashboardWidget);
         homeMenu->setObjectName("homeMenu");
         QFont font1;
         font1.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
@@ -274,7 +276,7 @@ public:
 
         verticalLayout->addWidget(homeMenu);
 
-        gameMenu = new QPushButton(widget);
+        gameMenu = new QPushButton(dashboardWidget);
         gameMenu->setObjectName("gameMenu");
         gameMenu->setFont(font1);
         gameMenu->setCursor(QCursor(Qt::PointingHandCursor));
@@ -282,7 +284,7 @@ public:
 
         verticalLayout->addWidget(gameMenu);
 
-        settingsMenu = new QPushButton(widget);
+        settingsMenu = new QPushButton(dashboardWidget);
         settingsMenu->setObjectName("settingsMenu");
         QSizePolicy sizePolicy2(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
         sizePolicy2.setHorizontalStretch(0);
@@ -296,7 +298,7 @@ public:
         verticalLayout->addWidget(settingsMenu);
 
 
-        horizontalLayout_4->addWidget(widget);
+        horizontalLayout_4->addWidget(dashboardWidget);
 
         stackedWidget = new QStackedWidget(centralWidget);
         stackedWidget->setObjectName("stackedWidget");
@@ -307,24 +309,31 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName("verticalLayout_2");
-        frame_3 = new QFrame(Page1);
-        frame_3->setObjectName("frame_3");
-        frame_3->setFrameShape(QFrame::StyledPanel);
-        frame_3->setFrameShadow(QFrame::Raised);
-        horizontalLayout = new QHBoxLayout(frame_3);
+        searchFrame = new QFrame(Page1);
+        searchFrame->setObjectName("searchFrame");
+        searchFrame->setFrameShape(QFrame::StyledPanel);
+        searchFrame->setFrameShadow(QFrame::Raised);
+        horizontalLayout = new QHBoxLayout(searchFrame);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName("horizontalLayout");
-        searchBar = new QLineEdit(frame_3);
+        searchBar = new QLineEdit(searchFrame);
         searchBar->setObjectName("searchBar");
         searchBar->setFont(font1);
 
         horizontalLayout->addWidget(searchBar);
 
 
-        verticalLayout_2->addWidget(frame_3);
+        verticalLayout_2->addWidget(searchFrame);
 
-        label_8 = new QLabel(Page1);
+        deleteWidget = new QWidget(Page1);
+        deleteWidget->setObjectName("deleteWidget");
+        verticalLayout_4 = new QVBoxLayout(deleteWidget);
+        verticalLayout_4->setSpacing(0);
+        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_4->setObjectName("verticalLayout_4");
+        verticalLayout_4->setContentsMargins(0, 0, 0, 0);
+        label_8 = new QLabel(deleteWidget);
         label_8->setObjectName("label_8");
         QFont font2;
         font2.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
@@ -334,9 +343,9 @@ public:
 "	color: grey;\n"
 "}"));
 
-        verticalLayout_2->addWidget(label_8);
+        verticalLayout_4->addWidget(label_8);
 
-        deleteAccount = new QPushButton(Page1);
+        deleteAccount = new QPushButton(deleteWidget);
         deleteAccount->setObjectName("deleteAccount");
         deleteAccount->setFont(font1);
         deleteAccount->setCursor(QCursor(Qt::PointingHandCursor));
@@ -356,7 +365,10 @@ public:
 "	border: 4px solid #98c1fe;\n"
 "}"));
 
-        verticalLayout_2->addWidget(deleteAccount);
+        verticalLayout_4->addWidget(deleteAccount);
+
+
+        verticalLayout_2->addWidget(deleteWidget);
 
         widget_2 = new QWidget(Page1);
         widget_2->setObjectName("widget_2");
@@ -364,40 +376,58 @@ public:
         horizontalLayout_5->setSpacing(6);
         horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_5->setObjectName("horizontalLayout_5");
-        frame = new QFrame(widget_2);
-        frame->setObjectName("frame");
-        frame->setStyleSheet(QString::fromUtf8(""));
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
-        horizontalLayout_2 = new QHBoxLayout(frame);
+        addFrame = new QFrame(widget_2);
+        addFrame->setObjectName("addFrame");
+        addFrame->setStyleSheet(QString::fromUtf8(""));
+        addFrame->setFrameShape(QFrame::StyledPanel);
+        addFrame->setFrameShadow(QFrame::Raised);
+        horizontalLayout_2 = new QHBoxLayout(addFrame);
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName("horizontalLayout_2");
         gridLayout_4 = new QGridLayout();
         gridLayout_4->setSpacing(6);
         gridLayout_4->setObjectName("gridLayout_4");
-        warning = new QLabel(frame);
-        warning->setObjectName("warning");
-        warning->setAlignment(Qt::AlignCenter);
-        warning->setWordWrap(false);
-
-        gridLayout_4->addWidget(warning, 3, 1, 1, 1);
-
-        label_3 = new QLabel(frame);
-        label_3->setObjectName("label_3");
+        label_2 = new QLabel(addFrame);
+        label_2->setObjectName("label_2");
         QFont font3;
         font3.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
         font3.setPointSize(11);
         font3.setBold(true);
-        label_3->setFont(font3);
+        label_2->setFont(font3);
 
-        gridLayout_4->addWidget(label_3, 1, 1, 1, 1, Qt::AlignHCenter);
+        gridLayout_4->addWidget(label_2, 4, 0, 1, 1);
 
-        addAccount = new QPushButton(frame);
-        addAccount->setObjectName("addAccount");
+        label_5 = new QLabel(addFrame);
+        label_5->setObjectName("label_5");
+        label_5->setFont(font3);
+        label_5->setFrameShape(QFrame::NoFrame);
+
+        gridLayout_4->addWidget(label_5, 3, 0, 1, 1);
+
+        accusername = new QLineEdit(addFrame);
+        accusername->setObjectName("accusername");
         QFont font4;
         font4.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
         font4.setPointSize(11);
+        accusername->setFont(font4);
+
+        gridLayout_4->addWidget(accusername, 4, 1, 1, 1);
+
+        accapp = new QLineEdit(addFrame);
+        accapp->setObjectName("accapp");
+        accapp->setFont(font4);
+
+        gridLayout_4->addWidget(accapp, 3, 1, 1, 1);
+
+        label_4 = new QLabel(addFrame);
+        label_4->setObjectName("label_4");
+        label_4->setFont(font3);
+
+        gridLayout_4->addWidget(label_4, 2, 0, 1, 1, Qt::AlignHCenter);
+
+        addAccount = new QPushButton(addFrame);
+        addAccount->setObjectName("addAccount");
         addAccount->setFont(font4);
         addAccount->setCursor(QCursor(Qt::PointingHandCursor));
         addAccount->setStyleSheet(QString::fromUtf8("QPushButton\n"
@@ -416,99 +446,68 @@ public:
 "	border: 4px solid #98c1fe;\n"
 "}"));
 
-        gridLayout_4->addWidget(addAccount, 3, 2, 1, 1);
+        gridLayout_4->addWidget(addAccount, 5, 1, 1, 1);
 
-        label = new QLabel(frame);
+        label_3 = new QLabel(addFrame);
+        label_3->setObjectName("label_3");
+        label_3->setFont(font3);
+
+        gridLayout_4->addWidget(label_3, 1, 0, 1, 1);
+
+        label = new QLabel(addFrame);
         label->setObjectName("label");
         label->setFont(font3);
 
         gridLayout_4->addWidget(label, 0, 0, 1, 1, Qt::AlignHCenter);
 
-        label_4 = new QLabel(frame);
-        label_4->setObjectName("label_4");
-        QFont font5;
-        font5.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font5.setPointSize(12);
-        font5.setBold(true);
-        label_4->setFont(font5);
-
-        gridLayout_4->addWidget(label_4, 2, 0, 1, 1, Qt::AlignHCenter);
-
-        accusername = new QLineEdit(frame);
-        accusername->setObjectName("accusername");
-        accusername->setFont(font2);
-
-        gridLayout_4->addWidget(accusername, 0, 3, 1, 1);
-
-        label_2 = new QLabel(frame);
-        label_2->setObjectName("label_2");
-        label_2->setFont(font3);
-
-        gridLayout_4->addWidget(label_2, 0, 2, 1, 1, Qt::AlignHCenter);
-
-        accpassword = new QLineEdit(frame);
-        accpassword->setObjectName("accpassword");
-        accpassword->setFont(font2);
-
-        gridLayout_4->addWidget(accpassword, 1, 2, 1, 1);
-
-        accurl = new QLineEdit(frame);
-        accurl->setObjectName("accurl");
-        accurl->setFont(font2);
-
-        gridLayout_4->addWidget(accurl, 2, 1, 1, 1);
-
-        accapp = new QLineEdit(frame);
-        accapp->setObjectName("accapp");
-        accapp->setFont(font2);
-
-        gridLayout_4->addWidget(accapp, 2, 3, 1, 1);
-
-        accemail = new QLineEdit(frame);
+        accemail = new QLineEdit(addFrame);
         accemail->setObjectName("accemail");
         QSizePolicy sizePolicy3(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(accemail->sizePolicy().hasHeightForWidth());
         accemail->setSizePolicy(sizePolicy3);
-        QFont font6;
-        font6.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font6.setPointSize(9);
-        accemail->setFont(font6);
+        accemail->setFont(font4);
 
         gridLayout_4->addWidget(accemail, 0, 1, 1, 1);
 
-        label_6 = new QLabel(frame);
+        accpassword = new QLineEdit(addFrame);
+        accpassword->setObjectName("accpassword");
+        accpassword->setFont(font4);
+        accpassword->setEchoMode(QLineEdit::Password);
+
+        gridLayout_4->addWidget(accpassword, 1, 1, 1, 1);
+
+        accurl = new QLineEdit(addFrame);
+        accurl->setObjectName("accurl");
+        accurl->setFont(font4);
+
+        gridLayout_4->addWidget(accurl, 2, 1, 1, 1);
+
+        label_6 = new QLabel(addFrame);
         label_6->setObjectName("label_6");
 
-        gridLayout_4->addWidget(label_6, 3, 0, 1, 1);
-
-        label_5 = new QLabel(frame);
-        label_5->setObjectName("label_5");
-        label_5->setFont(font3);
-        label_5->setFrameShape(QFrame::NoFrame);
-
-        gridLayout_4->addWidget(label_5, 2, 2, 1, 1, Qt::AlignHCenter);
+        gridLayout_4->addWidget(label_6, 5, 0, 1, 1);
 
 
         horizontalLayout_2->addLayout(gridLayout_4);
 
 
-        horizontalLayout_5->addWidget(frame);
+        horizontalLayout_5->addWidget(addFrame);
 
         horizontalSpacer = new QSpacerItem(15, 20, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Minimum);
 
         horizontalLayout_5->addItem(horizontalSpacer);
 
-        frame_2 = new QFrame(widget_2);
-        frame_2->setObjectName("frame_2");
-        frame_2->setFrameShape(QFrame::StyledPanel);
-        frame_2->setFrameShadow(QFrame::Raised);
-        horizontalLayout_3 = new QHBoxLayout(frame_2);
+        tableFrame = new QFrame(widget_2);
+        tableFrame->setObjectName("tableFrame");
+        tableFrame->setFrameShape(QFrame::StyledPanel);
+        tableFrame->setFrameShadow(QFrame::Raised);
+        horizontalLayout_3 = new QHBoxLayout(tableFrame);
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_3->setObjectName("horizontalLayout_3");
-        tableView = new QTableView(frame_2);
+        tableView = new QTableView(tableFrame);
         tableView->setObjectName("tableView");
         QSizePolicy sizePolicy4(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
         sizePolicy4.setHorizontalStretch(0);
@@ -516,7 +515,10 @@ public:
         sizePolicy4.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
         tableView->setSizePolicy(sizePolicy4);
         tableView->setMinimumSize(QSize(0, 0));
-        tableView->setFont(font6);
+        QFont font5;
+        font5.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font5.setPointSize(9);
+        tableView->setFont(font5);
         tableView->setStyleSheet(QString::fromUtf8(""));
         tableView->setAlternatingRowColors(true);
         tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -531,7 +533,7 @@ public:
         horizontalLayout_3->addWidget(tableView);
 
 
-        horizontalLayout_5->addWidget(frame_2);
+        horizontalLayout_5->addWidget(tableFrame);
 
 
         verticalLayout_2->addWidget(widget_2);
@@ -543,21 +545,21 @@ public:
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName("verticalLayout_3");
-        frame_4 = new QFrame(Page2);
-        frame_4->setObjectName("frame_4");
-        frame_4->setFrameShape(QFrame::StyledPanel);
-        frame_4->setFrameShadow(QFrame::Raised);
-        horizontalLayout_7 = new QHBoxLayout(frame_4);
+        gameWidget = new QFrame(Page2);
+        gameWidget->setObjectName("gameWidget");
+        gameWidget->setFrameShape(QFrame::StyledPanel);
+        gameWidget->setFrameShadow(QFrame::Raised);
+        horizontalLayout_7 = new QHBoxLayout(gameWidget);
         horizontalLayout_7->setSpacing(6);
         horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_7->setObjectName("horizontalLayout_7");
-        openGLWidget = new QOpenGLWidget(frame_4);
+        openGLWidget = new QOpenGLWidget(gameWidget);
         openGLWidget->setObjectName("openGLWidget");
 
         horizontalLayout_7->addWidget(openGLWidget);
 
 
-        verticalLayout_3->addWidget(frame_4);
+        verticalLayout_3->addWidget(gameWidget);
 
         stackedWidget->addWidget(Page2);
         Page3 = new QWidget();
@@ -567,25 +569,20 @@ public:
         horizontalLayout_4->addWidget(stackedWidget);
 
         mainpasswordmenuClass->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(mainpasswordmenuClass);
-        menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 1149, 21));
-        menuNew = new QMenu(menuBar);
-        menuNew->setObjectName("menuNew");
-        menuDelete = new QMenu(menuBar);
+        menuB = new QMenuBar(mainpasswordmenuClass);
+        menuB->setObjectName("menuB");
+        menuB->setGeometry(QRect(0, 0, 1149, 21));
+        menuDelete = new QMenu(menuB);
         menuDelete->setObjectName("menuDelete");
-        menuHelp = new QMenu(menuBar);
+        menuHelp = new QMenu(menuB);
         menuHelp->setObjectName("menuHelp");
-        menuWindow = new QMenu(menuBar);
+        menuWindow = new QMenu(menuB);
         menuWindow->setObjectName("menuWindow");
-        mainpasswordmenuClass->setMenuBar(menuBar);
+        mainpasswordmenuClass->setMenuBar(menuB);
 
-        menuBar->addAction(menuNew->menuAction());
-        menuBar->addAction(menuDelete->menuAction());
-        menuBar->addAction(menuWindow->menuAction());
-        menuBar->addAction(menuHelp->menuAction());
-        menuNew->addAction(actionPassword);
-        menuNew->addAction(actionGame_Password);
+        menuB->addAction(menuDelete->menuAction());
+        menuB->addAction(menuWindow->menuAction());
+        menuB->addAction(menuHelp->menuAction());
         menuDelete->addAction(actionSelected);
         menuDelete->addAction(actionCopy);
         menuDelete->addAction(actionPaste);
@@ -628,15 +625,18 @@ public:
         searchBar->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Search based on application name", nullptr));
         label_8->setText(QCoreApplication::translate("mainpasswordmenuClass", "Select full row to delete", nullptr));
         deleteAccount->setText(QCoreApplication::translate("mainpasswordmenuClass", "Delete", nullptr));
-        warning->setText(QString());
-        label_3->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
-        addAccount->setText(QCoreApplication::translate("mainpasswordmenuClass", "Add Account", nullptr));
-        label->setText(QCoreApplication::translate("mainpasswordmenuClass", "Email", nullptr));
-        label_4->setText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
         label_2->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
-        label_6->setText(QString());
         label_5->setText(QCoreApplication::translate("mainpasswordmenuClass", "Application", nullptr));
-        menuNew->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "New", nullptr));
+        accusername->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
+        accapp->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Application", nullptr));
+        label_4->setText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
+        addAccount->setText(QCoreApplication::translate("mainpasswordmenuClass", "Add Account", nullptr));
+        label_3->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
+        label->setText(QCoreApplication::translate("mainpasswordmenuClass", "Email", nullptr));
+        accemail->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Email", nullptr));
+        accpassword->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
+        accurl->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
+        label_6->setText(QString());
         menuDelete->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Edit", nullptr));
         menuHelp->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Help", nullptr));
         menuWindow->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Window", nullptr));

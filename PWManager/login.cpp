@@ -12,6 +12,9 @@
 #include <QSqlDatabase>
 #include <QDebug>
 
+#include "bcrypt/BCrypt.hpp"
+
+
 namespace passwordManager
 {
     User checkMasterLogin(std::string inputU, std::string inputP)
@@ -48,25 +51,33 @@ namespace passwordManager
 
         //query to select the user with entered username and password
         QSqlQuery qry;
-        qry.prepare("SELECT * FROM masteruser WHERE username = ? AND password = ?");
+        qry.prepare("SELECT * FROM masteruser WHERE username = ?");
         qry.addBindValue(QString::fromStdString(inputU));
-        qry.addBindValue(QString::fromStdString(inputP));
 
-        //run if query can be executed
-        if (qry.exec())
+        //run if query can not be executed
+        if (!qry.exec())
         {
-            //if selection exists, (only one can exist based on db requirements) return the user with db values
-            if (qry.next())
-            {
-                db.close();
-                return User(qry.value("username").toString().toStdString(), qry.value("password").toString().toStdString(), qry.value("id").toInt());
-            }
+            qDebug() << db.lastError();
+            db.close();
+            return User("", "", -1);
         }
 
-        qDebug() << db.lastError();
+        //if selection exists, (only one can exist based on db requirements) return the user with db values
+        if (qry.next())
+        {
+            db.close();
+
+            std::string pw = qry.value("password").toString().toStdString();
+
+            if (BCrypt::validatePassword(inputP, pw))
+            {
+                return User(qry.value("username").toString().toStdString(), qry.value("password").toString().toStdString(), qry.value("id").toInt());
+            }
+
+        }
+
         db.close();
         return User("", "", -1);
-
     }
     
 
@@ -100,11 +111,15 @@ namespace passwordManager
             return false;
         }
 
+        //hash using bcrypt
+        QString hashed = QString::fromStdString(BCrypt::generateHash(inputP));
+
+
         //query to insert a new user into masteruser table with entered values
         QSqlQuery qry;
-        qry.prepare("INSERT INTO masteruser(username, password) VALUES(?,?)");
+        qry.prepare("INSERT INTO masteruser (username, password) VALUES(?,?)");
         qry.addBindValue(QString::fromStdString(inputU));
-        qry.addBindValue(QString::fromStdString(inputP));
+        qry.addBindValue(hashed);
 
         //if query cant execute return false
         if (!qry.exec())
@@ -122,20 +137,26 @@ namespace passwordManager
 
     std::string checkPassword(std::string password)
     {
-        //regex to check password for at least one lower case, upper case, digit, special character\nAlso no underscore, or spaces
-        std::regex rules("(?=.*\d)(?=.*[a-z])(?=.*[A-Z])((?=.*\W)|(?=.*_))^[^ ]+$");
-
-        //if password does not match regex rules
-        if (!std::regex_match(password, rules))
-        {
-            return "Password rules: at least one lower case, upper case, digit, special character\nAlso no underscore, or spaces";
-        }
 
         //if password is less than 8 characters
         if (password.length() < 8)
         {
             return "Password must be 8 characters or more";
         }
+
+        //regex to check password for at least one lower case, upper case, digit, special character\nAlso no underscore, or spaces
+
+        std::string reg = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.* ).{8,}$";
+
+        std::regex rules(reg);
+
+        //if password does not match regex rules
+        if (!std::regex_match(password, rules))
+        {
+            return "Password rules: at least one lower case, upper case, digit\nAlso no spaces";
+        }
+
+
 
         //if password meets all requirements return "good"
         return "good";

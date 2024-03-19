@@ -1,7 +1,4 @@
-﻿  uic mainpasswordmenu.ui
-  PWManager.cpp
-  main.cpp
-  mainpasswordmenu.cpp
-  moc_PWManager.cpp
-  moc_mainpasswordmenu.cpp
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(1101,5): warning MSB8027: Two or more files with the name of main.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are libraries\bcrypt\src\main.cpp, main.cpp.
+  accounts.cpp
+x64\Debug\main.obj : warning LNK4042: object specified more than once; extras ignored
   PWManager.vcxproj -> C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Debug\PWManager.exe
