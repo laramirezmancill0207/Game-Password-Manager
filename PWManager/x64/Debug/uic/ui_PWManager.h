@@ -194,7 +194,7 @@ public:
         label->setObjectName("label");
         sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
         label->setSizePolicy(sizePolicy);
-        label->setFont(font1);
+        label->setFont(font);
         label->setStyleSheet(QString::fromUtf8(""));
 
         gridLayout_3->addWidget(label, 0, 0, 1, 1);
@@ -211,7 +211,7 @@ public:
         label_2->setObjectName("label_2");
         sizePolicy.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
         label_2->setSizePolicy(sizePolicy);
-        label_2->setFont(font1);
+        label_2->setFont(font);
         label_2->setStyleSheet(QString::fromUtf8(""));
 
         gridLayout_3->addWidget(label_2, 2, 0, 1, 1);
@@ -280,7 +280,7 @@ public:
         usernameLabel->setObjectName("usernameLabel");
         sizePolicy.setHeightForWidth(usernameLabel->sizePolicy().hasHeightForWidth());
         usernameLabel->setSizePolicy(sizePolicy);
-        usernameLabel->setFont(font1);
+        usernameLabel->setFont(font);
         usernameLabel->setStyleSheet(QString::fromUtf8(""));
         usernameLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
 
@@ -290,7 +290,7 @@ public:
         passwordLabel->setObjectName("passwordLabel");
         sizePolicy.setHeightForWidth(passwordLabel->sizePolicy().hasHeightForWidth());
         passwordLabel->setSizePolicy(sizePolicy);
-        passwordLabel->setFont(font1);
+        passwordLabel->setFont(font);
         passwordLabel->setStyleSheet(QString::fromUtf8(""));
         passwordLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
 

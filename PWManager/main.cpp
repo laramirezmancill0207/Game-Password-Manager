@@ -5,9 +5,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QFont font("Lucida Sans Unicode");
-    font.setStyleHint(QFont::Monospace);
-    QApplication::setFont(font);
+    //QFont font("Lucida Sans Unicode");
+    //font.setStyleHint(QFont::Monospace);
+    //QApplication::setFont(font);
 
     PWManager w;
     w.show();

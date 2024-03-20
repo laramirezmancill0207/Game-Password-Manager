@@ -1,6 +1,6 @@
 #include "mainpasswordmenu.h"
-#include "PWManager.h"
 #include "accounts.h"
+#include "aboutPage.h"
 #include <iostream>
 #include <fstream>
 
@@ -52,7 +52,13 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 
 void mainpasswordmenu::aboutMenu()
 {
+	//create new window for main password manager if login successful
+	aboutPage* about = new aboutPage();
 
+	about->setModal(true);
+	about->setFixedSize(600, 400);
+
+	about->exec();
 }
 
 void mainpasswordmenu::refreshTable()

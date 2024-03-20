@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
-#include <QtOpenGLWidgets/QOpenGLWidget>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
@@ -28,6 +27,7 @@
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "gameopengl.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -90,7 +90,7 @@ public:
     QVBoxLayout *verticalLayout_3;
     QFrame *gameWidget;
     QHBoxLayout *horizontalLayout_7;
-    QOpenGLWidget *openGLWidget;
+    GameOpenGL *openGLWidget;
     QWidget *Page3;
     QMenuBar *menuB;
     QMenu *menuDelete;
@@ -553,7 +553,7 @@ public:
         horizontalLayout_7->setSpacing(6);
         horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_7->setObjectName("horizontalLayout_7");
-        openGLWidget = new QOpenGLWidget(gameWidget);
+        openGLWidget = new GameOpenGL(gameWidget);
         openGLWidget->setObjectName("openGLWidget");
 
         horizontalLayout_7->addWidget(openGLWidget);
@@ -571,7 +571,7 @@ public:
         mainpasswordmenuClass->setCentralWidget(centralWidget);
         menuB = new QMenuBar(mainpasswordmenuClass);
         menuB->setObjectName("menuB");
-        menuB->setGeometry(QRect(0, 0, 1149, 21));
+        menuB->setGeometry(QRect(0, 0, 1149, 22));
         menuDelete = new QMenu(menuB);
         menuDelete->setObjectName("menuDelete");
         menuHelp = new QMenu(menuB);
