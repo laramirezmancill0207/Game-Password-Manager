@@ -22,6 +22,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
@@ -92,6 +93,16 @@ public:
     QHBoxLayout *horizontalLayout_7;
     GameOpenGL *openGLWidget;
     QWidget *Page3;
+    QHBoxLayout *horizontalLayout_6;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QGridLayout *gridLayout;
+    QLineEdit *lineEdit;
+    QLabel *label_11;
+    QLineEdit *lineEdit_2;
+    QLabel *label_10;
+    QPushButton *profile;
+    QPushButton *pushButton;
     QMenuBar *menuB;
     QMenu *menuDelete;
     QMenu *menuHelp;
@@ -564,6 +575,95 @@ public:
         stackedWidget->addWidget(Page2);
         Page3 = new QWidget();
         Page3->setObjectName("Page3");
+        horizontalLayout_6 = new QHBoxLayout(Page3);
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_6->setObjectName("horizontalLayout_6");
+        scrollArea = new QScrollArea(Page3);
+        scrollArea->setObjectName("scrollArea");
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 873, 449));
+        gridLayout = new QGridLayout(scrollAreaWidgetContents);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName("gridLayout");
+        lineEdit = new QLineEdit(scrollAreaWidgetContents);
+        lineEdit->setObjectName("lineEdit");
+        QSizePolicy sizePolicy5(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
+        lineEdit->setSizePolicy(sizePolicy5);
+        lineEdit->setReadOnly(true);
+
+        gridLayout->addWidget(lineEdit, 1, 1, 1, 1);
+
+        label_11 = new QLabel(scrollAreaWidgetContents);
+        label_11->setObjectName("label_11");
+        QSizePolicy sizePolicy6(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Preferred);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
+        label_11->setSizePolicy(sizePolicy6);
+        label_11->setFont(font4);
+
+        gridLayout->addWidget(label_11, 2, 0, 1, 1);
+
+        lineEdit_2 = new QLineEdit(scrollAreaWidgetContents);
+        lineEdit_2->setObjectName("lineEdit_2");
+        sizePolicy5.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
+        lineEdit_2->setSizePolicy(sizePolicy5);
+        lineEdit_2->setEchoMode(QLineEdit::Password);
+        lineEdit_2->setReadOnly(true);
+
+        gridLayout->addWidget(lineEdit_2, 2, 1, 1, 1);
+
+        label_10 = new QLabel(scrollAreaWidgetContents);
+        label_10->setObjectName("label_10");
+        sizePolicy6.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
+        label_10->setSizePolicy(sizePolicy6);
+        label_10->setFont(font4);
+
+        gridLayout->addWidget(label_10, 1, 0, 1, 1);
+
+        profile = new QPushButton(scrollAreaWidgetContents);
+        profile->setObjectName("profile");
+        profile->setEnabled(false);
+        profile->setFont(font4);
+        profile->setStyleSheet(QString::fromUtf8("border: none;\n"
+"color: #FFF;"));
+
+        gridLayout->addWidget(profile, 0, 0, 1, 1);
+
+        pushButton = new QPushButton(scrollAreaWidgetContents);
+        pushButton->setObjectName("pushButton");
+        sizePolicy5.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
+        pushButton->setSizePolicy(sizePolicy5);
+        pushButton->setFont(font4);
+        pushButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: #0d6efd;\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: #0055ff;\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
+
+        gridLayout->addWidget(pushButton, 3, 1, 1, 1);
+
+        scrollArea->setWidget(scrollAreaWidgetContents);
+
+        horizontalLayout_6->addWidget(scrollArea);
+
         stackedWidget->addWidget(Page3);
 
         horizontalLayout_4->addWidget(stackedWidget);
@@ -637,6 +737,10 @@ public:
         accpassword->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         accurl->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
         label_6->setText(QString());
+        label_11->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
+        label_10->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
+        profile->setText(QCoreApplication::translate("mainpasswordmenuClass", "Profile", nullptr));
+        pushButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Change Password", nullptr));
         menuDelete->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Edit", nullptr));
         menuHelp->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Help", nullptr));
         menuWindow->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Window", nullptr));

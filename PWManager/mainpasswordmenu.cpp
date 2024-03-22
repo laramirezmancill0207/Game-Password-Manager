@@ -24,6 +24,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	this->homeMenu->setIcon(QIcon("home.png"));
 	this->gameMenu->setIcon(QIcon("game.png"));
 	this->settingsMenu->setIcon(QIcon("settings.png"));
+	this->profile->setIcon(QIcon("profile.png"));
 
 	this->searchBar->addAction(QIcon("search.png"), QLineEdit::LeadingPosition);
 	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
