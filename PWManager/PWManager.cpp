@@ -11,8 +11,8 @@ PWManager::PWManager(QWidget *parent)
     ui.setupUi(this);
 
     //create qaction pointers for eye visibility toggle on password fields
-    QAction* vaction = ui.password->addAction(QIcon("eyeopen.png"), QLineEdit::TrailingPosition);
-    QAction* vsaction = ui.spassword->addAction(QIcon("eyeopen.png"), QLineEdit::TrailingPosition);
+    QAction* vaction = ui.password->addAction(QIcon("icons/eyeopen.png"), QLineEdit::TrailingPosition);
+    QAction* vsaction = ui.spassword->addAction(QIcon("icons/eyeopen.png"), QLineEdit::TrailingPosition);
 
     //lambda function to connect eye action buttons to visible function
     QObject::connect(vaction, &QAction::triggered, this, [vaction, this] { visible(ui.password); });
@@ -25,7 +25,7 @@ void PWManager::visible(QLineEdit* pwField)
     //use either sign up or login pw field to get corresponding action
     pwField->setEchoMode(QLineEdit::Normal);
     QAction* vaction = pwField->findChild<QAction*>();
-    vaction->setIcon(QIcon("eyeclose.png"));
+    vaction->setIcon(QIcon("icons/eyeclose.png"));
 
     vaction->disconnect();
     //connect toggle back to invisible function
@@ -38,7 +38,7 @@ void PWManager::invisible(QLineEdit* pwField)
     //use either sign up or login pw field to get corresponding action
     pwField->setEchoMode(QLineEdit::Password);
     QAction* vaction = pwField->findChild<QAction*>();
-    vaction->setIcon(QIcon("eyeopen.png"));
+    vaction->setIcon(QIcon("icons/eyeopen.png"));
 
     vaction->disconnect();
     //connect toggle back to visible function

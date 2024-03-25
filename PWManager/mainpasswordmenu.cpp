@@ -21,12 +21,12 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 {
 	setupUi(this);
 
-	this->homeMenu->setIcon(QIcon("home.png"));
-	this->gameMenu->setIcon(QIcon("game.png"));
-	this->settingsMenu->setIcon(QIcon("settings.png"));
-	this->profile->setIcon(QIcon("profile.png"));
+	this->homeMenu->setIcon(QIcon("icons/home.png"));
+	this->gameMenu->setIcon(QIcon("icons/game.png"));
+	this->settingsMenu->setIcon(QIcon("icons/.png"));
+	this->profile->setIcon(QIcon("icons/profile.png"));
 
-	this->searchBar->addAction(QIcon("search.png"), QLineEdit::LeadingPosition);
+	this->searchBar->addAction(QIcon("icons/search.png"), QLineEdit::LeadingPosition);
 	QObject::connect(this->searchBar, &QLineEdit::textChanged, this, [this] { refreshTable(); });
 
 	this->homeMenu->setStyleSheet("background-color: rgb(255, 255, 255);");

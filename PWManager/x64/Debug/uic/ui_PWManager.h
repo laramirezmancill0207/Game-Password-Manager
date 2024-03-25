@@ -250,6 +250,7 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         label_3 = new QLabel(Page0);
         label_3->setObjectName("label_3");
+        label_3->setStyleSheet(QString::fromUtf8(""));
 
         horizontalLayout->addWidget(label_3);
 
@@ -390,7 +391,7 @@ public:
         susername->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "Username", nullptr));
         label_2->setText(QCoreApplication::translate("PWManagerClass", "Password", nullptr));
         signup->setText(QCoreApplication::translate("PWManagerClass", "Sign Up", nullptr));
-        label_3->setText(QCoreApplication::translate("PWManagerClass", "<html><head/><body><p><img src=\":/PWManager/chessb.png\"/></p></body></html>", nullptr));
+        label_3->setText(QCoreApplication::translate("PWManagerClass", "<html><head/><body><p><img src=\":/PWManager/icons/chessb.png\"/></p></body></html>", nullptr));
         password->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "Password", nullptr));
         username->setText(QString());
         username->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "Username", nullptr));

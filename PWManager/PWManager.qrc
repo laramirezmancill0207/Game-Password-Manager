@@ -1,5 +1,5 @@
 <RCC>
   <qresource prefix="PWManager">
-    <file>chessb.png</file>
+    <file>icons/chessb.png</file>
   </qresource>
 </RCC>
