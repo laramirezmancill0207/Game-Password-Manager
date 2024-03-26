@@ -1,7 +1,9 @@
 #pragma once
 #include "board.h"
-#include "pieces.h"
+#include "moves.h"
+
 #include <vector>
+
 
 namespace chess
 {

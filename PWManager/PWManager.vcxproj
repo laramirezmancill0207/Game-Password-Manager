@@ -126,13 +126,13 @@
     <ClCompile Include="libraries\bcrypt\src\wrapper.c" />
     <ClCompile Include="login.cpp" />
     <ClCompile Include="mainpasswordmenu.cpp" />
-    <ClCompile Include="pieces.cpp" />
+    <ClCompile Include="moves.cpp" />
     <ClCompile Include="PWManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameLogic.h" />
-    <ClInclude Include="pieces.h" />
+    <ClInclude Include="moves.h" />
     <QtMoc Include="aboutPage.h" />
     <ClInclude Include="accounts.h" />
     <QtMoc Include="gameopengl.h" />

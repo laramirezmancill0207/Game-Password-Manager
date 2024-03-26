@@ -1,8 +1,7 @@
 #pragma once
-#include "pieces.h"
-#include <tuple>
 
 typedef enum color { WHITE, BLACK, NONE } Color;
+
 struct coordinates
 {
 	int x, y;
@@ -10,6 +9,18 @@ struct coordinates
 
 namespace chess
 {
+	typedef enum piece { KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, NONE } pieceType;
+
+	class Piece
+	{
+	private:
+		Color color;
+		pieceType type;
+	public:
+		Color getColor();
+		pieceType getType();
+	};
+
 	class Square
 	{
 	private:
@@ -33,6 +44,19 @@ namespace chess
 
 namespace checkers
 {
+	typedef enum piece { KING, NORMAL, NONE } pieceType;
+
+	class Piece
+	{
+	private:
+		Color color;
+		pieceType type;
+	public:
+		void setType(pieceType type);
+		Color getColor();
+		pieceType getType();
+	};
+
 	class Square
 	{
 	private:

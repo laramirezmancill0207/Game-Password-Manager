@@ -70,10 +70,10 @@
     <ClCompile Include="board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pieces.cpp">
+    <ClCompile Include="gameLogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameLogic.cpp">
+    <ClCompile Include="moves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,10 +108,10 @@
     <ClInclude Include="board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pieces.h">
+    <ClInclude Include="gameLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gameLogic.h">
+    <ClInclude Include="moves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

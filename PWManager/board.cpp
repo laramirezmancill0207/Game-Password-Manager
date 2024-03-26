@@ -19,6 +19,15 @@ namespace chess
 		this->piece = piece;
 	}
 
+	Color Piece::getColor() {
+		Color c = this->color;
+		return c;
+	}
+	pieceType Piece::getType() {
+		pieceType t = this->type;
+		return t;
+	}
+
 }
 
 namespace checkers
@@ -38,5 +47,18 @@ namespace checkers
 	void Square::setPiece(Piece piece)
 	{
 		this->piece = piece;
+	}
+
+	void Piece::setType(pieceType type)
+	{
+		this->type = type;
+	}
+	Color Piece::getColor() {
+		Color c = this->color;
+		return c;
+	}
+	pieceType Piece::getType() {
+		pieceType t = this->type;
+		return t;
 	}
 }
