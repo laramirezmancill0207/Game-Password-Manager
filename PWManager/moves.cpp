@@ -1,4 +1,5 @@
 #include "moves.h"
+#include <cmath>
 
 namespace chess
 {
@@ -7,40 +8,73 @@ namespace chess
 		//rules
 
 		//handle pawn attacks
-		if (to.getPiece().getType() == NONE)
+		if (to.getPiece().getType() != NONE)
 		{
-			if (from.getCoordinates().x == to.getCoordinates().x-1 || from.getCoordinates().x == to.getCoordinates().x + 1)
+			if (std::abs(to.getCoordinates().x - from.getCoordinates().x) == 1)
 			{
-
+				return true;
 			}
 		}
 
-		if (from.getCoordinates().x != to.getCoordinates().x)
+		if (from.getCoordinates().x == to.getCoordinates().x && to.getCoordinates().y - from.getCoordinates().y == 1)
 		{
-			return false;
+			return true;
 		}
 
-
+		return false;
 	}
 	bool isValidKnightMove(Square from, Square to)
 	{
+		if (std::abs(to.getCoordinates().y - from.getCoordinates().y) == 2 && std::abs(to.getCoordinates().x - from.getCoordinates().x) == 1)
+		{
+			return true;
+		}
 
+		else if (std::abs(to.getCoordinates().y - from.getCoordinates().y) == 1 && std::abs(to.getCoordinates().x - from.getCoordinates().x) == 2)
+		{
+			return true;
+		}
+
+		return false;
 	}
 	bool isValidBishopMove(Square from, Square to)
 	{
+		if (std::abs(to.getCoordinates().x - from.getCoordinates().x) == std::abs(to.getCoordinates().y - from.getCoordinates().y))
+		{
+			return true;
+		}
 
+		return false;
 	}
 	bool isValidRookMove(Square from, Square to)
 	{
+		if (to.getCoordinates().x == from.getCoordinates().x || to.getCoordinates().y == from.getCoordinates().y)
+		{
+			return true;
+		}
 
+
+		return false;
 	}
 	bool isValidQueenMove(Square from, Square to)
 	{
-
+		if (isValidBishopMove(from, to) && isValidRookMove(from, to))
+		{
+			return true;
+		}
 	}
 	bool isValidKingMove(Square from, Square to)
 	{
+		if (std::abs(to.getCoordinates().x - from.getCoordinates().x) == 1 || std::abs(to.getCoordinates().y - from.getCoordinates().y) == 1)
+		{
+			return true;
+		}
 
+		else if (std::abs(to.getCoordinates().x - from.getCoordinates().x) == 1 && std::abs(to.getCoordinates().y - from.getCoordinates().y) == 1)
+		{
+			return true;
+		}
+		return false;
 	}
 
 
