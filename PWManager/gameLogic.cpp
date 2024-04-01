@@ -4,9 +4,9 @@ namespace chess
 {
 	bool isValidMove(Square from, Square to)
 	{
-		Piece fromPiece = from.getPiece();
+		Piece* fromPiece = from.getPiece();
 
-		switch (fromPiece.getType()) {
+		switch (fromPiece->getType()) {
 		case KING:
 			break;
 		case QUEEN:
@@ -26,9 +26,9 @@ namespace chess
 
 	std::vector<Square> validMoves(Square square) {
 		std::vector<Square> squares;
-		Piece squarePiece = square.getPiece();
+		Piece* squarePiece = square.getPiece();
 
-		switch (squarePiece.getType()) {
+		switch (squarePiece->getType()) {
 		case KING:
 			break;
 		case QUEEN:

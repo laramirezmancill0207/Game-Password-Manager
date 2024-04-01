@@ -11,10 +11,13 @@
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QFontDatabase>
+#include <QGraphicsScene>
 
 #include <shlobj.h>
 #include <shlwapi.h>
 #include <objbase.h>
+
+#include "board.h"
 
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
@@ -44,6 +47,14 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	
 	this->actionDelete_Menu->setChecked(true);
 	QObject::connect(this->actionDelete_Menu, &QAction::triggered, this, [this] { if (this->actionDelete_Menu->isChecked()) { this->deleteWidget->show(); } else { this->deleteWidget->hide(); }; });
+
+	QGraphicsScene* scene = new QGraphicsScene(this);
+	
+	chess::Board b = new chess::Board;
+
+	scene->addItem(b);
+
+	this->graphicsView->setScene(scene);
 
 }
 

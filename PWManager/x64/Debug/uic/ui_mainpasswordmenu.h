@@ -13,6 +13,7 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -28,7 +29,6 @@
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "gameopengl.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -91,7 +91,7 @@ public:
     QVBoxLayout *verticalLayout_3;
     QFrame *gameWidget;
     QHBoxLayout *horizontalLayout_7;
-    GameOpenGL *openGLWidget;
+    QGraphicsView *graphicsView;
     QWidget *Page3;
     QHBoxLayout *horizontalLayout_6;
     QScrollArea *scrollArea;
@@ -564,10 +564,10 @@ public:
         horizontalLayout_7->setSpacing(6);
         horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_7->setObjectName("horizontalLayout_7");
-        openGLWidget = new GameOpenGL(gameWidget);
-        openGLWidget->setObjectName("openGLWidget");
+        graphicsView = new QGraphicsView(gameWidget);
+        graphicsView->setObjectName("graphicsView");
 
-        horizontalLayout_7->addWidget(openGLWidget);
+        horizontalLayout_7->addWidget(graphicsView);
 
 
         verticalLayout_3->addWidget(gameWidget);
@@ -696,7 +696,7 @@ public:
 
         retranslateUi(mainpasswordmenuClass);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(mainpasswordmenuClass);

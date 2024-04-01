@@ -3,12 +3,13 @@
 
 namespace chess
 {
+	/*
 	bool isValidPawnMove(Square from, Square to)
 	{
 		//rules
 
 		//handle pawn attacks
-		if (to.getPiece().getType() != NONE)
+		if (to.getPiece()->getType() != NONE)
 		{
 			if (std::abs(to.getCoordinates().x - from.getCoordinates().x) == 1)
 			{
@@ -76,6 +77,7 @@ namespace chess
 		}
 		return false;
 	}
+	
 
 
 	std::vector<Square> pawnMoves(Square square)
@@ -102,5 +104,6 @@ namespace chess
 	{
 
 	}
+	*/
 }
 
