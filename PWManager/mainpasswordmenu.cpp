@@ -50,7 +50,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 
 	QGraphicsScene* scene = new QGraphicsScene(this);
 	
-	chess::Board b = new chess::Board;
+	chess::Board* b = new chess::Board;
 
 	scene->addItem(b);
 

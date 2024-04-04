@@ -6,7 +6,7 @@ class QGraphicsSceneMouseEvent;
 class QParallelAnimationGroup;
 QT_END_NAMESPACE
 
-typedef enum color { WHITE, BLACK, NONE } GameColor;
+typedef enum color { WHITE, BLACK, RED, NONE } GameColor;
 
 struct coordinates
 {
@@ -15,7 +15,7 @@ struct coordinates
 
 namespace chess
 {
-	typedef enum piece { KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, NONE } pieceType;
+	typedef enum piece { KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, EMPTY } pieceType;
 
 	class baseChess : public QGraphicsObject
 	{
@@ -64,6 +64,7 @@ namespace chess
 		Piece* getPiece();
 		void setPiece(Piece* piece);
 		void setColor(GameColor color);
+		GameColor getColor();
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
@@ -73,7 +74,7 @@ namespace chess
 	class Board : public baseChess
 	{
 	private:
-		Square** squares;
+		Square*** squares;
 		Piece* whiteRook = new Piece(WHITE, ROOK);
 		Piece* whiteKnight = new Piece(WHITE, KNIGHT);
 		Piece* whiteBishop = new Piece(WHITE, BISHOP);
@@ -91,7 +92,7 @@ namespace chess
 	public:
 		Board(QGraphicsItem* parent = nullptr);
 
-		Square** getSquares();
+		Square*** getSquares();
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;

@@ -2,7 +2,4 @@
   gameLogic.cpp
   mainpasswordmenu.cpp
   moves.cpp
-C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\mainpasswordmenu.cpp(55,7): error C2664: 'void QGraphicsScene::addItem(QGraphicsItem *)': cannot convert argument 1 from 'chess::Board' to 'QGraphicsItem *'
-C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\mainpasswordmenu.cpp(55,17): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-C:\Qt\6.6.2\msvc2019_64\include\QtWidgets\qgraphicsscene.h(133,10): message : see declaration of 'QGraphicsScene::addItem' (compiling source file mainpasswordmenu.cpp)
-C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\mainpasswordmenu.cpp(55,7): message : while trying to match the argument list '(chess::Board)'
+  PWManager.vcxproj -> C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\x64\Debug\PWManager.exe
