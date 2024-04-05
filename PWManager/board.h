@@ -1,5 +1,6 @@
 #pragma once
 #include <QGraphicsItem>
+#include <QPixmap>
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
@@ -21,14 +22,6 @@ namespace chess
 	{
 	public:
 		baseChess(QGraphicsItem* parent = nullptr);
-
-	protected:
-		void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
-		void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) override;
-		void dropEvent(QGraphicsSceneDragDropEvent* event) override;
-
-		QColor color = Qt::lightGray;
-		bool dragOver = false;
 	};
 
 	class Piece : public baseChess
@@ -36,15 +29,19 @@ namespace chess
 	private:
 		GameColor color;
 		pieceType type;
+
+	protected:
+		void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+		void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+		void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+
 	public:
-		Piece(GameColor c, pieceType t)
-		{
-			color = c;
-			type = t;
-		}
+		Piece(QGraphicsItem* parent = nullptr, GameColor c = NONE, pieceType t = EMPTY);
 
 		GameColor getColor();
 		pieceType getType();
+		void setColor(GameColor c);
+		void setType(pieceType t);
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
@@ -56,13 +53,21 @@ namespace chess
 		GameColor color;
 		Piece *piece;
 		coordinates c;
-		
+	protected:
+		void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
+		void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) override;
+		void dropEvent(QGraphicsSceneDragDropEvent* event) override;
+
+		//QColor color = Qt::lightGray;
+		bool dragOver = false;
 	public:
 		Square(QGraphicsItem *parent = nullptr);
 
 		coordinates getCoordinates();
+		void setCoordinates(int x, int y);
 		Piece* getPiece();
-		void setPiece(Piece* piece);
+		void setPiece(Piece* p);
+		void changePiece(GameColor c = NONE, pieceType t = EMPTY, QGraphicsItem* parent = nullptr);
 		void setColor(GameColor color);
 		GameColor getColor();
 
@@ -71,31 +76,27 @@ namespace chess
 
 	};
 
+	//singleton design pattern
 	class Board : public baseChess
 	{
 	private:
 		Square*** squares;
-		Piece* whiteRook = new Piece(WHITE, ROOK);
-		Piece* whiteKnight = new Piece(WHITE, KNIGHT);
-		Piece* whiteBishop = new Piece(WHITE, BISHOP);
-		Piece* whiteQueen = new Piece(WHITE, QUEEN);
-		Piece* whiteKing = new Piece(WHITE, KING);
-		Piece* whitePawn = new Piece(WHITE, PAWN);
-
-		Piece* blackRook = new Piece(WHITE, ROOK);
-		Piece* blackKnight = new Piece(WHITE, KNIGHT);
-		Piece* blackBishop = new Piece(WHITE, BISHOP);
-		Piece* blackQueen = new Piece(WHITE, QUEEN);
-		Piece* blackKing = new Piece(WHITE, KING);
-		Piece* blackPawn = new Piece(WHITE, PAWN);
+		static Board* instancePtr;
+		Board(QGraphicsItem* parent = nullptr);
 
 	public:
-		Board(QGraphicsItem* parent = nullptr);
+		
+		static Board* getInstance();
 
 		Square*** getSquares();
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+
+		Board(const Board&) = delete;
+		Board(Board&&) = delete;
+		Board& operator=(const Board&) = delete;
+		Board& operator=(Board&&) = delete;
 	};
 }
 

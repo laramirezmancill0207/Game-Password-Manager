@@ -1,36 +1,38 @@
 #include "board.h"
+#include "gameLogic.h"
 
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>
 #include <QPainter>
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
+#include <QCursor>
+#include <QApplication>
+#include <QBitmap>
+#include <QCursor>
+#include <QDrag>
+#include <QGraphicsSceneMouseEvent>
+#include <QWidget>
 
 namespace chess
 {
-	baseChess::baseChess(QGraphicsItem* parent)
-		: QGraphicsObject(parent), color(Qt::lightGray)
-	{
-		setAcceptDrops(true);
-	}
-	//! [0]
+	Board* Board::instancePtr = NULL;
 
-	//! [1]
-	void baseChess::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
+	baseChess::baseChess(QGraphicsItem* parent)
+		: QGraphicsObject(parent)
+	{	
+	}
+
+	void Square::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 	{
-		if (event->mimeData()->hasColor()) {
-			event->setAccepted(true);
-			dragOver = true;
-			update();
-		}
-		else {
-			event->setAccepted(false);
-		}
+		event->setAccepted(true);
+		dragOver = true;
+		update();
 	}
 	//! [1]
 
 	//! [2]
-	void baseChess::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
+	void Square::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
 	{
 		Q_UNUSED(event);
 		dragOver = false;
@@ -39,28 +41,27 @@ namespace chess
 	//! [2]
 
 	//! [3]
-	void baseChess::dropEvent(QGraphicsSceneDragDropEvent* event)
+	void Square::dropEvent(QGraphicsSceneDragDropEvent* event)
 	{
 		dragOver = false;
-		if (event->mimeData()->hasColor())
-			color = qvariant_cast<QColor>(event->mimeData()->colorData());
+		
 		update();
 	}
 	//! [3]
 	
+
+	
 	Square::Square(QGraphicsItem* parent)
 		: baseChess(parent)
 	{
-		c = { -1, -1 };
-
-		piece = new Piece(NONE, EMPTY);
-
-		color = NONE;
+		setAcceptDrops(true);
+		Piece* p = new Piece(this);
+		this->setPiece(p);
 	}
 	
 	QRectF Square::boundingRect() const
 	{
-		return QRectF(-30, -20, 60, 60);
+		return QRectF(0, 0, 50, 50);
 	}
 
 	void Square::paint(QPainter* painter,
@@ -75,7 +76,7 @@ namespace chess
 			painter->setBrush(Qt::white);
 			break;
 		case (BLACK):
-			painter->setBrush(Qt::black);
+			painter->setBrush(Qt::blue);
 			break;
 		case (RED):
 			painter->setBrush(Qt::red);
@@ -86,6 +87,20 @@ namespace chess
 
 
 		painter->drawRect(0, 0, 50, 50);
+	}
+
+	Board* Board::getInstance()
+	{
+		if (instancePtr == NULL)
+		{
+			instancePtr = new Board();
+
+			return instancePtr;
+		}
+		else
+		{
+			return instancePtr;
+		}
 	}
 
 	QRectF Board::boundingRect() const
@@ -99,25 +114,6 @@ namespace chess
 		Q_UNUSED(painter);
 		Q_UNUSED(option);
 		Q_UNUSED(widget);
-	}
-
-	QRectF Piece::boundingRect() const
-	{
-		return QRectF(-30, -20, 60, 60);
-	}
-
-	void Piece::paint(QPainter* painter,
-		const QStyleOptionGraphicsItem* option, QWidget* widget)
-	{
-		Q_UNUSED(option);
-		Q_UNUSED(widget);
-
-		painter->setBrush(dragOver ? baseChess::color.lighter(130) : color);
-		painter->drawRoundedRect(-20, -20, 40, 60, 25, 25, Qt::RelativeSize);
-		painter->drawEllipse(-25, -20, 20, 20);
-		painter->drawEllipse(5, -20, 20, 20);
-		painter->drawEllipse(-20, 22, 20, 20);
-		painter->drawEllipse(0, 22, 20, 20);
 	}
 	
 	Board::Board(QGraphicsItem* parent)
@@ -134,46 +130,47 @@ namespace chess
 			for (int j = 0; j < 8; j++)
 			{
 				squares[i][j] = new Square(this);
+				squares[i][j]->setCoordinates(i, j);			
 			}
 		}
 
-
 		//place all pieces
-		squares[0][0]->setPiece(whiteRook);
-		squares[1][0]->setPiece(whiteKnight);
-		squares[2][0]->setPiece(whiteBishop);
-		squares[3][0]->setPiece(whiteQueen);
-		squares[4][0]->setPiece(whiteKing);
-		squares[5][0]->setPiece(whiteBishop);
-		squares[6][0]->setPiece(whiteKnight);
-		squares[7][0]->setPiece(whiteRook);
+		squares[0][0]->changePiece(WHITE, ROOK);
+		squares[1][0]->changePiece(WHITE, KNIGHT);
+		squares[2][0]->changePiece(WHITE, BISHOP);
+		squares[3][0]->changePiece(WHITE, QUEEN);
+		squares[4][0]->changePiece(WHITE, KING);
+		squares[5][0]->changePiece(WHITE, BISHOP);
+		squares[6][0]->changePiece(WHITE, KNIGHT);
+		squares[7][0]->changePiece(WHITE, ROOK);
 
-		squares[0][1]->setPiece(whitePawn);
-		squares[1][1]->setPiece(whitePawn);
-		squares[2][1]->setPiece(whitePawn);
-		squares[3][1]->setPiece(whitePawn);
-		squares[4][1]->setPiece(whitePawn);
-		squares[5][1]->setPiece(whitePawn);
-		squares[6][1]->setPiece(whitePawn);
-		squares[7][1]->setPiece(whitePawn);
+		squares[0][1]->changePiece(WHITE, PAWN);
+		squares[1][1]->changePiece(WHITE, PAWN);
+		squares[2][1]->changePiece(WHITE, PAWN);
+		squares[3][1]->changePiece(WHITE, PAWN);
+		squares[4][1]->changePiece(WHITE, PAWN);
+		squares[5][1]->changePiece(WHITE, PAWN);
+		squares[6][1]->changePiece(WHITE, PAWN);
+		squares[7][1]->changePiece(WHITE, PAWN);
 
-		squares[0][7]->setPiece(blackRook);
-		squares[1][7]->setPiece(blackKnight);
-		squares[2][7]->setPiece(blackBishop);
-		squares[3][7]->setPiece(blackQueen);
-		squares[4][7]->setPiece(blackKing);
-		squares[5][7]->setPiece(blackBishop);
-		squares[6][7]->setPiece(blackKnight);
-		squares[7][7]->setPiece(blackRook);
-		
-		squares[0][6]->setPiece(blackPawn);
-		squares[1][6]->setPiece(blackPawn);
-		squares[2][6]->setPiece(blackPawn);
-		squares[3][6]->setPiece(blackPawn);
-		squares[4][6]->setPiece(blackPawn);
-		squares[5][6]->setPiece(blackPawn);
-		squares[6][6]->setPiece(blackPawn);
-		squares[7][6]->setPiece(blackPawn);
+
+		squares[0][7]->changePiece(BLACK, ROOK);
+		squares[1][7]->changePiece(BLACK, KNIGHT);
+		squares[2][7]->changePiece(BLACK, BISHOP);
+		squares[3][7]->changePiece(BLACK, QUEEN);
+		squares[4][7]->changePiece(BLACK, KING);
+		squares[5][7]->changePiece(BLACK, BISHOP);
+		squares[6][7]->changePiece(BLACK, KNIGHT);
+		squares[7][7]->changePiece(BLACK, ROOK);
+
+		squares[0][6]->changePiece(BLACK, PAWN);
+		squares[1][6]->changePiece(BLACK, PAWN);
+		squares[2][6]->changePiece(BLACK, PAWN);
+		squares[3][6]->changePiece(BLACK, PAWN);
+		squares[4][6]->changePiece(BLACK, PAWN);
+		squares[5][6]->changePiece(BLACK, PAWN);
+		squares[6][6]->changePiece(BLACK, PAWN);
+		squares[7][6]->changePiece(BLACK, PAWN);
 
 
 		bool sw = true;
@@ -185,26 +182,151 @@ namespace chess
 
 				else { squares[j][i]->setColor(BLACK); }
 				sw = !sw;
+
+				//draw squares and pieces
+				QGraphicsObject* square = squares[i][j];
+				square->setPos(50 * i, 50 * j);
+
+				if (squares[i][j]->getPiece()->getType() == EMPTY) {
+					delete squares[i][j]->getPiece();
+					squares[i][j]->setPiece(NULL);
+				}
+
+				if (squares[i][j]->getPiece() != NULL) {
+					QGraphicsObject* piece = squares[i][j]->getPiece();
+					piece->setPos(0, 0);
+				}
 			}
 			sw = !sw;
 		}
 
-		for (int i = 0; i < 8; i++)
+	}
+
+	Piece::Piece(QGraphicsItem* parent, GameColor c, pieceType t)
+		: baseChess(parent)
+	{
+		color = c;
+		type = t;
+		setCursor(Qt::OpenHandCursor);
+		setAcceptedMouseButtons(Qt::LeftButton);
+	}
+	QRectF Piece::boundingRect() const
+	{
+		return QRectF(0, 0, 50, 50);
+	}
+
+	void Piece::paint(QPainter* painter,
+		const QStyleOptionGraphicsItem* option, QWidget* widget)
+	{
+		Q_UNUSED(option);
+		Q_UNUSED(widget);
+
+		QPixmap wp("icons/chess/Chess_plt60.png");
+		QPixmap wb("icons/chess/Chess_blt60.png");
+		QPixmap wkn("icons/chess/Chess_nlt60.png");
+		QPixmap wr("icons/chess/Chess_rlt60.png");
+		QPixmap wq("icons/chess/Chess_qlt60.png");
+		QPixmap wki("icons/chess/Chess_klt60.png");
+
+		QPixmap bp("icons/chess/Chess_pdt60.png");
+		QPixmap bb("icons/chess/Chess_bdt60.png");
+		QPixmap bkn("icons/chess/Chess_ndt60.png");
+		QPixmap br("icons/chess/Chess_rdt60.png");
+		QPixmap bq("icons/chess/Chess_qdt60.png");
+		QPixmap bki("icons/chess/Chess_kdt60.png");
+
+		if (this->getColor() == WHITE)
 		{
-			for (int j = 0; j < 8; j++)
+			switch (this->getType())
 			{
-				QGraphicsObject* square = squares[i][j];
-				square->setPos(50*i, 50*j);
+			case PAWN:
+				painter->drawPixmap(0, 0, 50, 50, wp);
+				break;
+			case BISHOP:
+				painter->drawPixmap(0, 0, 50, 50, wb);
+				break;
+			case KNIGHT:
+				painter->drawPixmap(0, 0, 50, 50, wkn);
+				break;
+			case ROOK:
+				painter->drawPixmap(0, 0, 50, 50, wr);
+				break;
+			case QUEEN:
+				painter->drawPixmap(0, 0, 50, 50, wq);
+				break;
+			case KING:
+				painter->drawPixmap(0, 0, 50, 50, wki);
+				break;
+			default:
+				break;
+			}
+		}
+
+		else if (this->getColor() == BLACK)
+		{
+			switch (this->getType())
+			{
+			case PAWN:
+				painter->drawPixmap(0, 0, 50, 50, bp);
+				break;
+			case BISHOP:
+				painter->drawPixmap(0, 0, 50, 50, bb);
+				break;
+			case KNIGHT:
+				painter->drawPixmap(0, 0, 50, 50, bkn);
+				break;
+			case ROOK:
+				painter->drawPixmap(0, 0, 50, 50, br);
+				break;
+			case QUEEN:
+				painter->drawPixmap(0, 0, 50, 50, bq);
+				break;
+			case KING:
+				painter->drawPixmap(0, 0, 50, 50, bki);
+				break;
+			default:
+				break;
 			}
 		}
 
 	}
 
+	void Piece::mousePressEvent(QGraphicsSceneMouseEvent*)
+	{
+		setCursor(Qt::ClosedHandCursor);
+		Square*** squares = Board::getInstance()->getSquares();
+
+
+		update();
+	}
+
+	void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent*)
+	{
+		setCursor(Qt::OpenHandCursor);
+	}
+
+	void Piece::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+	{
+		if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton))
+			.length() < QApplication::startDragDistance()) {
+			return;
+		}
+
+		QDrag* drag = new QDrag(event->widget());
+		QMimeData* mime = new QMimeData;
+		drag->setMimeData(mime);
+		drag->exec(Qt::MoveAction);
+		setCursor(Qt::OpenHandCursor);
+	}
 
 	coordinates Square::getCoordinates()
 	{
 		coordinates c = this->c;
 		return c;
+	}
+	void Square::setCoordinates(int x, int y)
+	{
+		this->c = { x, y };
 	}
 
 	Piece* Square::getPiece()
@@ -213,9 +335,15 @@ namespace chess
 		return p;
 	}
 
-	void Square::setPiece(Piece* piece)
+	void Square::setPiece(Piece* p)
 	{
-		this->piece = piece;
+		this->piece = p;
+	}
+
+	void Square::changePiece(GameColor c, pieceType t, QGraphicsItem* parent)
+	{
+		this->piece->setType(t);
+		this->piece->setColor(c);
 	}
 
 	void Square::setColor(GameColor color)
@@ -237,6 +365,15 @@ namespace chess
 		pieceType t = this->type;
 		return t;
 	}
+	void Piece::setColor(GameColor c)
+	{
+		this->color = c;
+	}
+	void Piece::setType(pieceType t)
+	{
+		this->type = t;
+	}
+
 
 	Square*** Board::getSquares()
 	{
