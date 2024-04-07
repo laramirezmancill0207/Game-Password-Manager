@@ -1,6 +1,7 @@
 #pragma once
 #include <QGraphicsItem>
 #include <QPixmap>
+#include <QGraphicsView>
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
@@ -29,6 +30,7 @@ namespace chess
 	private:
 		GameColor color;
 		pieceType type;
+		coordinates c;
 
 	protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
@@ -42,6 +44,9 @@ namespace chess
 		pieceType getType();
 		void setColor(GameColor c);
 		void setType(pieceType t);
+		void setCoordinates(int x, int y);
+		coordinates getCoordinates();
+
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
@@ -53,6 +58,7 @@ namespace chess
 		GameColor color;
 		Piece *piece;
 		coordinates c;
+
 	protected:
 		void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
 		void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) override;
@@ -83,10 +89,14 @@ namespace chess
 		Square*** squares;
 		static Board* instancePtr;
 		Board(QGraphicsItem* parent = nullptr);
+		QGraphicsView* view;
 
 	public:
 		
 		static Board* getInstance();
+
+		void setView(QGraphicsView* v);
+		QGraphicsView* getView();
 
 		Square*** getSquares();
 

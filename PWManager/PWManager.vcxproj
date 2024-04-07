@@ -119,7 +119,6 @@
     <ClCompile Include="accounts.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="gameLogic.cpp" />
-    <ClCompile Include="gameopengl.cpp" />
     <ClCompile Include="libraries\bcrypt\src\bcrypt.c" />
     <ClCompile Include="libraries\bcrypt\src\crypt_blowfish.c" />
     <ClCompile Include="libraries\bcrypt\src\crypt_gensalt.c" />
@@ -127,15 +126,16 @@
     <ClCompile Include="login.cpp" />
     <ClCompile Include="mainpasswordmenu.cpp" />
     <ClCompile Include="moves.cpp" />
+    <ClCompile Include="PasswordGenerator.cpp" />
     <ClCompile Include="PWManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameLogic.h" />
     <ClInclude Include="moves.h" />
+    <ClInclude Include="PasswordGenerator.h" />
     <QtMoc Include="aboutPage.h" />
     <ClInclude Include="accounts.h" />
-    <QtMoc Include="gameopengl.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="libraries\bcrypt\include\bcrypt\bcrypt.h" />
     <ClInclude Include="libraries\bcrypt\include\bcrypt\BCrypt.hpp" />

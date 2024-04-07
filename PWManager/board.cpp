@@ -14,6 +14,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QWidget>
 
+#include <string>
+
 namespace chess
 {
 	Board* Board::instancePtr = NULL;
@@ -29,25 +31,39 @@ namespace chess
 		dragOver = true;
 		update();
 	}
-	//! [1]
 
-	//! [2]
 	void Square::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
 	{
 		Q_UNUSED(event);
 		dragOver = false;
 		update();
 	}
-	//! [2]
 
-	//! [3]
 	void Square::dropEvent(QGraphicsSceneDragDropEvent* event)
 	{
 		dragOver = false;
 		
+		std::string s = event->mimeData()->text().toStdString();
+
+		int x = std::stoi(s.substr(0, s.find('\n')));
+		int y = std::stoi(s.substr(s.find('\n'), s.length()));
+
+		Board* b = Board::getInstance();
+
+		Square*** squares = b->getSquares();
+		
+		Square* square = squares[x][y];
+		Piece* p = square->getPiece();
+
+		square->setPiece(NULL);
+		this->setPiece(p);
+
+		p->setParentItem(this);
+
+		squares[x][y] = square;
+		squares[x][y]->update();
 		update();
 	}
-	//! [3]
 	
 
 	
@@ -55,8 +71,7 @@ namespace chess
 		: baseChess(parent)
 	{
 		setAcceptDrops(true);
-		Piece* p = new Piece(this);
-		this->setPiece(p);
+		this->setPiece(NULL);
 	}
 	
 	QRectF Square::boundingRect() const
@@ -125,7 +140,6 @@ namespace chess
 
 		for (int i = 0; i < 8; ++i) {
 			squares[i] = new Square * [8]();
-			// each i-th pointer is now pointing to dynamic array (size 10) of actual int values
 
 			for (int j = 0; j < 8; j++)
 			{
@@ -134,70 +148,113 @@ namespace chess
 			}
 		}
 
-		//place all pieces
-		squares[0][0]->changePiece(WHITE, ROOK);
-		squares[1][0]->changePiece(WHITE, KNIGHT);
-		squares[2][0]->changePiece(WHITE, BISHOP);
-		squares[3][0]->changePiece(WHITE, QUEEN);
-		squares[4][0]->changePiece(WHITE, KING);
-		squares[5][0]->changePiece(WHITE, BISHOP);
-		squares[6][0]->changePiece(WHITE, KNIGHT);
-		squares[7][0]->changePiece(WHITE, ROOK);
+		//create all pieces
+		Piece* whiteRook1 = new Piece(squares[0][0], WHITE, ROOK);
+		whiteRook1->setCoordinates(0, 0);
 
-		squares[0][1]->changePiece(WHITE, PAWN);
-		squares[1][1]->changePiece(WHITE, PAWN);
-		squares[2][1]->changePiece(WHITE, PAWN);
-		squares[3][1]->changePiece(WHITE, PAWN);
-		squares[4][1]->changePiece(WHITE, PAWN);
-		squares[5][1]->changePiece(WHITE, PAWN);
-		squares[6][1]->changePiece(WHITE, PAWN);
-		squares[7][1]->changePiece(WHITE, PAWN);
+		Piece* whiteRook2 = new Piece(squares[7][0], WHITE, ROOK);
+		whiteRook2->setCoordinates(7, 0);
+
+		Piece* whiteKnight1 = new Piece(squares[1][0], WHITE, KNIGHT);
+		whiteKnight1->setCoordinates(1, 0);
+
+		Piece* whiteKnight2 = new Piece(squares[6][0], WHITE, KNIGHT);
+		whiteKnight2->setCoordinates(6, 0);
+
+		Piece* whiteBishop1 = new Piece(squares[2][0], WHITE, BISHOP);
+		whiteBishop1->setCoordinates(2, 0);
+
+		Piece* whiteBishop2 = new Piece(squares[5][0], WHITE, BISHOP);
+		whiteBishop2->setCoordinates(5, 0);
+
+		Piece* whiteQueen = new Piece(squares[3][0], WHITE, QUEEN);
+		whiteQueen->setCoordinates(3, 0);
+
+		Piece* whiteKing = new Piece(squares[4][0], WHITE, KING);
+		whiteKing->setCoordinates(4, 0);
+
+		squares[0][0]->setPiece(whiteRook1);
+		squares[1][0]->setPiece(whiteKnight1);
+		squares[2][0]->setPiece(whiteBishop1);
+		squares[3][0]->setPiece(whiteQueen);
+		squares[4][0]->setPiece(whiteKing);
+		squares[5][0]->setPiece(whiteBishop2);
+		squares[6][0]->setPiece(whiteKnight2);
+		squares[7][0]->setPiece(whiteRook2);
+
+		//create white pawns
+		for (int i = 0; i < 8; i++)
+		{
+			Piece* p = new Piece(squares[i][1], WHITE, PAWN);
+			p->setCoordinates(i, 1);
+			squares[i][1]->setPiece(p);
+		}
+
+		//create all pieces
+		Piece* blackRook1 = new Piece(squares[0][7], BLACK, ROOK);
+		blackRook1->setCoordinates(0, 7);
+
+		Piece* blackRook2 = new Piece(squares[7][7], BLACK, ROOK);
+		blackRook2->setCoordinates(7, 7);
+
+		Piece* blackKnight1 = new Piece(squares[1][7], BLACK, KNIGHT);
+		blackKnight1->setCoordinates(1, 7);
+
+		Piece* blackKnight2 = new Piece(squares[6][7], BLACK, KNIGHT);
+		blackKnight2->setCoordinates(6, 7);
+
+		Piece* blackBishop1 = new Piece(squares[2][7], BLACK, BISHOP);
+		blackBishop1->setCoordinates(2, 7);
+
+		Piece* blackBishop2 = new Piece(squares[5][7], BLACK, BISHOP);
+		blackBishop2->setCoordinates(5, 7);
+
+		Piece* blackQueen = new Piece(squares[3][7], BLACK, QUEEN);
+		blackQueen->setCoordinates(3, 7);
+
+		Piece* blackKing = new Piece(squares[4][7], BLACK, KING);
+		blackKing->setCoordinates(4, 7);
+
+		squares[0][0]->setPiece(blackRook1);
+		squares[1][0]->setPiece(blackKnight1);
+		squares[2][0]->setPiece(blackBishop1);
+		squares[3][0]->setPiece(blackQueen);
+		squares[4][0]->setPiece(blackKing);
+		squares[5][0]->setPiece(blackBishop2);
+		squares[6][0]->setPiece(blackKnight2);
+		squares[7][0]->setPiece(blackRook2);
+
+		//create white pawns
+		for (int i = 0; i < 8; i++)
+		{
+			Piece* p = new Piece(squares[i][6], BLACK, PAWN);
+			p->setCoordinates(i, 6);
+			squares[i][1]->setPiece(p);
+		}
 
 
-		squares[0][7]->changePiece(BLACK, ROOK);
-		squares[1][7]->changePiece(BLACK, KNIGHT);
-		squares[2][7]->changePiece(BLACK, BISHOP);
-		squares[3][7]->changePiece(BLACK, QUEEN);
-		squares[4][7]->changePiece(BLACK, KING);
-		squares[5][7]->changePiece(BLACK, BISHOP);
-		squares[6][7]->changePiece(BLACK, KNIGHT);
-		squares[7][7]->changePiece(BLACK, ROOK);
-
-		squares[0][6]->changePiece(BLACK, PAWN);
-		squares[1][6]->changePiece(BLACK, PAWN);
-		squares[2][6]->changePiece(BLACK, PAWN);
-		squares[3][6]->changePiece(BLACK, PAWN);
-		squares[4][6]->changePiece(BLACK, PAWN);
-		squares[5][6]->changePiece(BLACK, PAWN);
-		squares[6][6]->changePiece(BLACK, PAWN);
-		squares[7][6]->changePiece(BLACK, PAWN);
-
-
-		bool sw = true;
 		for (int i = 0; i < 8; i++)
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (sw) { squares[j][i]->setColor(WHITE); }
-
-				else { squares[j][i]->setColor(BLACK); }
-				sw = !sw;
+				if ((i + j) % 2 == 0)
+				{
+					squares[i][j]->setColor(BLACK);
+				}
+				else
+				{
+					squares[i][j]->setColor(WHITE);
+				}
 
 				//draw squares and pieces
 				QGraphicsObject* square = squares[i][j];
 				square->setPos(50 * i, 50 * j);
-
-				if (squares[i][j]->getPiece()->getType() == EMPTY) {
-					delete squares[i][j]->getPiece();
-					squares[i][j]->setPiece(NULL);
-				}
 
 				if (squares[i][j]->getPiece() != NULL) {
 					QGraphicsObject* piece = squares[i][j]->getPiece();
 					piece->setPos(0, 0);
 				}
 			}
-			sw = !sw;
 		}
 
 	}
@@ -294,10 +351,37 @@ namespace chess
 	void Piece::mousePressEvent(QGraphicsSceneMouseEvent*)
 	{
 		setCursor(Qt::ClosedHandCursor);
-		Square*** squares = Board::getInstance()->getSquares();
 
+		Board* b = Board::getInstance();
+		Square*** squares = b->getSquares();
 
-		update();
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (squares[i][j]->getColor() != RED)
+				{
+					continue;					
+				}
+
+				if ((i + j) % 2 == 0) 
+				{
+					squares[i][j]->setColor(BLACK);
+				}
+				else
+				{
+					squares[i][j]->setColor(WHITE);
+				}
+				squares[i][j]->update();
+			}
+		}
+
+		coordinates c;
+		c = this->getCoordinates();
+		squares[c.x][c.y]->setColor(RED);
+		squares[c.x][c.y]->setPiece(this);
+
+		squares[c.x][c.y]->update();
 	}
 
 	void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent*)
@@ -314,7 +398,10 @@ namespace chess
 
 		QDrag* drag = new QDrag(event->widget());
 		QMimeData* mime = new QMimeData;
+		QString s = QString::number(c.x) + "\n" + QString::number(c.y);
 		drag->setMimeData(mime);
+
+		mime->setText(s);
 		drag->exec(Qt::MoveAction);
 		setCursor(Qt::OpenHandCursor);
 	}
@@ -331,13 +418,13 @@ namespace chess
 
 	Piece* Square::getPiece()
 	{
-		Piece* p = this->piece;
+		Piece* p = piece;
 		return p;
 	}
 
 	void Square::setPiece(Piece* p)
 	{
-		this->piece = p;
+		piece = p;
 	}
 
 	void Square::changePiece(GameColor c, pieceType t, QGraphicsItem* parent)
@@ -374,10 +461,30 @@ namespace chess
 		this->type = t;
 	}
 
+	coordinates Piece::getCoordinates()
+	{
+		coordinates c = this->c;
+		return c;
+	}
+	void Piece::setCoordinates(int x, int y)
+	{
+		this->c = { x, y };
+	}
+
 
 	Square*** Board::getSquares()
 	{
 		return this->squares;
+	}
+
+	void Board::setView(QGraphicsView* v)
+	{
+		view = v;
+	}
+
+	QGraphicsView* Board::getView()
+	{
+		return this->view;
 	}
 
 }

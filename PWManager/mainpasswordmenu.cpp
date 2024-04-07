@@ -51,9 +51,8 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	QGraphicsScene* scene = new QGraphicsScene(this);
 	
 	chess::Board* b = chess::Board::getInstance();
-
+	b->setView(graphicsView);
 	scene->addItem(b);
-
 	this->graphicsView->setScene(scene);
 
 }

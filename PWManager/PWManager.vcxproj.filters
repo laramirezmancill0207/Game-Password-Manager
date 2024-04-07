@@ -64,9 +64,6 @@
     <ClCompile Include="aboutPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameopengl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,6 +71,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="moves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PasswordGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -114,15 +114,15 @@
     <ClInclude Include="moves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PasswordGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainpasswordmenu.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="aboutPage.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="gameopengl.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
