@@ -51,8 +51,13 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	QGraphicsScene* scene = new QGraphicsScene(this);
 	
 	chess::Board* b = chess::Board::getInstance();
-	b->setView(graphicsView);
+
 	scene->addItem(b);
+	//graphicsView->setBackgroundBrush(Qt::yellow);
+
+	QPixmap pim("images/background.png");
+	scene->setBackgroundBrush(pim.scaled(scene->width(), scene->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
 	this->graphicsView->setScene(scene);
 
 }

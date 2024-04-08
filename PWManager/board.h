@@ -31,6 +31,8 @@ namespace chess
 		GameColor color;
 		pieceType type;
 		coordinates c;
+		bool moved;
+
 
 	protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
@@ -47,6 +49,8 @@ namespace chess
 		void setCoordinates(int x, int y);
 		coordinates getCoordinates();
 
+		bool checkIfMoved();
+		void setMoved();
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
@@ -74,7 +78,7 @@ namespace chess
 		Piece* getPiece();
 		void setPiece(Piece* p);
 		void changePiece(GameColor c = NONE, pieceType t = EMPTY, QGraphicsItem* parent = nullptr);
-		void setColor(GameColor color);
+		void setColor(GameColor col);
 		GameColor getColor();
 
 		QRectF boundingRect() const override;
@@ -88,15 +92,17 @@ namespace chess
 	private:
 		Square*** squares;
 		static Board* instancePtr;
+		GameColor turn;
+
 		Board(QGraphicsItem* parent = nullptr);
-		QGraphicsView* view;
+		
 
 	public:
 		
 		static Board* getInstance();
-
-		void setView(QGraphicsView* v);
-		QGraphicsView* getView();
+		
+		GameColor getTurn();
+		void switchTurn();
 
 		Square*** getSquares();
 
@@ -136,7 +142,6 @@ namespace checkers
 		coordinates getCoordinates();
 		Piece getPiece();
 		void setPiece(Piece piece);
-
 	};
 
 	class Board

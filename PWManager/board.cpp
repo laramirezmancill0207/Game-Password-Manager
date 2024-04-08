@@ -1,5 +1,6 @@
 #include "board.h"
-#include "gameLogic.h"
+#include "moves.h"
+#include "gameHelper.h"
 
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>
@@ -15,6 +16,7 @@
 #include <QWidget>
 
 #include <string>
+#include <map>
 
 namespace chess
 {
@@ -42,30 +44,47 @@ namespace chess
 	void Square::dropEvent(QGraphicsSceneDragDropEvent* event)
 	{
 		dragOver = false;
-		
-		std::string s = event->mimeData()->text().toStdString();
 
+		// get mime data and convert to x y coordinates
+		std::string s = event->mimeData()->text().toStdString();
 		int x = std::stoi(s.substr(0, s.find('\n')));
 		int y = std::stoi(s.substr(s.find('\n'), s.length()));
 
+		//get original square and piece from mime data coordinates
 		Board* b = Board::getInstance();
-
 		Square*** squares = b->getSquares();
-		
 		Square* square = squares[x][y];
 		Piece* p = square->getPiece();
 
-		square->setPiece(NULL);
-		this->setPiece(p);
+		//if not colors turn, dont allow move
+		if (p->getColor() != b->getTurn())
+		{
+			return;
+		}
 
-		p->setParentItem(this);
+		//if from and to square arent same. Also use isValidMove to check if allowable chess move
+		if (square != this && isValidMove(square, this, squares)) {
+			
+			//highlight square red to indicate movement
+			this->setColor(RED);
+			(x + y) % 2 == 0 ? square->setColor(BLACK) : square->setColor(WHITE);
 
-		squares[x][y] = square;
-		squares[x][y]->update();
-		update();
+			//move piece and set new coordinates
+			coordinates c = this->getCoordinates();
+			p->setCoordinates(c.x, c.y);
+			square->setPiece(NULL);
+			this->setPiece(p);
+
+			//graphicsscene move piece by setting parent and updating
+			p->setParentItem(this);
+			square->update();
+			update();
+
+			//specific piece is no longer on first turn. also switch board turn
+			p->setMoved();
+			b->switchTurn();
+		}
 	}
-	
-
 	
 	Square::Square(QGraphicsItem* parent)
 		: baseChess(parent)
@@ -99,7 +118,6 @@ namespace chess
 		default:
 			painter->setBrush(Qt::white);
 		}
-
 
 		painter->drawRect(0, 0, 50, 50);
 	}
@@ -135,6 +153,7 @@ namespace chess
 		: baseChess(parent)
 	{
 		setFlag(ItemHasNoContents);
+		turn = WHITE;
 
 		squares = new Square ** [8]();
 
@@ -149,71 +168,71 @@ namespace chess
 		}
 
 		//create all pieces
-		Piece* whiteRook1 = new Piece(squares[0][0], WHITE, ROOK);
-		whiteRook1->setCoordinates(0, 0);
+		Piece* whiteRook1 = new Piece(squares[0][7], WHITE, ROOK);
+		whiteRook1->setCoordinates(0, 7);
 
-		Piece* whiteRook2 = new Piece(squares[7][0], WHITE, ROOK);
-		whiteRook2->setCoordinates(7, 0);
+		Piece* whiteRook2 = new Piece(squares[7][7], WHITE, ROOK);
+		whiteRook2->setCoordinates(7, 7);
 
-		Piece* whiteKnight1 = new Piece(squares[1][0], WHITE, KNIGHT);
-		whiteKnight1->setCoordinates(1, 0);
+		Piece* whiteKnight1 = new Piece(squares[1][7], WHITE, KNIGHT);
+		whiteKnight1->setCoordinates(1, 7);
 
-		Piece* whiteKnight2 = new Piece(squares[6][0], WHITE, KNIGHT);
-		whiteKnight2->setCoordinates(6, 0);
+		Piece* whiteKnight2 = new Piece(squares[6][7], WHITE, KNIGHT);
+		whiteKnight2->setCoordinates(6, 7);
 
-		Piece* whiteBishop1 = new Piece(squares[2][0], WHITE, BISHOP);
-		whiteBishop1->setCoordinates(2, 0);
+		Piece* whiteBishop1 = new Piece(squares[2][7], WHITE, BISHOP);
+		whiteBishop1->setCoordinates(2, 7);
 
-		Piece* whiteBishop2 = new Piece(squares[5][0], WHITE, BISHOP);
-		whiteBishop2->setCoordinates(5, 0);
+		Piece* whiteBishop2 = new Piece(squares[5][7], WHITE, BISHOP);
+		whiteBishop2->setCoordinates(5, 7);
 
-		Piece* whiteQueen = new Piece(squares[3][0], WHITE, QUEEN);
-		whiteQueen->setCoordinates(3, 0);
+		Piece* whiteQueen = new Piece(squares[3][7], WHITE, QUEEN);
+		whiteQueen->setCoordinates(3, 7);
 
-		Piece* whiteKing = new Piece(squares[4][0], WHITE, KING);
-		whiteKing->setCoordinates(4, 0);
+		Piece* whiteKing = new Piece(squares[4][7], WHITE, KING);
+		whiteKing->setCoordinates(4, 7);
 
-		squares[0][0]->setPiece(whiteRook1);
-		squares[1][0]->setPiece(whiteKnight1);
-		squares[2][0]->setPiece(whiteBishop1);
-		squares[3][0]->setPiece(whiteQueen);
-		squares[4][0]->setPiece(whiteKing);
-		squares[5][0]->setPiece(whiteBishop2);
-		squares[6][0]->setPiece(whiteKnight2);
-		squares[7][0]->setPiece(whiteRook2);
+		squares[0][7]->setPiece(whiteRook1);
+		squares[1][7]->setPiece(whiteKnight1);
+		squares[2][7]->setPiece(whiteBishop1);
+		squares[3][7]->setPiece(whiteQueen);
+		squares[4][7]->setPiece(whiteKing);
+		squares[5][7]->setPiece(whiteBishop2);
+		squares[6][7]->setPiece(whiteKnight2);
+		squares[7][7]->setPiece(whiteRook2);
 
 		//create white pawns
 		for (int i = 0; i < 8; i++)
 		{
-			Piece* p = new Piece(squares[i][1], WHITE, PAWN);
-			p->setCoordinates(i, 1);
-			squares[i][1]->setPiece(p);
+			Piece* p = new Piece(squares[i][6], WHITE, PAWN);
+			p->setCoordinates(i, 6);
+			squares[i][6]->setPiece(p);
 		}
 
 		//create all pieces
-		Piece* blackRook1 = new Piece(squares[0][7], BLACK, ROOK);
-		blackRook1->setCoordinates(0, 7);
+		Piece* blackRook1 = new Piece(squares[0][0], BLACK, ROOK);
+		blackRook1->setCoordinates(0, 0);
 
-		Piece* blackRook2 = new Piece(squares[7][7], BLACK, ROOK);
-		blackRook2->setCoordinates(7, 7);
+		Piece* blackRook2 = new Piece(squares[7][0], BLACK, ROOK);
+		blackRook2->setCoordinates(7, 0);
 
-		Piece* blackKnight1 = new Piece(squares[1][7], BLACK, KNIGHT);
-		blackKnight1->setCoordinates(1, 7);
+		Piece* blackKnight1 = new Piece(squares[1][0], BLACK, KNIGHT);
+		blackKnight1->setCoordinates(1, 0);
 
-		Piece* blackKnight2 = new Piece(squares[6][7], BLACK, KNIGHT);
-		blackKnight2->setCoordinates(6, 7);
+		Piece* blackKnight2 = new Piece(squares[6][0], BLACK, KNIGHT);
+		blackKnight2->setCoordinates(6, 0);
 
-		Piece* blackBishop1 = new Piece(squares[2][7], BLACK, BISHOP);
-		blackBishop1->setCoordinates(2, 7);
+		Piece* blackBishop1 = new Piece(squares[2][0], BLACK, BISHOP);
+		blackBishop1->setCoordinates(2, 0);
 
-		Piece* blackBishop2 = new Piece(squares[5][7], BLACK, BISHOP);
-		blackBishop2->setCoordinates(5, 7);
+		Piece* blackBishop2 = new Piece(squares[5][0], BLACK, BISHOP);
+		blackBishop2->setCoordinates(5, 0);
 
-		Piece* blackQueen = new Piece(squares[3][7], BLACK, QUEEN);
-		blackQueen->setCoordinates(3, 7);
+		Piece* blackQueen = new Piece(squares[3][0], BLACK, QUEEN);
+		blackQueen->setCoordinates(3, 0);
 
-		Piece* blackKing = new Piece(squares[4][7], BLACK, KING);
-		blackKing->setCoordinates(4, 7);
+		Piece* blackKing = new Piece(squares[4][0], BLACK, KING);
+		blackKing->setCoordinates(4, 0);
 
 		squares[0][0]->setPiece(blackRook1);
 		squares[1][0]->setPiece(blackKnight1);
@@ -224,11 +243,11 @@ namespace chess
 		squares[6][0]->setPiece(blackKnight2);
 		squares[7][0]->setPiece(blackRook2);
 
-		//create white pawns
+		//create black pawns
 		for (int i = 0; i < 8; i++)
 		{
-			Piece* p = new Piece(squares[i][6], BLACK, PAWN);
-			p->setCoordinates(i, 6);
+			Piece* p = new Piece(squares[i][1], BLACK, PAWN);
+			p->setCoordinates(i, 1);
 			squares[i][1]->setPiece(p);
 		}
 
@@ -237,14 +256,7 @@ namespace chess
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if ((i + j) % 2 == 0)
-				{
-					squares[i][j]->setColor(BLACK);
-				}
-				else
-				{
-					squares[i][j]->setColor(WHITE);
-				}
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(BLACK) : squares[i][j]->setColor(WHITE);
 
 				//draw squares and pieces
 				QGraphicsObject* square = squares[i][j];
@@ -256,7 +268,6 @@ namespace chess
 				}
 			}
 		}
-
 	}
 
 	Piece::Piece(QGraphicsItem* parent, GameColor c, pieceType t)
@@ -264,9 +275,11 @@ namespace chess
 	{
 		color = c;
 		type = t;
+		moved = false;
 		setCursor(Qt::OpenHandCursor);
 		setAcceptedMouseButtons(Qt::LeftButton);
 	}
+
 	QRectF Piece::boundingRect() const
 	{
 		return QRectF(0, 0, 50, 50);
@@ -278,74 +291,9 @@ namespace chess
 		Q_UNUSED(option);
 		Q_UNUSED(widget);
 
-		QPixmap wp("icons/chess/Chess_plt60.png");
-		QPixmap wb("icons/chess/Chess_blt60.png");
-		QPixmap wkn("icons/chess/Chess_nlt60.png");
-		QPixmap wr("icons/chess/Chess_rlt60.png");
-		QPixmap wq("icons/chess/Chess_qlt60.png");
-		QPixmap wki("icons/chess/Chess_klt60.png");
+		std::map<GameColor, std::map<pieceType, QPixmap>> pieceImageMap = getPieceImageMap();
 
-		QPixmap bp("icons/chess/Chess_pdt60.png");
-		QPixmap bb("icons/chess/Chess_bdt60.png");
-		QPixmap bkn("icons/chess/Chess_ndt60.png");
-		QPixmap br("icons/chess/Chess_rdt60.png");
-		QPixmap bq("icons/chess/Chess_qdt60.png");
-		QPixmap bki("icons/chess/Chess_kdt60.png");
-
-		if (this->getColor() == WHITE)
-		{
-			switch (this->getType())
-			{
-			case PAWN:
-				painter->drawPixmap(0, 0, 50, 50, wp);
-				break;
-			case BISHOP:
-				painter->drawPixmap(0, 0, 50, 50, wb);
-				break;
-			case KNIGHT:
-				painter->drawPixmap(0, 0, 50, 50, wkn);
-				break;
-			case ROOK:
-				painter->drawPixmap(0, 0, 50, 50, wr);
-				break;
-			case QUEEN:
-				painter->drawPixmap(0, 0, 50, 50, wq);
-				break;
-			case KING:
-				painter->drawPixmap(0, 0, 50, 50, wki);
-				break;
-			default:
-				break;
-			}
-		}
-
-		else if (this->getColor() == BLACK)
-		{
-			switch (this->getType())
-			{
-			case PAWN:
-				painter->drawPixmap(0, 0, 50, 50, bp);
-				break;
-			case BISHOP:
-				painter->drawPixmap(0, 0, 50, 50, bb);
-				break;
-			case KNIGHT:
-				painter->drawPixmap(0, 0, 50, 50, bkn);
-				break;
-			case ROOK:
-				painter->drawPixmap(0, 0, 50, 50, br);
-				break;
-			case QUEEN:
-				painter->drawPixmap(0, 0, 50, 50, bq);
-				break;
-			case KING:
-				painter->drawPixmap(0, 0, 50, 50, bki);
-				break;
-			default:
-				break;
-			}
-		}
-
+		painter->drawPixmap(0, 0, 50, 50, pieceImageMap[this->getColor()][this->getType()]);
 	}
 
 	void Piece::mousePressEvent(QGraphicsSceneMouseEvent*)
@@ -364,14 +312,7 @@ namespace chess
 					continue;					
 				}
 
-				if ((i + j) % 2 == 0) 
-				{
-					squares[i][j]->setColor(BLACK);
-				}
-				else
-				{
-					squares[i][j]->setColor(WHITE);
-				}
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(BLACK) : squares[i][j]->setColor(WHITE);
 				squares[i][j]->update();
 			}
 		}
@@ -379,8 +320,6 @@ namespace chess
 		coordinates c;
 		c = this->getCoordinates();
 		squares[c.x][c.y]->setColor(RED);
-		squares[c.x][c.y]->setPiece(this);
-
 		squares[c.x][c.y]->update();
 	}
 
@@ -408,12 +347,13 @@ namespace chess
 
 	coordinates Square::getCoordinates()
 	{
-		coordinates c = this->c;
-		return c;
+		coordinates coord = c;
+		return coord;
 	}
+
 	void Square::setCoordinates(int x, int y)
 	{
-		this->c = { x, y };
+		c = { x, y };
 	}
 
 	Piece* Square::getPiece()
@@ -429,64 +369,75 @@ namespace chess
 
 	void Square::changePiece(GameColor c, pieceType t, QGraphicsItem* parent)
 	{
-		this->piece->setType(t);
-		this->piece->setColor(c);
+		piece->setType(t);
+		piece->setColor(c);
 	}
 
-	void Square::setColor(GameColor color)
+	void Square::setColor(GameColor col)
 	{
-		this->color = color;
+		color = col;
 	}
 
 	GameColor Square::getColor()
 	{
-		GameColor c = this->color;
+		GameColor c = color;
 		return c;
 	}
 
 	GameColor Piece::getColor() {
-		GameColor c = this->color;
+		GameColor c = color;
 		return c;
 	}
+
 	pieceType Piece::getType() {
-		pieceType t = this->type;
+		pieceType t = type;
 		return t;
 	}
+
 	void Piece::setColor(GameColor c)
 	{
-		this->color = c;
+		color = c;
 	}
+
 	void Piece::setType(pieceType t)
 	{
-		this->type = t;
+		type = t;
 	}
 
 	coordinates Piece::getCoordinates()
 	{
-		coordinates c = this->c;
-		return c;
-	}
-	void Piece::setCoordinates(int x, int y)
-	{
-		this->c = { x, y };
+		coordinates coord = c;
+		return coord;
 	}
 
+	void Piece::setCoordinates(int x, int y)
+	{
+		c = { x, y };
+	}
+
+	bool Piece::checkIfMoved()
+	{
+		return moved;
+	}
+
+	void Piece::setMoved()
+	{
+		moved = true;
+	}
 
 	Square*** Board::getSquares()
 	{
-		return this->squares;
+		return squares;
 	}
 
-	void Board::setView(QGraphicsView* v)
+	GameColor Board::getTurn()
 	{
-		view = v;
+		return turn;
 	}
-
-	QGraphicsView* Board::getView()
+	void Board::switchTurn()
 	{
-		return this->view;
+		(turn == WHITE) ? turn = BLACK : turn = WHITE;
 	}
-
 }
 
 namespace checkers

@@ -67,7 +67,7 @@
     <ClCompile Include="board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameLogic.cpp">
+    <ClCompile Include="gameHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="moves.cpp">
@@ -108,7 +108,7 @@
     <ClInclude Include="board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gameLogic.h">
+    <ClInclude Include="gameHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="moves.h">
