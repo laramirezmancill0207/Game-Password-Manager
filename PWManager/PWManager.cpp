@@ -1,9 +1,12 @@
 #include "PWManager.h"
 #include "login.h"
-#include <string>
 #include "mainpasswordmenu.h"
+#include "board.h"
 
+#include <string>
+#include <QGraphicsScene>
 
+chess::Board* chess::Board::instancePtr = NULL;
 
 PWManager::PWManager(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +20,17 @@ PWManager::PWManager(QWidget *parent)
     //lambda function to connect eye action buttons to visible function
     QObject::connect(vaction, &QAction::triggered, this, [vaction, this] { visible(ui.password); });
     QObject::connect(vsaction, &QAction::triggered, this, [vsaction, this] { visible(ui.spassword); });
+
+    QGraphicsScene* scene = new QGraphicsScene(this);
+
+    chess::Board* b = chess::Board::getInstance();
+    scene->addItem(b);
+
+    ui.view->setScene(scene);
+
+    ui.view2->setScene(scene);
+
+    QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this] { ui.password->setText("hi"); ui.spassword->setText("hi"); });
 }
 
 //set passwordfield be visible and change icon. used for both sign up and login page
@@ -67,6 +81,11 @@ void PWManager::on_login_clicked()
         return;
     }
 
+    chess::Board* b = chess::Board::getInstance();
+    b->resetBoard();
+
+    this->close();
+
     //create new window for main password manager if login successful
     window = new mainpasswordmenu();
 
@@ -77,7 +96,8 @@ void PWManager::on_login_clicked()
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
 
-    this->close();
+
+    
 }
 
 //sign up page when sign up button clicked
@@ -110,6 +130,9 @@ void PWManager::on_signup_clicked()
 //toolbar action to switch to sign up page
 void PWManager::on_actionSignUp_triggered()
 {
+    chess::Board* b = chess::Board::getInstance();
+    b->resetBoard();
+
     ui.stackedWidget->setCurrentIndex(0);
     ui.loginMessage->setText("");
 }
@@ -117,6 +140,9 @@ void PWManager::on_actionSignUp_triggered()
 //toolbar action to switch to login page
 void PWManager::on_actionLogIn_triggered()
 {
+    chess::Board* b = chess::Board::getInstance();
+    b->resetBoard();
+
     ui.stackedWidget->setCurrentIndex(1);
     ui.loginMessage->setText("");
 }

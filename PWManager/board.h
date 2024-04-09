@@ -72,6 +72,7 @@ namespace chess
 		bool dragOver = false;
 	public:
 		Square(QGraphicsItem *parent = nullptr);
+		~Square();
 
 		coordinates getCoordinates();
 		void setCoordinates(int x, int y);
@@ -98,9 +99,12 @@ namespace chess
 		
 
 	public:
-		
+		~Board();
+
 		static Board* getInstance();
-		
+
+		void resetBoard();
+		void setupBoard();
 		GameColor getTurn();
 		void switchTurn();
 

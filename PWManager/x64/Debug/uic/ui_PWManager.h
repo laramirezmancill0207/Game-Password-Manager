@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -34,13 +35,10 @@ public:
     QAction *actionpwvisible;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QLabel *loginMessage;
-    QSpacerItem *verticalSpacer;
-    QSpacerItem *horizontalSpacer_2;
     QStackedWidget *stackedWidget;
     QWidget *Page1;
     QHBoxLayout *horizontalLayout_2;
-    QLabel *label_4;
+    QGraphicsView *view2;
     QGridLayout *gridLayout_3;
     QLineEdit *spassword;
     QLabel *label;
@@ -49,15 +47,18 @@ public:
     QPushButton *signup;
     QWidget *Page0;
     QHBoxLayout *horizontalLayout;
-    QLabel *label_3;
+    QGraphicsView *view;
     QGridLayout *gridLayout_5;
     QLineEdit *password;
     QLineEdit *username;
     QLabel *usernameLabel;
     QLabel *passwordLabel;
     QPushButton *login;
+    QSpacerItem *verticalSpacer;
     QLabel *title;
     QSpacerItem *horizontalSpacer;
+    QLabel *loginMessage;
+    QSpacerItem *horizontalSpacer_2;
     QSpacerItem *verticalSpacer_2;
     QStatusBar *statusBar;
     QToolBar *toolBar;
@@ -66,7 +67,7 @@ public:
     {
         if (PWManagerClass->objectName().isEmpty())
             PWManagerClass->setObjectName("PWManagerClass");
-        PWManagerClass->resize(805, 704);
+        PWManagerClass->resize(863, 704);
         QFont font;
         font.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
         font.setPointSize(12);
@@ -107,6 +108,10 @@ public:
 "QLabel\n"
 "{\n"
 "	color: #FFF\n"
+"}\n"
+"\n"
+"QGraphicsView{\n"
+"	border: none;\n"
 "}"));
         actionSignUp = new QAction(PWManagerClass);
         actionSignUp->setObjectName("actionSignUp");
@@ -134,35 +139,6 @@ public:
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName("gridLayout");
         gridLayout->setContentsMargins(9, -1, -1, -1);
-        loginMessage = new QLabel(centralWidget);
-        loginMessage->setObjectName("loginMessage");
-        QSizePolicy sizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(loginMessage->sizePolicy().hasHeightForWidth());
-        loginMessage->setSizePolicy(sizePolicy);
-        loginMessage->setMinimumSize(QSize(250, 60));
-        loginMessage->setMaximumSize(QSize(250, 60));
-        loginMessage->setBaseSize(QSize(0, 0));
-        QFont font2;
-        font2.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font2.setPointSize(10);
-        loginMessage->setFont(font2);
-        loginMessage->setStyleSheet(QString::fromUtf8("QLabel { color : red; }"));
-        loginMessage->setFrameShape(QFrame::NoFrame);
-        loginMessage->setAlignment(Qt::AlignCenter);
-        loginMessage->setWordWrap(true);
-
-        gridLayout->addWidget(loginMessage, 2, 1, 1, 1, Qt::AlignHCenter);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        gridLayout->addItem(verticalSpacer, 4, 1, 1, 1);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
-
-        gridLayout->addItem(horizontalSpacer_2, 3, 2, 1, 1);
-
         stackedWidget = new QStackedWidget(centralWidget);
         stackedWidget->setObjectName("stackedWidget");
         stackedWidget->setMinimumSize(QSize(700, 500));
@@ -172,10 +148,16 @@ public:
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName("horizontalLayout_2");
-        label_4 = new QLabel(Page1);
-        label_4->setObjectName("label_4");
+        view2 = new QGraphicsView(Page1);
+        view2->setObjectName("view2");
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(view2->sizePolicy().hasHeightForWidth());
+        view2->setSizePolicy(sizePolicy);
+        view2->setMinimumSize(QSize(480, 480));
 
-        horizontalLayout_2->addWidget(label_4);
+        horizontalLayout_2->addWidget(view2);
 
         gridLayout_3 = new QGridLayout();
         gridLayout_3->setSpacing(6);
@@ -248,11 +230,14 @@ public:
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName("horizontalLayout");
-        label_3 = new QLabel(Page0);
-        label_3->setObjectName("label_3");
-        label_3->setStyleSheet(QString::fromUtf8(""));
+        view = new QGraphicsView(Page0);
+        view->setObjectName("view");
+        sizePolicy.setHeightForWidth(view->sizePolicy().hasHeightForWidth());
+        view->setSizePolicy(sizePolicy);
+        view->setMinimumSize(QSize(480, 480));
+        view->setStyleSheet(QString::fromUtf8(""));
 
-        horizontalLayout->addWidget(label_3);
+        horizontalLayout->addWidget(view);
 
         gridLayout_5 = new QGridLayout();
         gridLayout_5->setSpacing(6);
@@ -332,13 +317,17 @@ public:
 
         gridLayout->addWidget(stackedWidget, 3, 1, 1, 1);
 
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer, 4, 1, 1, 1);
+
         title = new QLabel(centralWidget);
         title->setObjectName("title");
-        QFont font3;
-        font3.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
-        font3.setPointSize(20);
-        font3.setBold(true);
-        title->setFont(font3);
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font2.setPointSize(20);
+        font2.setBold(true);
+        title->setFont(font2);
         title->setStyleSheet(QString::fromUtf8("QLabel\n"
 "{\n"
 "	color: #FFF\n"
@@ -350,6 +339,28 @@ public:
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
         gridLayout->addItem(horizontalSpacer, 3, 0, 1, 1);
+
+        loginMessage = new QLabel(centralWidget);
+        loginMessage->setObjectName("loginMessage");
+        sizePolicy.setHeightForWidth(loginMessage->sizePolicy().hasHeightForWidth());
+        loginMessage->setSizePolicy(sizePolicy);
+        loginMessage->setMinimumSize(QSize(250, 60));
+        loginMessage->setMaximumSize(QSize(250, 60));
+        loginMessage->setBaseSize(QSize(0, 0));
+        QFont font3;
+        font3.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
+        font3.setPointSize(10);
+        loginMessage->setFont(font3);
+        loginMessage->setStyleSheet(QString::fromUtf8("QLabel { color : red; }"));
+        loginMessage->setFrameShape(QFrame::NoFrame);
+        loginMessage->setAlignment(Qt::AlignCenter);
+        loginMessage->setWordWrap(true);
+
+        gridLayout->addWidget(loginMessage, 2, 1, 1, 1, Qt::AlignHCenter);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_2, 3, 2, 1, 1);
 
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
@@ -384,14 +395,11 @@ public:
         actionSignUp->setText(QCoreApplication::translate("PWManagerClass", "Sign Up", nullptr));
         actionLogIn->setText(QCoreApplication::translate("PWManagerClass", "Log In", nullptr));
         actionpwvisible->setText(QCoreApplication::translate("PWManagerClass", "pwvisible", nullptr));
-        loginMessage->setText(QString());
-        label_4->setText(QCoreApplication::translate("PWManagerClass", "<html><head/><body><p><img src=\":/PWManager/chessb.png\"/></p></body></html>", nullptr));
         spassword->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "Password", nullptr));
         label->setText(QCoreApplication::translate("PWManagerClass", "Username", nullptr));
         susername->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "Username", nullptr));
         label_2->setText(QCoreApplication::translate("PWManagerClass", "Password", nullptr));
         signup->setText(QCoreApplication::translate("PWManagerClass", "Sign Up", nullptr));
-        label_3->setText(QCoreApplication::translate("PWManagerClass", "<html><head/><body><p><img src=\":/PWManager/icons/chessb.png\"/></p></body></html>", nullptr));
         password->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "Password", nullptr));
         username->setText(QString());
         username->setPlaceholderText(QCoreApplication::translate("PWManagerClass", "Username", nullptr));
@@ -399,6 +407,7 @@ public:
         passwordLabel->setText(QCoreApplication::translate("PWManagerClass", "Password", nullptr));
         login->setText(QCoreApplication::translate("PWManagerClass", "Login", nullptr));
         title->setText(QCoreApplication::translate("PWManagerClass", "Gamified Password Manager", nullptr));
+        loginMessage->setText(QString());
         toolBar->setWindowTitle(QCoreApplication::translate("PWManagerClass", "toolBar", nullptr));
     } // retranslateUi
 

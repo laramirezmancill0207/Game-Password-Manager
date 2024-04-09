@@ -584,7 +584,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 873, 449));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 246, 166));
         gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);

@@ -20,7 +20,6 @@
 
 namespace chess
 {
-	Board* Board::instancePtr = NULL;
 
 	baseChess::baseChess(QGraphicsItem* parent)
 		: QGraphicsObject(parent)
@@ -167,6 +166,28 @@ namespace chess
 			}
 		}
 
+		setupBoard();
+
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(BLACK) : squares[i][j]->setColor(WHITE);
+
+				//draw squares and pieces
+				QGraphicsObject* square = squares[i][j];
+				square->setPos(50 * i, 50 * j);
+
+				if (squares[i][j]->getPiece() != NULL) {
+					QGraphicsObject* piece = squares[i][j]->getPiece();
+					piece->setPos(0, 0);
+				}
+			}
+		}
+	}
+
+	void Board::setupBoard()
+	{
 		//create all pieces
 		Piece* whiteRook1 = new Piece(squares[0][7], WHITE, ROOK);
 		whiteRook1->setCoordinates(0, 7);
@@ -250,24 +271,26 @@ namespace chess
 			p->setCoordinates(i, 1);
 			squares[i][1]->setPiece(p);
 		}
+	}
 
-
-		for (int i = 0; i < 8; i++)
-		{
+	void Board::resetBoard()
+	{
+		for (int i = 0; i < 8; ++i) {
 			for (int j = 0; j < 8; j++)
 			{
 				(i + j) % 2 == 0 ? squares[i][j]->setColor(BLACK) : squares[i][j]->setColor(WHITE);
 
-				//draw squares and pieces
-				QGraphicsObject* square = squares[i][j];
-				square->setPos(50 * i, 50 * j);
-
-				if (squares[i][j]->getPiece() != NULL) {
-					QGraphicsObject* piece = squares[i][j]->getPiece();
-					piece->setPos(0, 0);
+				if (squares[i][j]->getPiece() != NULL)
+				{
+					delete squares[i][j]->getPiece();
+					squares[i][j]->setPiece(NULL);
 				}
 			}
 		}
+
+		if (getTurn() != WHITE) switchTurn();
+
+		setupBoard();
 	}
 
 	Piece::Piece(QGraphicsItem* parent, GameColor c, pieceType t)
@@ -437,6 +460,27 @@ namespace chess
 	void Board::switchTurn()
 	{
 		(turn == WHITE) ? turn = BLACK : turn = WHITE;
+	}
+
+	Square::~Square()
+	{
+		delete this->getPiece();
+	}
+
+	Board::~Board()
+	{
+		Square*** squares = this->getSquares();
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				delete squares[i][j];
+			}
+			delete[] squares[i];
+		}
+		delete squares;
+
+		instancePtr = NULL;
 	}
 }
 

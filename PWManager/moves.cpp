@@ -62,12 +62,20 @@ namespace chess
 		{
 			if (fromCoord.x == toCoord.x && (toCoord.y - fromCoord.y == ((col == WHITE) ? -1 : 1))) return true;
 
-			else if (board[fromCoord.x][(col == WHITE) ? fromCoord.y - 1 : fromCoord.y + 1]->getPiece() == NULL)
+			//handle 2 square movement on first move
+			else if (!from->getPiece()->checkIfMoved() && fromCoord.x == toCoord.x && (toCoord.y - fromCoord.y == ((col == WHITE) ? -2 : 2)))
 			{
-				if (!from->getPiece()->checkIfMoved() && fromCoord.x == toCoord.x && (toCoord.y - fromCoord.y == ((col == WHITE) ? -2 : 2)))
+				//if there is no piece between from square and to square
+				if (board[fromCoord.x][(col == WHITE) ? fromCoord.y - 1 : fromCoord.y + 1]->getPiece() == NULL)
 				{
 					return true;
 				}
+			}
+			
+			//en passant
+			else if (std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((col == WHITE) ? -1 : 1)))
+			{
+
 			}
 		}
 
@@ -115,15 +123,17 @@ namespace chess
 
 		if (std::abs(toCoord.x - fromCoord.x) == std::abs(toCoord.y - fromCoord.y))
 		{
-			int j = std::min(toCoord.y, fromCoord.y) + 1;
+			int i = (fromCoord.x > toCoord.x) ? fromCoord.x - 1 : fromCoord.x + 1;
+			int j = (fromCoord.y > toCoord.y) ? fromCoord.y - 1 : fromCoord.y + 1;
 
-			for (int i = std::min(toCoord.x, fromCoord.x) + 1; i < (std::max(toCoord.x, fromCoord.x)); i++)
+			for (i; (fromCoord.x > toCoord.x) ? i > toCoord.x : i < toCoord.x; (fromCoord.x > toCoord.x) ? i-- : i++)
 			{
 				if (board[i][j]->getPiece() != NULL)
 				{
 					return false;
 				}
-				j++;
+
+				(fromCoord.y > toCoord.y) ? j-- : j++;
 			}
 
 			if (to->getPiece() == NULL)
@@ -211,7 +221,7 @@ namespace chess
 		coordinates toCoord = to->getCoordinates();
 
 		//horizontal/vertical movement
-		if (std::abs(toCoord.x - fromCoord.x) == 1 || std::abs(toCoord.y - fromCoord.y) == 1)
+		if (((std::abs(toCoord.x - fromCoord.x) == 1) && (std::abs(toCoord.y - fromCoord.y) == 0)) || (std::abs(toCoord.x - fromCoord.x) == 0) && (std::abs(toCoord.y - fromCoord.y) == 1))
 		{
 			if (to->getPiece() == NULL)
 			{
@@ -241,8 +251,6 @@ namespace chess
 				return true;
 			}
 		}
-
-
 		return false;
 	}
 	
