@@ -5,16 +5,11 @@
  Ths is similar to how you can enter passwords using a pattern on a smartphone
  
  Initial Login/Sign Up Window:
- 
+ ![Untitled](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/2a3bcd22-6d6d-47fe-b203-1fa74ac67a21)
+
  
  Main Menu:
- 
- 
- Chess:
- 
- 
- Checkers:
- 
+ ![Untitled](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/998ab8d0-fc98-4de3-8c1a-4f024930d45f)
  
  This software is developed in C++ using qt for the frontend
  uses MySQL database server to store data
