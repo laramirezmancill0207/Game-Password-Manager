@@ -2,6 +2,7 @@
 #include "login.h"
 #include "mainpasswordmenu.h"
 #include "board.h"
+#include "gameHelper.h"
 
 #include <string>
 #include <QGraphicsScene>
@@ -30,7 +31,7 @@ PWManager::PWManager(QWidget *parent)
 
     ui.view2->setScene(scene);
 
-    QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this] { ui.password->setText("hi"); ui.spassword->setText("hi"); });
+    
 }
 
 //set passwordfield be visible and change icon. used for both sign up and login page
@@ -90,8 +91,8 @@ void PWManager::on_login_clicked()
     window = new mainpasswordmenu();
 
     //set hidden label to userID for later use
-    window->label_6->setText(QString::number(masteruser.getUserID()));
-    window->label_6->setHidden(true);
+    window->setID(masteruser.getUserID());
+    window->setGameHash(masteruser.getGameHash());
 
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
@@ -105,6 +106,7 @@ void PWManager::on_signup_clicked()
 {
     std::string textUser = ui.susername->text().toStdString();
     std::string textPass = ui.spassword->text().toStdString();
+    std::string generated = generatePassword();
 
     //check if password meets requirements
     std::string check = passwordManager::checkPassword(textPass);
@@ -117,7 +119,7 @@ void PWManager::on_signup_clicked()
     }
 
     //use createmasterlogin function to put new user into db
-    if (passwordManager::createMasterLogin(textUser, textPass))
+    if (passwordManager::createMasterLogin(textUser, textPass, generated))
     {
         ui.loginMessage->setText("login successfully created");
         return;

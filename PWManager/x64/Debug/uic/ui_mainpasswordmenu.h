@@ -82,13 +82,17 @@ public:
     QLineEdit *accemail;
     QLineEdit *accpassword;
     QLineEdit *accurl;
-    QLabel *label_6;
     QSpacerItem *horizontalSpacer;
     QFrame *tableFrame;
     QHBoxLayout *horizontalLayout_3;
     QTableView *tableView;
     QWidget *Page2;
+    QHBoxLayout *horizontalLayout_8;
     QVBoxLayout *verticalLayout_3;
+    QPushButton *resetButton;
+    QSpacerItem *verticalSpacer;
+    QLineEdit *generatedPass;
+    QPushButton *copyPassButton;
     QFrame *gameWidget;
     QHBoxLayout *horizontalLayout_7;
     QGraphicsView *graphicsView;
@@ -495,11 +499,6 @@ public:
 
         gridLayout_4->addWidget(accurl, 2, 1, 1, 1);
 
-        label_6 = new QLabel(addFrame);
-        label_6->setObjectName("label_6");
-
-        gridLayout_4->addWidget(label_6, 5, 0, 1, 1);
-
 
         horizontalLayout_2->addLayout(gridLayout_4);
 
@@ -552,10 +551,83 @@ public:
         stackedWidget->addWidget(Page1);
         Page2 = new QWidget();
         Page2->setObjectName("Page2");
-        verticalLayout_3 = new QVBoxLayout(Page2);
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_8 = new QHBoxLayout(Page2);
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_8->setObjectName("horizontalLayout_8");
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(0);
         verticalLayout_3->setObjectName("verticalLayout_3");
+        verticalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout_3->setContentsMargins(50, -1, 50, -1);
+        resetButton = new QPushButton(Page2);
+        resetButton->setObjectName("resetButton");
+        QSizePolicy sizePolicy5(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(resetButton->sizePolicy().hasHeightForWidth());
+        resetButton->setSizePolicy(sizePolicy5);
+        resetButton->setMinimumSize(QSize(200, 0));
+        resetButton->setFont(font4);
+        resetButton->setCursor(QCursor(Qt::PointingHandCursor));
+        resetButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: #0d6efd;\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: #0055ff;\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
+
+        verticalLayout_3->addWidget(resetButton);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
+
+        verticalLayout_3->addItem(verticalSpacer);
+
+        generatedPass = new QLineEdit(Page2);
+        generatedPass->setObjectName("generatedPass");
+        sizePolicy5.setHeightForWidth(generatedPass->sizePolicy().hasHeightForWidth());
+        generatedPass->setSizePolicy(sizePolicy5);
+        generatedPass->setMinimumSize(QSize(200, 0));
+        generatedPass->setFont(font4);
+        generatedPass->setEchoMode(QLineEdit::Password);
+        generatedPass->setReadOnly(true);
+
+        verticalLayout_3->addWidget(generatedPass);
+
+        copyPassButton = new QPushButton(Page2);
+        copyPassButton->setObjectName("copyPassButton");
+        copyPassButton->setFont(font4);
+        copyPassButton->setCursor(QCursor(Qt::PointingHandCursor));
+        copyPassButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: #0d6efd;\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: #0055ff;\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
+
+        verticalLayout_3->addWidget(copyPassButton);
+
+
+        horizontalLayout_8->addLayout(verticalLayout_3);
+
         gameWidget = new QFrame(Page2);
         gameWidget->setObjectName("gameWidget");
         gameWidget->setFrameShape(QFrame::StyledPanel);
@@ -570,7 +642,7 @@ public:
         horizontalLayout_7->addWidget(graphicsView);
 
 
-        verticalLayout_3->addWidget(gameWidget);
+        horizontalLayout_8->addWidget(gameWidget);
 
         stackedWidget->addWidget(Page2);
         Page3 = new QWidget();
@@ -584,16 +656,13 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 246, 166));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 873, 449));
         gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName("gridLayout");
         lineEdit = new QLineEdit(scrollAreaWidgetContents);
         lineEdit->setObjectName("lineEdit");
-        QSizePolicy sizePolicy5(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
         sizePolicy5.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
         lineEdit->setSizePolicy(sizePolicy5);
         lineEdit->setReadOnly(true);
@@ -736,7 +805,9 @@ public:
         accemail->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Email", nullptr));
         accpassword->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         accurl->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
-        label_6->setText(QString());
+        resetButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Reset", nullptr));
+        generatedPass->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
+        copyPassButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Copy Password", nullptr));
         label_11->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         label_10->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
         profile->setText(QCoreApplication::translate("mainpasswordmenuClass", "Profile", nullptr));

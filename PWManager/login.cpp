@@ -46,7 +46,7 @@ namespace passwordManager
         {
             qDebug() << db.lastError();
             db.close();
-            return User("", "", -1);
+            return User("", "", "", - 1);
         }
 
         //query to select the user with entered username and password
@@ -59,29 +59,29 @@ namespace passwordManager
         {
             qDebug() << db.lastError();
             db.close();
-            return User("", "", -1);
+            return User("", "", "", - 1);
         }
 
         //if selection exists, (only one can exist based on db requirements) return the user with db values
         if (qry.next())
         {
-            db.close();
 
             std::string pw = qry.value("password").toString().toStdString();
 
             if (BCrypt::validatePassword(inputP, pw))
             {
-                return User(qry.value("username").toString().toStdString(), qry.value("password").toString().toStdString(), qry.value("id").toInt());
+                db.close();
+                return User(qry.value("username").toString().toStdString(), qry.value("password").toString().toStdString(), qry.value("gameHash").toString().toStdString(), qry.value("id").toInt());
             }
 
         }
 
         db.close();
-        return User("", "", -1);
+        return User("", "", "", - 1);
     }
     
 
-    bool createMasterLogin(std::string inputU, std::string inputP)
+    bool createMasterLogin(std::string inputU, std::string inputP, std::string generatedPass)
     {
         //set up server variables from txt file
         std::string server;
@@ -117,9 +117,10 @@ namespace passwordManager
 
         //query to insert a new user into masteruser table with entered values
         QSqlQuery qry;
-        qry.prepare("INSERT INTO masteruser (username, password) VALUES(?,?)");
+        qry.prepare("INSERT INTO masteruser (username, password, gameHash) VALUES(?,?,?)");
         qry.addBindValue(QString::fromStdString(inputU));
         qry.addBindValue(hashed);
+        qry.addBindValue(QString::fromStdString(generatedPass));
 
         //if query cant execute return false
         if (!qry.exec())
@@ -134,6 +135,61 @@ namespace passwordManager
 
     }
     
+    std::string getGameHash(int id)
+    {
+        //set up server variables from txt file
+        std::string server;
+        std::string username;
+        std::string password;
+
+        std::ifstream rfile("pw.txt");
+
+        std::getline(rfile, server);
+        std::getline(rfile, username);
+        std::getline(rfile, password);
+
+        // Close the file
+        rfile.close();
+
+        //create qdatabase to access mysql passwordmanager database
+        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+        db.setHostName(QString::fromStdString(server));
+        db.setUserName(QString::fromStdString(username));
+        db.setPassword(QString::fromStdString(password));
+        db.setDatabaseName("passwordmanager");
+
+
+
+        if (!db.open())
+        {
+            qDebug() << db.lastError();
+            db.close();
+            return "";
+        }
+
+        //query to insert a new user into masteruser table with entered values
+        QSqlQuery qry;
+        qry.prepare("SELECT gameHash FROM masteruser WHERE id = ?");
+
+        //if query cant execute return false
+        if (!qry.exec())
+        {
+            qDebug() << db.lastError();
+            db.close();
+            return "";
+        }
+
+        if (qry.next())
+        {
+            db.close();
+
+            return qry.value("gameHash").toString().toStdString();
+        }
+
+        db.close();
+        return "";
+
+    }
 
     std::string checkPassword(std::string password)
     {

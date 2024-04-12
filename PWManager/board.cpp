@@ -1,5 +1,5 @@
 #include "board.h"
-#include "moves.h"
+#include "moveRules.h"
 #include "gameHelper.h"
 
 #include <QGraphicsSceneDragDropEvent>
@@ -17,6 +17,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 namespace chess
 {
@@ -71,13 +72,20 @@ namespace chess
 			//move piece and set new coordinates
 			coordinates c = this->getCoordinates();
 			p->setCoordinates(c.x, c.y);
-			square->setPiece(NULL);
+
+			if (this->getPiece() != NULL) delete this->getPiece();
+
 			this->setPiece(p);
+			square->setPiece(NULL);
+			
 
 			//graphicsscene move piece by setting parent and updating
 			p->setParentItem(this);
 			square->update();
 			update();
+
+			//add move to move vector
+			b->addMove(Move::Move(p->getType(), square->getCoordinates(), c));
 
 			//specific piece is no longer on first turn. also switch board turn
 			p->setMoved();
@@ -113,6 +121,9 @@ namespace chess
 			break;
 		case (RED):
 			painter->setBrush(Qt::red);
+			break;
+		case (LIGHTRED):
+			painter->setBrush(QColor(Qt::red).lighter(120));
 			break;
 		default:
 			painter->setBrush(Qt::white);
@@ -275,6 +286,8 @@ namespace chess
 
 	void Board::resetBoard()
 	{
+		playedMoves.clear();
+
 		for (int i = 0; i < 8; ++i) {
 			for (int j = 0; j < 8; j++)
 			{
@@ -330,7 +343,7 @@ namespace chess
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (squares[i][j]->getColor() != RED)
+				if (squares[i][j]->getColor() == (WHITE | BLACK))
 				{
 					continue;					
 				}
@@ -344,6 +357,19 @@ namespace chess
 		c = this->getCoordinates();
 		squares[c.x][c.y]->setColor(RED);
 		squares[c.x][c.y]->update();
+
+		if (b->getTurn() != this->getColor())
+		{
+			return;
+		}
+
+		std::vector<Square*> moves = validMoves(squares[c.x][c.y], squares);
+
+		for (auto& it : moves)
+		{
+			it->setColor(LIGHTRED);
+			it->update();
+		}
 	}
 
 	void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent*)
@@ -368,11 +394,10 @@ namespace chess
 		setCursor(Qt::OpenHandCursor);
 	}
 
-	coordinates Square::getCoordinates()
-	{
-		coordinates coord = c;
-		return coord;
-	}
+	coordinates Square::getCoordinates() 
+	{ 
+		return c; 
+	};
 
 	void Square::setCoordinates(int x, int y)
 	{
@@ -381,8 +406,7 @@ namespace chess
 
 	Piece* Square::getPiece()
 	{
-		Piece* p = piece;
-		return p;
+		return piece;
 	}
 
 	void Square::setPiece(Piece* p)
@@ -403,18 +427,15 @@ namespace chess
 
 	GameColor Square::getColor()
 	{
-		GameColor c = color;
-		return c;
+		return color;
 	}
 
 	GameColor Piece::getColor() {
-		GameColor c = color;
-		return c;
+		return color;
 	}
 
 	pieceType Piece::getType() {
-		pieceType t = type;
-		return t;
+		return type;
 	}
 
 	void Piece::setColor(GameColor c)
@@ -429,8 +450,7 @@ namespace chess
 
 	coordinates Piece::getCoordinates()
 	{
-		coordinates coord = c;
-		return coord;
+		return c;
 	}
 
 	void Piece::setCoordinates(int x, int y)
@@ -481,6 +501,15 @@ namespace chess
 		delete squares;
 
 		instancePtr = NULL;
+	}
+
+	void Board::addMove(Move m)
+	{
+		playedMoves.push_back(m);
+	}
+	std::vector<Move> Board::getPlayedMoves()
+	{
+		return playedMoves;
 	}
 }
 

@@ -12,12 +12,14 @@
 #include <QDebug>
 #include <QFontDatabase>
 #include <QGraphicsScene>
+#include <QClipboard>
 
 #include <shlobj.h>
 #include <shlwapi.h>
 #include <objbase.h>
 
 #include "board.h"
+#include "gameHelper.h"
 
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
@@ -60,6 +62,8 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 
 	this->graphicsView->setScene(scene);
 
+	QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this, b] { this->generatedPass->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), getGameHash()))); });
+
 }
 
 /// <summary>
@@ -79,20 +83,7 @@ void mainpasswordmenu::aboutMenu()
 
 void mainpasswordmenu::refreshTable()
 {
-	int userID = -1;
-
-	try
-	{
-		userID = stoi(this->label_6->text().toStdString());
-	}
-
-	catch (std::exception& err)
-	{
-		//this->warning->setText("error please log out and log back in");
-		QMessageBox::about(NULL, "Error", "Please log out and log back in");
-
-		return;
-	}
+	int userID = getID();
 
 	QSqlQueryModel* model = passwordManager::getAccounts(userID);
 
@@ -129,20 +120,7 @@ void mainpasswordmenu::on_addAccount_clicked()
 	std::string accurl = this->accurl->text().toStdString();
 	std::string accapp = this->accapp->text().toStdString();
 
-	int userID;
-
-	try
-	{
-		userID = stoi(this->label_6->text().toStdString());
-	}
-
-	catch (std::exception &err)
-	{
-		//this->warning->setText("error please log out and log back in");
-		QMessageBox::about(NULL, "Error", "Please log out and log back in");
-
-		return;
-	}
+	int userID = getID();
 
 	//check if all fields entered
 	if (accemail.empty() || accusername.empty() || accpassword.empty() || accurl.empty() || accapp.empty())
@@ -216,6 +194,21 @@ void mainpasswordmenu::on_deleteAccount_clicked()
 	mainpasswordmenu::refreshTable();
 }
 
+void mainpasswordmenu::on_resetButton_clicked()
+{
+	chess::Board* b = chess::Board::getInstance();
+	b->resetBoard();
+}
+
+void mainpasswordmenu::on_copyPassButton_clicked()
+{
+	if (!generatedPass->text().isEmpty())
+	{
+		QClipboard* clipboard = QGuiApplication::clipboard();
+		clipboard->setText(generatedPass->text());
+	}
+}
+
 void mainpasswordmenu::on_homeMenu_clicked()
 {
 	this->stackedWidget->setCurrentIndex(0);
@@ -247,6 +240,25 @@ void mainpasswordmenu::on_settingsMenu_clicked()
 
 	this->menuWindow->menuAction()->setVisible(false);
 	//this->menuWindow->setEnabled(false);
+}
+
+int mainpasswordmenu::getID()
+{
+	return id;
+}
+
+void mainpasswordmenu::setID(int userID)
+{
+	this->id = userID;
+}
+
+std::string mainpasswordmenu::getGameHash()
+{
+	return gameHash;
+}
+void mainpasswordmenu::setGameHash(std::string gameH)
+{
+	gameHash = gameH;
 }
 
 /// <summary>

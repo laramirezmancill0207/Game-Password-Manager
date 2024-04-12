@@ -70,10 +70,7 @@
     <ClCompile Include="gameHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="moves.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PasswordGenerator.cpp">
+    <ClCompile Include="movesRules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -111,10 +108,7 @@
     <ClInclude Include="gameHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="moves.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PasswordGenerator.h">
+    <ClInclude Include="moveRules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

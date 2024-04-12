@@ -2,13 +2,14 @@
 #include <QGraphicsItem>
 #include <QPixmap>
 #include <QGraphicsView>
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
 class QParallelAnimationGroup;
 QT_END_NAMESPACE
 
-typedef enum color { WHITE, BLACK, RED, NONE } GameColor;
+typedef enum color { WHITE, BLACK, RED, LIGHTRED, NONE } GameColor;
 
 struct coordinates
 {
@@ -87,16 +88,30 @@ namespace chess
 
 	};
 
+	class Move
+	{
+	private:
+		pieceType type;
+		coordinates from;
+		coordinates to;
+	public:
+		Move(pieceType ty, coordinates f, coordinates t);
+
+		pieceType getType();
+		coordinates getFromCoord();
+		coordinates getToCoord();
+	};
+
 	//singleton design pattern
 	class Board : public baseChess
 	{
 	private:
-		Square*** squares;
 		static Board* instancePtr;
+		Square*** squares;
 		GameColor turn;
+		std::vector<Move> playedMoves;
 
 		Board(QGraphicsItem* parent = nullptr);
-		
 
 	public:
 		~Board();
@@ -107,6 +122,8 @@ namespace chess
 		void setupBoard();
 		GameColor getTurn();
 		void switchTurn();
+		void addMove(Move m);
+		std::vector<Move> getPlayedMoves();
 
 		Square*** getSquares();
 
@@ -118,6 +135,8 @@ namespace chess
 		Board& operator=(const Board&) = delete;
 		Board& operator=(Board&&) = delete;
 	};
+
+	
 }
 
 namespace checkers

@@ -125,15 +125,13 @@
     <ClCompile Include="libraries\bcrypt\src\wrapper.c" />
     <ClCompile Include="login.cpp" />
     <ClCompile Include="mainpasswordmenu.cpp" />
-    <ClCompile Include="moves.cpp" />
-    <ClCompile Include="PasswordGenerator.cpp" />
+    <ClCompile Include="movesRules.cpp" />
     <ClCompile Include="PWManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameHelper.h" />
-    <ClInclude Include="moves.h" />
-    <ClInclude Include="PasswordGenerator.h" />
+    <ClInclude Include="moveRules.h" />
     <QtMoc Include="aboutPage.h" />
     <ClInclude Include="accounts.h" />
     <ClInclude Include="board.h" />

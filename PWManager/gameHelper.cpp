@@ -1,8 +1,27 @@
 #include "gameHelper.h"
+#include <random>
 
-#include <random>;
+std::string generatePassword()
+{
+	std::string randomPass = "";
 
-const std::string password[] { "abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "0123456789", "!@#$%^&*?-+"};
+	//using random device
+	//not cryptographically secure but it doesnt need to be because the passwords will be hashed using game passwords anyways
+
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution indx(0, 3);
+	std::uniform_int_distribution<int> length(12, 16);
+
+	for (int i = 0; i < length(mt); i++)
+	{
+		int range = indx(mt);
+		std::uniform_int_distribution<int> indy(0, password[range].length());
+		randomPass += password[range][indy(mt)];
+	}
+
+	return randomPass;
+}
 
 namespace chess
 {
@@ -41,26 +60,29 @@ namespace chess
 		return pieceImageMap;
 	}
 
-	std::string generatePassword()
+	std::string moveHashFuction(std::vector<Move> playedMoves, std::string gamePassword)
 	{
-		std::string randomPass = "";
-
-		//using random device
-		//not cryptographically secure but it doesnt need to be because the passwords will be hashed using game passwords anyways
-
-		std::random_device rd;
-		std::mt19937 mt(rd());
-		std::uniform_int_distribution indx(0, 3);
-		std::uniform_int_distribution<int> length(8, 14);
-
-		for (int i = 0; i < length(mt); i++)
+		for (auto& it : playedMoves)
 		{
-			int range = indx(mt);
-			std::uniform_int_distribution<int> indy(0, password[range].length());
-			randomPass += password[range][indy(mt)];
+			pieceType type = it.getType();
+
+			switch (type) {
+			case KING:
+				break;
+			case QUEEN:
+				break;
+			case ROOK:
+				break;
+			case BISHOP:
+				break;
+			case KNIGHT:
+				break;
+			case PAWN:
+				break;
+			}
 		}
 
-		return randomPass;
+		return gamePassword;
 	}
 }
 
