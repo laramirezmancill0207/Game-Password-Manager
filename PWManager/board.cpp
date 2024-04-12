@@ -394,6 +394,11 @@ namespace chess
 		setCursor(Qt::OpenHandCursor);
 	}
 
+	Square::~Square()
+	{
+		delete this->getPiece();
+	}
+
 	coordinates Square::getCoordinates() 
 	{ 
 		return c; 
@@ -482,11 +487,6 @@ namespace chess
 		(turn == WHITE) ? turn = BLACK : turn = WHITE;
 	}
 
-	Square::~Square()
-	{
-		delete this->getPiece();
-	}
-
 	Board::~Board()
 	{
 		Square*** squares = this->getSquares();
@@ -507,6 +507,7 @@ namespace chess
 	{
 		playedMoves.push_back(m);
 	}
+
 	std::vector<Move> Board::getPlayedMoves()
 	{
 		return playedMoves;
