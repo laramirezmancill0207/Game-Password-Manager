@@ -14,6 +14,8 @@ PWManager::PWManager(QWidget *parent)
 {
     ui.setupUi(this);
 
+    setHash(generatePassword());
+
     //create qaction pointers for eye visibility toggle on password fields
     QAction* vaction = ui.password->addAction(QIcon("icons/eyeopen.png"), QLineEdit::TrailingPosition);
     QAction* vsaction = ui.spassword->addAction(QIcon("icons/eyeopen.png"), QLineEdit::TrailingPosition);
@@ -22,16 +24,29 @@ PWManager::PWManager(QWidget *parent)
     QObject::connect(vaction, &QAction::triggered, this, [vaction, this] { visible(ui.password); });
     QObject::connect(vsaction, &QAction::triggered, this, [vsaction, this] { visible(ui.spassword); });
 
+    //scene for game
     QGraphicsScene* scene = new QGraphicsScene(this);
-
     chess::Board* b = chess::Board::getInstance();
     scene->addItem(b);
-
     ui.view->setScene(scene);
-
     ui.view2->setScene(scene);
 
-    //QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this, b] { ui.password->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), getGameHash()))); });
+    //connect scene change signal to password linedit on corresponding screen
+    QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this, b] 
+        { 
+            ui.password->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), passwordManager::getGameHashFromDB(ui.username->text().toStdString())))); 
+            ui.spassword->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), getHash())));
+        });
+
+    QObject::connect(ui.username, &QLineEdit::textChanged, this, [scene, this, b] 
+        { 
+            std::string h = passwordManager::getGameHashFromDB(ui.username->text().toStdString());
+            QString newPass = QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), h));
+            if (!newPass.isEmpty())
+            {
+                ui.password->setText(newPass);
+            }
+        });
 }
 
 //set passwordfield be visible and change icon. used for both sign up and login page
@@ -96,9 +111,6 @@ void PWManager::on_login_clicked()
 
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
-
-
-    
 }
 
 //sign up page when sign up button clicked
@@ -106,7 +118,6 @@ void PWManager::on_signup_clicked()
 {
     std::string textUser = ui.susername->text().toStdString();
     std::string textPass = ui.spassword->text().toStdString();
-    std::string generated = generatePassword();
 
     //check if password meets requirements
     std::string check = passwordManager::checkPassword(textPass);
@@ -119,7 +130,7 @@ void PWManager::on_signup_clicked()
     }
 
     //use createmasterlogin function to put new user into db
-    if (passwordManager::createMasterLogin(textUser, textPass, generated))
+    if (passwordManager::createMasterLogin(textUser, textPass, getHash()))
     {
         ui.loginMessage->setText("login successfully created");
         return;
@@ -147,6 +158,16 @@ void PWManager::on_actionLogIn_triggered()
 
     ui.stackedWidget->setCurrentIndex(1);
     ui.loginMessage->setText("");
+}
+
+std::string PWManager::getHash()
+{
+    return gameHash;
+}
+
+void PWManager::setHash(std::string hash)
+{
+    gameHash = hash;
 }
 
 PWManager::~PWManager()

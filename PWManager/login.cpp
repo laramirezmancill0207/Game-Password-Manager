@@ -135,7 +135,7 @@ namespace passwordManager
 
     }
     
-    std::string getGameHash(int id)
+    std::string getGameHashFromDB(std::string inputU)
     {
         //set up server variables from txt file
         std::string server;
@@ -169,7 +169,8 @@ namespace passwordManager
 
         //query to insert a new user into masteruser table with entered values
         QSqlQuery qry;
-        qry.prepare("SELECT gameHash FROM masteruser WHERE id = ?");
+        qry.prepare("SELECT gameHash FROM masteruser WHERE username = ?");
+        qry.addBindValue(QString::fromStdString(inputU));
 
         //if query cant execute return false
         if (!qry.exec())

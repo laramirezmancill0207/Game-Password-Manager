@@ -109,8 +109,6 @@ namespace chess
 
 			temp += std::to_string(from.x) + std::to_string(from.y) + std::to_string(to.x) + std::to_string(to.y);
 
-			
-
 			i++;
 		}
 
@@ -125,7 +123,6 @@ namespace chess
 			int r = rand() % allChars.length();
 
 			temp[j] = allChars[r];
-
 		}
 
 		return temp;

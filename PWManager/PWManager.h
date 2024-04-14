@@ -12,6 +12,9 @@ public:
     PWManager(QWidget *parent = nullptr);
     ~PWManager();
 
+    std::string getHash();
+    void setHash(std::string hash);
+
 private slots:
     void visible(QLineEdit* pwField);
     void invisible(QLineEdit* pwField);
@@ -23,4 +26,5 @@ private slots:
 private:
     Ui::PWManagerClass ui;
     mainpasswordmenu* window;
+    std::string gameHash;
 };

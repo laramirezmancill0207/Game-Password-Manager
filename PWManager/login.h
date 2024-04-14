@@ -32,7 +32,7 @@ namespace passwordManager
 
 	bool createMasterLogin(std::string inputU, std::string inputP, std::string generatedPass);
 
-	std::string getGameHash(int id);
+	std::string getGameHashFromDB(std::string inputU);
 
 	std::string checkPassword(std::string password);
 
