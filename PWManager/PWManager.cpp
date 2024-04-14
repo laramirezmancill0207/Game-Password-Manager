@@ -31,7 +31,7 @@ PWManager::PWManager(QWidget *parent)
 
     ui.view2->setScene(scene);
 
-    
+    //QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this, b] { ui.password->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), getGameHash()))); });
 }
 
 //set passwordfield be visible and change icon. used for both sign up and login page

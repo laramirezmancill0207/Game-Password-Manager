@@ -62,27 +62,73 @@ namespace chess
 
 	std::string moveHashFuction(std::vector<Move> playedMoves, std::string gamePassword)
 	{
+		std::string temp = "";
+
+		if (playedMoves.size() < 4)
+		{
+			return "";
+		}
+
+		std::string coords = "";
+
+		int i = 0;
 		for (auto& it : playedMoves)
 		{
 			pieceType type = it.getType();
+			coordinates from = it.getFromCoord();
+			coordinates to = it.getToCoord();
+
+			if (i == 3)
+			{
+				temp += gamePassword;
+			}
 
 			switch (type) {
 			case KING:
+				temp += "K";
 				break;
 			case QUEEN:
+				temp += "q";
 				break;
 			case ROOK:
+				temp += "r";
 				break;
 			case BISHOP:
+				temp += "b";
 				break;
 			case KNIGHT:
+				temp += "k";
 				break;
 			case PAWN:
+				temp += "p";
 				break;
 			}
+
+			
+			coords += std::to_string(from.x) + std::to_string(from.x);
+
+			temp += std::to_string(from.x) + std::to_string(from.y) + std::to_string(to.x) + std::to_string(to.y);
+
+			
+
+			i++;
 		}
 
-		return gamePassword;
+		std::hash<std::string> h;
+
+		srand(h(coords));
+
+		std::string allChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*?-+";
+
+		for (int j = 0; j < temp.length(); j++)
+		{
+			int r = rand() % allChars.length();
+
+			temp[j] = allChars[r];
+
+		}
+
+		return temp;
 	}
 }
 

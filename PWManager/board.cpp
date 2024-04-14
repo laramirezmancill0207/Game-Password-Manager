@@ -21,7 +21,6 @@
 
 namespace chess
 {
-
 	baseChess::baseChess(QGraphicsItem* parent)
 		: QGraphicsObject(parent)
 	{	
@@ -86,6 +85,12 @@ namespace chess
 
 			//add move to move vector
 			b->addMove(Move::Move(p->getType(), square->getCoordinates(), c));
+
+			//pawn promotion at end ranks
+			if (isPromotion(this))
+			{
+				this->changePiece(this->getPiece()->getColor(), QUEEN, this);
+			}
 
 			//specific piece is no longer on first turn. also switch board turn
 			p->setMoved();
@@ -511,6 +516,28 @@ namespace chess
 	std::vector<Move> Board::getPlayedMoves()
 	{
 		return playedMoves;
+	}
+
+	Move::Move(pieceType ty, coordinates f, coordinates t)
+	{
+		type = ty;
+		from = f;
+		to = t;
+	}
+
+	pieceType Move::getType()
+	{
+		return type;
+	}
+
+	coordinates Move::getFromCoord()
+	{
+		return from;
+	}
+
+	coordinates Move::getToCoord()
+	{
+		return to;
 	}
 }
 

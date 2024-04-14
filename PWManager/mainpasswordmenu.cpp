@@ -20,6 +20,7 @@
 
 #include "board.h"
 #include "gameHelper.h"
+#include "bcrypt/BCrypt.hpp"
 
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
@@ -205,7 +206,7 @@ void mainpasswordmenu::on_copyPassButton_clicked()
 	if (!generatedPass->text().isEmpty())
 	{
 		QClipboard* clipboard = QGuiApplication::clipboard();
-		clipboard->setText(generatedPass->text());
+		clipboard->setText(QString::fromStdString(generatedPass->text().toStdString()));
 	}
 }
 

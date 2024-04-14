@@ -13,4 +13,7 @@ namespace chess
 	bool isValidRookMove(Square* from, Square* to, Square*** board);
 	bool isValidQueenMove(Square* from, Square* to, Square*** board);
 	bool isValidKingMove(Square* from, Square* to);
+
+	bool isPromotion(Square* square);
+	bool isSquareAttacked(Square* square, Square*** board);
 }
