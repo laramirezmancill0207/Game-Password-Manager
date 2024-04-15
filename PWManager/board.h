@@ -143,35 +143,121 @@ namespace chess
 
 namespace checkers
 {
-	typedef enum piece { KING, NORMAL, NONE } pieceType;
+	typedef enum piece { KING, NORMAL, EMPTY } pieceType;
 
-	class Piece
+	class baseCheckers : public QGraphicsObject
+	{
+	public:
+		baseCheckers(QGraphicsItem* parent = nullptr);
+	};
+
+	class Piece : public baseCheckers
 	{
 	private:
 		GameColor color;
 		pieceType type;
+		coordinates c;
+		bool moved;
+
+
+	protected:
+		void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+		void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+		void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+
 	public:
-		void setType(pieceType type);
+		Piece(QGraphicsItem* parent = nullptr, GameColor c = NONE, pieceType t = EMPTY);
+
 		GameColor getColor();
 		pieceType getType();
+		void setColor(GameColor c);
+		void setType(pieceType t);
+		void setCoordinates(int x, int y);
+		coordinates getCoordinates();
+
+		bool checkIfMoved();
+		void setMoved();
+
+		QRectF boundingRect() const override;
+		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 	};
 
-	class Square
+	class Square : public baseCheckers
 	{
 	private:
 		GameColor color;
-		Piece piece;
+		Piece* piece;
 		coordinates c;
 
+	protected:
+		void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
+		void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) override;
+		void dropEvent(QGraphicsSceneDragDropEvent* event) override;
+
+		//QColor color = Qt::lightGray;
+		bool dragOver = false;
 	public:
+		Square(QGraphicsItem* parent = nullptr);
+		~Square();
+
 		coordinates getCoordinates();
-		Piece getPiece();
-		void setPiece(Piece piece);
+		void setCoordinates(int x, int y);
+		Piece* getPiece();
+		void setPiece(Piece* p);
+		void changePiece(GameColor c = NONE, pieceType t = EMPTY, QGraphicsItem* parent = nullptr);
+		void setColor(GameColor col);
+		GameColor getColor();
+
+		QRectF boundingRect() const override;
+		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+
 	};
 
-	class Board
+	class Move
 	{
 	private:
-		Square board[8][8];
+		pieceType type;
+		coordinates from;
+		coordinates to;
+	public:
+		Move(pieceType ty, coordinates f, coordinates t);
+
+		pieceType getType();
+		coordinates getFromCoord();
+		coordinates getToCoord();
+	};
+
+	//singleton design pattern
+	class Board : public baseCheckers
+	{
+	private:
+		static Board* instancePtr;
+		Square*** squares;
+		GameColor turn;
+		std::vector<Move> playedMoves;
+
+		Board(QGraphicsItem* parent = nullptr);
+
+	public:
+		~Board();
+
+		static Board* getInstance();
+
+		void resetBoard();
+		void setupBoard();
+		GameColor getTurn();
+		void switchTurn();
+		void addMove(Move m);
+		std::vector<Move> getPlayedMoves();
+
+		Square*** getSquares();
+
+		QRectF boundingRect() const override;
+		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+
+		Board(const Board&) = delete;
+		Board(Board&&) = delete;
+		Board& operator=(const Board&) = delete;
+		Board& operator=(Board&&) = delete;
 	};
 }

@@ -312,3 +312,73 @@ namespace chess
 	}
 }
 
+namespace checkers
+{
+	bool isValidMove(Square* from, Square* to, Square*** board)
+	{
+		coordinates fromCoord = from->getCoordinates();
+		coordinates toCoord = to->getCoordinates();
+
+		//diagonal 1 square movement
+
+		if (from->getPiece()->getType() == NORMAL)
+		{
+			if (std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -1 : 1)))
+			{
+				//if piece on to square and from and to square pieces are of the same color, not a valid move
+				if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
+				{
+					return false;
+				}
+
+				return true;
+			}
+		}
+
+		else if (from->getPiece()->getType() == KING)
+		{
+			if (std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
+			{
+				//if piece on to square and from and to square pieces are of the same color, not a valid move
+				if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
+				{
+					return false;
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	std::vector<Square*> validMoves(Square* square, Square*** board)
+	{
+		std::vector<Square*> squares;
+		Piece* squarePiece = square->getPiece();
+
+		//iterate across all squares on the board
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (isValidMove(square, board[i][j], board))
+				{
+					squares.push_back(board[i][j]);
+				}
+			}
+		}
+		return squares;
+	}
+
+	//if piece reaches last rank
+	bool isPromotion(Square* square)
+	{
+		if (square->getPiece()->getType() == NORMAL && (square->getCoordinates().y == 0 || square->getCoordinates().y == 7))
+		{
+			return true;
+		}
+		return false;
+	}
+}
+

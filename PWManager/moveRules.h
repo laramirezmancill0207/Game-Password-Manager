@@ -17,3 +17,11 @@ namespace chess
 	bool isPromotion(Square* square);
 	bool isSquareAttacked(Square* square, Square*** board);
 }
+
+namespace checkers
+{
+	bool isValidMove(Square* from, Square* to, Square*** board);
+	std::vector<Square*> validMoves(Square* square, Square*** board);
+
+	bool isPromotion(Square* square);
+}

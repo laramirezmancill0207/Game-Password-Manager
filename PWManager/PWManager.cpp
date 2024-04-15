@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 
 chess::Board* chess::Board::instancePtr = NULL;
+checkers::Board* checkers::Board::instancePtr = NULL;
 
 PWManager::PWManager(QWidget *parent)
     : QMainWindow(parent)
@@ -45,7 +46,7 @@ PWManager::PWManager(QWidget *parent)
             QString newPass = QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), h));
             if (!newPass.isEmpty())
             {
-                ui.password->setText(newPass);
+               ui.password->setText(newPass);
             }
         });
 }

@@ -14,5 +14,6 @@ namespace chess
 
 namespace checkers
 {
-
+	std::map<GameColor, std::map<pieceType, QPixmap>> getPieceImageMap();
+	std::string moveHashFuction(std::vector<Move> playedMoves, std::string gamePassword);
 }

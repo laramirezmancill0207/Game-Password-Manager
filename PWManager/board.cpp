@@ -72,7 +72,7 @@ namespace chess
 			
 			//highlight square red to indicate movement
 			this->setColor(RED);
-			(x + y) % 2 == 0 ? square->setColor(BLACK) : square->setColor(WHITE);
+			(x + y) % 2 == 0 ? square->setColor(WHITE) : square->setColor(BLACK);
 
 			//move piece and set new coordinates
 			coordinates c = this->getCoordinates();
@@ -197,7 +197,7 @@ namespace chess
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				(i + j) % 2 == 0 ? squares[i][j]->setColor(BLACK) : squares[i][j]->setColor(WHITE);
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(WHITE) : squares[i][j]->setColor(BLACK);
 
 				//draw squares and pieces
 				QGraphicsObject* square = squares[i][j];
@@ -305,7 +305,7 @@ namespace chess
 		for (int i = 0; i < 8; ++i) {
 			for (int j = 0; j < 8; j++)
 			{
-				(i + j) % 2 == 0 ? squares[i][j]->setColor(BLACK) : squares[i][j]->setColor(WHITE);
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(WHITE) : squares[i][j]->setColor(BLACK);
 
 				if (squares[i][j]->getPiece() != NULL)
 				{
@@ -363,7 +363,7 @@ namespace chess
 					continue;					
 				}
 
-				(i + j) % 2 == 0 ? squares[i][j]->setColor(BLACK) : squares[i][j]->setColor(WHITE);
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(WHITE) : squares[i][j]->setColor(BLACK);
 				squares[i][j]->update();
 			}
 		}
@@ -554,33 +554,465 @@ namespace chess
 
 namespace checkers
 {
+	baseCheckers::baseCheckers(QGraphicsItem* parent)
+		: QGraphicsObject(parent)
+	{
+	}
+
+
+	//square functions
+	void Square::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
+	{
+		event->setAccepted(true);
+		dragOver = true;
+		update();
+	}
+
+	void Square::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
+	{
+		Q_UNUSED(event);
+		dragOver = false;
+		update();
+	}
+
+	void Square::dropEvent(QGraphicsSceneDragDropEvent* event)
+	{
+		dragOver = false;
+
+		// get mime data and convert to x y coordinates
+		std::string s = event->mimeData()->text().toStdString();
+		int x = std::stoi(s.substr(0, s.find('\n')));
+		int y = std::stoi(s.substr(s.find('\n'), s.length()));
+
+		//get original square and piece from mime data coordinates
+		Board* b = Board::getInstance();
+		Square*** squares = b->getSquares();
+		Square* square = squares[x][y];
+		Piece* p = square->getPiece();
+
+		//if not colors turn, dont allow move
+		if (p->getColor() != b->getTurn())
+		{
+			return;
+		}
+
+		//if from and to square arent same. Also use isValidMove to check if allowable chess move
+		if (square != this && isValidMove(square, this, squares)) {
+
+			//highlight square red to indicate movement
+			this->setColor(RED);
+			(x + y) % 2 == 0 ? square->setColor(WHITE) : square->setColor(BLACK);
+
+			//move piece and set new coordinates
+			coordinates c = this->getCoordinates();
+			p->setCoordinates(c.x, c.y);
+
+			if (this->getPiece() != NULL) delete this->getPiece();
+
+			this->setPiece(p);
+			square->setPiece(NULL);
+
+
+			//graphicsscene move piece by setting parent and updating
+			p->setParentItem(this);
+			square->update();
+			update();
+
+			//add move to move vector
+			b->addMove(Move::Move(p->getType(), square->getCoordinates(), c));
+
+			if (isPromotion(this))
+			{
+				this->changePiece(this->getPiece()->getColor(), KING, this);
+			}
+
+			//specific piece is no longer on first turn. also switch board turn
+			p->setMoved();
+			b->switchTurn();
+		}
+	}
+
+	Square::Square(QGraphicsItem* parent)
+		: baseCheckers(parent)
+	{
+		setAcceptDrops(true);
+		this->setPiece(NULL);
+	}
+
+	QRectF Square::boundingRect() const
+	{
+		return QRectF(0, 0, 50, 50);
+	}
+
+	void Square::paint(QPainter* painter,
+		const QStyleOptionGraphicsItem* option, QWidget* widget)
+	{
+		Q_UNUSED(option);
+		Q_UNUSED(widget);
+
+		switch (this->getColor())
+		{
+		case (WHITE):
+			painter->setBrush(Qt::white);
+			break;
+		case (BLACK):
+			painter->setBrush(Qt::blue);
+			break;
+		case (RED):
+			painter->setBrush(Qt::red);
+			break;
+		case (LIGHTRED):
+			painter->setBrush(QColor(Qt::red).lighter(120));
+			break;
+		default:
+			painter->setBrush(Qt::white);
+		}
+
+		painter->drawRect(0, 0, 50, 50);
+	}
+
+
+	//board functions
+	Board* Board::getInstance()
+	{
+		if (instancePtr == NULL)
+		{
+			instancePtr = new Board();
+
+			return instancePtr;
+		}
+		else
+		{
+			return instancePtr;
+		}
+	}
+
+	QRectF Board::boundingRect() const
+	{
+		return QRectF();
+	}
+
+	void Board::paint(QPainter* painter,
+		const QStyleOptionGraphicsItem* option, QWidget* widget)
+	{
+		Q_UNUSED(painter);
+		Q_UNUSED(option);
+		Q_UNUSED(widget);
+	}
+
+	Board::Board(QGraphicsItem* parent)
+		: baseCheckers(parent)
+	{
+		setFlag(ItemHasNoContents);
+		turn = WHITE;
+
+		squares = new Square * *[8]();
+
+		for (int i = 0; i < 8; ++i) {
+			squares[i] = new Square * [8]();
+
+			for (int j = 0; j < 8; j++)
+			{
+				squares[i][j] = new Square(this);
+				squares[i][j]->setCoordinates(i, j);
+			}
+		}
+
+		setupBoard();
+
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(WHITE) : squares[i][j]->setColor(BLACK);
+
+				//draw squares and pieces
+				QGraphicsObject* square = squares[i][j];
+				square->setPos(50 * i, 50 * j);
+
+				if (squares[i][j]->getPiece() != NULL) {
+					QGraphicsObject* piece = squares[i][j]->getPiece();
+					piece->setPos(0, 0);
+				}
+			}
+		}
+	}
+
+	void Board::setupBoard()
+	{
+		//add pieces
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = (i % 2) ? 0 : 1; j < 8; j+=2)
+			{
+				if (i < 3)
+				{
+					Piece* p = new Piece(squares[j][i], BLACK, NORMAL);
+					p->setCoordinates(j, i);
+					squares[j][i]->setPiece(p);
+				}
+
+				else if (i > 4)
+				{
+					Piece* p = new Piece(squares[j][i], WHITE, NORMAL);
+					p->setCoordinates(j, i);
+					squares[j][i]->setPiece(p);
+				}
+				
+			}
+		}
+	}
+
+	void Board::resetBoard()
+	{
+		playedMoves.clear();
+
+		for (int i = 0; i < 8; ++i) {
+			for (int j = 0; j < 8; j++)
+			{
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(WHITE) : squares[i][j]->setColor(BLACK);
+
+				if (squares[i][j]->getPiece() != NULL)
+				{
+					delete squares[i][j]->getPiece();
+					squares[i][j]->setPiece(NULL);
+				}
+			}
+		}
+
+		if (getTurn() != WHITE) switchTurn();
+
+		setupBoard();
+	}
+
+	//piece functions
+	Piece::Piece(QGraphicsItem* parent, GameColor c, pieceType t)
+		: baseCheckers(parent)
+	{
+		color = c;
+		type = t;
+		moved = false;
+		setCursor(Qt::OpenHandCursor);
+		setAcceptedMouseButtons(Qt::LeftButton);
+	}
+
+	QRectF Piece::boundingRect() const
+	{
+		return QRectF(0, 0, 50, 50);
+	}
+
+	void Piece::paint(QPainter* painter,
+		const QStyleOptionGraphicsItem* option, QWidget* widget)
+	{
+		Q_UNUSED(option);
+		Q_UNUSED(widget);
+
+		std::map<GameColor, std::map<pieceType, QPixmap>> pieceImageMap = getPieceImageMap();
+
+		painter->drawPixmap(0, 0, 50, 50, pieceImageMap[this->getColor()][this->getType()]);
+	}
+
+	void Piece::mousePressEvent(QGraphicsSceneMouseEvent*)
+	{
+		setCursor(Qt::ClosedHandCursor);
+
+		Board* b = Board::getInstance();
+		Square*** squares = b->getSquares();
+
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (squares[i][j]->getColor() == (WHITE | BLACK))
+				{
+					continue;
+				}
+
+				(i + j) % 2 == 0 ? squares[i][j]->setColor(WHITE) : squares[i][j]->setColor(BLACK);
+				squares[i][j]->update();
+			}
+		}
+
+		coordinates c;
+		c = this->getCoordinates();
+		squares[c.x][c.y]->setColor(RED);
+		squares[c.x][c.y]->update();
+
+		if (b->getTurn() != this->getColor())
+		{
+			return;
+		}
+
+		std::vector<Square*> moves = validMoves(squares[c.x][c.y], squares);
+
+		for (auto& it : moves)
+		{
+			it->setColor(LIGHTRED);
+			it->update();
+		}
+	}
+
+	void Piece::mouseReleaseEvent(QGraphicsSceneMouseEvent*)
+	{
+		setCursor(Qt::OpenHandCursor);
+	}
+
+	void Piece::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+	{
+		if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton))
+			.length() < QApplication::startDragDistance()) {
+			return;
+		}
+
+		QDrag* drag = new QDrag(event->widget());
+		QMimeData* mime = new QMimeData;
+		QString s = QString::number(c.x) + "\n" + QString::number(c.y);
+		drag->setMimeData(mime);
+
+		mime->setText(s);
+		drag->exec(Qt::MoveAction);
+		setCursor(Qt::OpenHandCursor);
+	}
+
+	//getters and setters / destructors
+	Square::~Square()
+	{
+		delete this->getPiece();
+	}
+
 	coordinates Square::getCoordinates()
 	{
-		coordinates c = this->c;
 		return c;
+	};
+
+	void Square::setCoordinates(int x, int y)
+	{
+		c = { x, y };
 	}
 
-	Piece Square::getPiece()
+	Piece* Square::getPiece()
 	{
-		Piece p = this->piece;
-		return p;
+		return piece;
 	}
 
-	void Square::setPiece(Piece piece)
+	void Square::setPiece(Piece* p)
 	{
-		this->piece = piece;
+		piece = p;
 	}
 
-	void Piece::setType(pieceType type)
+	void Square::changePiece(GameColor c, pieceType t, QGraphicsItem* parent)
 	{
-		this->type = type;
+		piece->setType(t);
+		piece->setColor(c);
 	}
+
+	void Square::setColor(GameColor col)
+	{
+		color = col;
+	}
+
+	GameColor Square::getColor()
+	{
+		return color;
+	}
+
 	GameColor Piece::getColor() {
-		GameColor c = this->color;
+		return color;
+	}
+
+	pieceType Piece::getType() {
+		return type;
+	}
+
+	void Piece::setColor(GameColor c)
+	{
+		color = c;
+	}
+
+	void Piece::setType(pieceType t)
+	{
+		type = t;
+	}
+
+	coordinates Piece::getCoordinates()
+	{
 		return c;
 	}
-	pieceType Piece::getType() {
-		pieceType t = this->type;
-		return t;
+
+	void Piece::setCoordinates(int x, int y)
+	{
+		c = { x, y };
+	}
+
+	bool Piece::checkIfMoved()
+	{
+		return moved;
+	}
+
+	void Piece::setMoved()
+	{
+		moved = true;
+	}
+
+	Square*** Board::getSquares()
+	{
+		return squares;
+	}
+
+	GameColor Board::getTurn()
+	{
+		return turn;
+	}
+	void Board::switchTurn()
+	{
+		(turn == WHITE) ? turn = BLACK : turn = WHITE;
+	}
+
+	Board::~Board()
+	{
+		Square*** squares = this->getSquares();
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				delete squares[i][j];
+			}
+			delete[] squares[i];
+		}
+		delete squares;
+
+		instancePtr = NULL;
+	}
+
+	void Board::addMove(Move m)
+	{
+		playedMoves.push_back(m);
+	}
+
+	std::vector<Move> Board::getPlayedMoves()
+	{
+		return playedMoves;
+	}
+
+	Move::Move(pieceType ty, coordinates f, coordinates t)
+	{
+		type = ty;
+		from = f;
+		to = t;
+	}
+
+	pieceType Move::getType()
+	{
+		return type;
+	}
+
+	coordinates Move::getFromCoord()
+	{
+		return from;
+	}
+
+	coordinates Move::getToCoord()
+	{
+		return to;
 	}
 }

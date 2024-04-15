@@ -133,5 +133,22 @@ namespace chess
 
 namespace checkers
 {
+	std::map<GameColor, std::map<pieceType, QPixmap>> getPieceImageMap()
+	{
+		QPixmap w("icons/chess/Chess_plt60.png");
+		QPixmap wk("icons/chess/Chess_klt60.png");
 
+		QPixmap b("icons/chess/Chess_pdt60.png");
+		QPixmap bk("icons/chess/Chess_kdt60.png");
+
+		std::map<GameColor, std::map<pieceType, QPixmap>> pieceImageMap;
+
+		pieceImageMap[WHITE][NORMAL] = w;
+		pieceImageMap[WHITE][KING] = wk;
+
+		pieceImageMap[BLACK][NORMAL] = b;
+		pieceImageMap[BLACK][KING] = bk;
+
+		return pieceImageMap;
+	}
 }
