@@ -1,8 +1,8 @@
 # Game Password Manager
- a password manager which stores user logins
+ a password manager that stores user logins
  This software allows a user to create and enter passwords using normal text
  It also allows for the use of games such as chess/checkers to enter passwords
- Ths is similar to how you can enter passwords using a pattern on a smartphone
+ Thiss is similar to how you can enter passwords using a pattern on a smartphone
  
  Initial Login/Sign Up Window:
 ![pwman](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/efdb438c-e945-4bf6-9d53-21ad47c5a7d1)
@@ -18,7 +18,7 @@
  User data is stored using bcrypt encryption methods
 
 Visual studio and mysql server must be properly set up in order to be able to run this program
-libraries that must be installed on VS: QMYSQL connector, qopengl, qt
+libraries that must be installed on VS: QMYSQL connector, qt
 
 Install Instructions:
 openSSL win64 may need to be installed 
@@ -29,5 +29,3 @@ easy install: https://github.com/thecodemonkey86/qt_mysql_driver
 
 bcrypt encryption using wrapper by trusch
 must download https://github.com/trusch/libbcrypt/tree/master
-
-may need to add opengl32.lib to vs linker
