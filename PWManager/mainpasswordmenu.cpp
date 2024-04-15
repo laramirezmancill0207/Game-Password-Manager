@@ -40,6 +40,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	this->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	this->tableView->verticalHeader()->hide();
+	this->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	//connect all menubar actions to appropriate function
 	QObject::connect(this->actionGithub, &QAction::triggered, this, [this] { ShellExecute(NULL, L"open", L"https://github.com/laramirezmancill0207/Game-Password-Manager", nullptr, nullptr, SW_SHOWNORMAL); });
@@ -99,6 +100,7 @@ void mainpasswordmenu::refreshTable()
 	
 
 	this->tableView->setModel(m);
+	this->tableView->setColumnHidden(0, true);
 }
 
 void mainpasswordmenu::showEvent(QShowEvent* event)
@@ -163,6 +165,8 @@ void mainpasswordmenu::on_deleteAccount_clicked()
 		return;
 	}
 
+	this->tableView->setColumnHidden(0, false);
+
 	// Multiple rows can be selected
 	for (int i = 0; i < selection.count(); i++)
 	{
@@ -184,13 +188,14 @@ void mainpasswordmenu::on_deleteAccount_clicked()
 			return;
 		}
 
-		if (database::deleteAccount(id))
+		if (!database::deleteAccount(id))
 		{
 			QMessageBox::about(NULL, "Error", "Account does not exist");
 
 			return;
 		}
 	}
+
 
 	mainpasswordmenu::refreshTable();
 }
