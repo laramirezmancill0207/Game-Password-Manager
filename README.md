@@ -5,7 +5,8 @@
  Ths is similar to how you can enter passwords using a pattern on a smartphone
  
  Initial Login/Sign Up Window:
- ![Untitled](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/2a3bcd22-6d6d-47fe-b203-1fa74ac67a21)
+![pwman](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/efdb438c-e945-4bf6-9d53-21ad47c5a7d1)
+
 
  
  Main Menu:
