@@ -86,7 +86,7 @@ void mainpasswordmenu::refreshTable()
 {
 	int userID = getID();
 
-	QSqlQueryModel* model = passwordManager::getAccounts(userID);
+	QSqlQueryModel* model = database::getAccounts(userID);
 
 	QSortFilterProxyModel* m = new QSortFilterProxyModel();
 
@@ -132,7 +132,7 @@ void mainpasswordmenu::on_addAccount_clicked()
 		return;
 	}
 
-	bool created = passwordManager::createAccount(userID, accemail, accusername, accpassword, accurl, accapp);
+	bool created = database::createAccount(userID, accemail, accusername, accpassword, accurl, accapp);
 
 	if (!created)
 	{
@@ -184,7 +184,7 @@ void mainpasswordmenu::on_deleteAccount_clicked()
 			return;
 		}
 
-		if (passwordManager::deleteAccount(id))
+		if (database::deleteAccount(id))
 		{
 			QMessageBox::about(NULL, "Error", "Account does not exist");
 

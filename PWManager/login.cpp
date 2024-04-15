@@ -15,37 +15,18 @@
 #include "bcrypt/BCrypt.hpp"
 
 
-namespace passwordManager
+namespace database
 {
     User checkMasterLogin(std::string inputU, std::string inputP)
     {
-        //set up server variables from txt file
-        std::string server;
-        std::string username;
-        std::string password;
-
-        std::ifstream rfile("pw.txt");
-
-        std::getline(rfile, server);
-        std::getline(rfile, username);
-        std::getline(rfile, password);
-
-        // Close the file
-        rfile.close();
-
-
-        //create qdatabase to access mysql passwordmanager database
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName(QString::fromStdString(server));
-        db.setUserName(QString::fromStdString(username));
-        db.setPassword(QString::fromStdString(password));
-        db.setDatabaseName("passwordmanager");
+        QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
         //if db not able to open show error and return empty user
         if (!db.open())
         {
             qDebug() << db.lastError();
             db.close();
+            
             return User("", "", "", - 1);
         }
 
@@ -59,6 +40,7 @@ namespace passwordManager
         {
             qDebug() << db.lastError();
             db.close();
+            
             return User("", "", "", - 1);
         }
 
@@ -71,43 +53,27 @@ namespace passwordManager
             if (BCrypt::validatePassword(inputP, pw))
             {
                 db.close();
+                
                 return User(qry.value("username").toString().toStdString(), qry.value("password").toString().toStdString(), qry.value("gameHash").toString().toStdString(), qry.value("id").toInt());
             }
 
         }
 
         db.close();
+        
         return User("", "", "", - 1);
     }
     
 
     bool createMasterLogin(std::string inputU, std::string inputP, std::string generatedPass)
     {
-        //set up server variables from txt file
-        std::string server;
-        std::string username;
-        std::string password;
-
-        std::ifstream rfile("pw.txt");
-
-        std::getline(rfile, server);
-        std::getline(rfile, username);
-        std::getline(rfile, password);
-
-        // Close the file
-        rfile.close();
-
-        //create qdatabase to access mysql passwordmanager database
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName(QString::fromStdString(server));
-        db.setUserName(QString::fromStdString(username));
-        db.setPassword(QString::fromStdString(password));
-        db.setDatabaseName("passwordmanager");
+        QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
         if (!db.open())
         {
             qDebug() << db.lastError();
             db.close();
+            
             return false;
         }
 
@@ -127,43 +93,25 @@ namespace passwordManager
         {
             qDebug() << db.lastError();
             db.close();
+            
             return false;
         }
 
         db.close();
+        
         return true;
 
     }
     
     std::string getGameHashFromDB(std::string inputU)
     {
-        //set up server variables from txt file
-        std::string server;
-        std::string username;
-        std::string password;
-
-        std::ifstream rfile("pw.txt");
-
-        std::getline(rfile, server);
-        std::getline(rfile, username);
-        std::getline(rfile, password);
-
-        // Close the file
-        rfile.close();
-
-        //create qdatabase to access mysql passwordmanager database
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName(QString::fromStdString(server));
-        db.setUserName(QString::fromStdString(username));
-        db.setPassword(QString::fromStdString(password));
-        db.setDatabaseName("passwordmanager");
-
-
+        QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
         if (!db.open())
         {
             qDebug() << db.lastError();
             db.close();
+            
             return "";
         }
 
@@ -177,17 +125,20 @@ namespace passwordManager
         {
             qDebug() << db.lastError();
             db.close();
+            
             return "";
         }
 
         if (qry.next())
         {
             db.close();
+            
 
             return qry.value("gameHash").toString().toStdString();
         }
 
         db.close();
+        
         return "";
 
     }

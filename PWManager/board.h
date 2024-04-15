@@ -3,6 +3,8 @@
 #include <QPixmap>
 #include <QGraphicsView>
 #include <vector>
+#include <QGraphicsScene>
+#include <QGraphicsSceneContextMenuEvent>
 
 QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;

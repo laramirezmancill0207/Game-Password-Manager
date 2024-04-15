@@ -14,10 +14,14 @@
 #include <QDrag>
 #include <QGraphicsSceneMouseEvent>
 #include <QWidget>
+#include <QMenu>
+
 
 #include <string>
 #include <map>
 #include <vector>
+
+
 
 namespace chess
 {
@@ -26,6 +30,8 @@ namespace chess
 	{	
 	}
 
+
+	//square functions
 	void Square::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 	{
 		event->setAccepted(true);
@@ -89,7 +95,8 @@ namespace chess
 			//pawn promotion at end ranks
 			if (isPromotion(this))
 			{
-				this->changePiece(this->getPiece()->getColor(), QUEEN, this);
+				
+				//this->changePiece(this->getPiece()->getColor(), QUEEN, this);
 			}
 
 			//specific piece is no longer on first turn. also switch board turn
@@ -137,6 +144,8 @@ namespace chess
 		painter->drawRect(0, 0, 50, 50);
 	}
 
+
+	//board functions
 	Board* Board::getInstance()
 	{
 		if (instancePtr == NULL)
@@ -311,6 +320,7 @@ namespace chess
 		setupBoard();
 	}
 
+	//piece functions
 	Piece::Piece(QGraphicsItem* parent, GameColor c, pieceType t)
 		: baseChess(parent)
 	{
@@ -399,6 +409,7 @@ namespace chess
 		setCursor(Qt::OpenHandCursor);
 	}
 
+	//getters and setters / destructors
 	Square::~Square()
 	{
 		delete this->getPiece();

@@ -27,6 +27,7 @@ PWManager::PWManager(QWidget *parent)
     //scene for game
     QGraphicsScene* scene = new QGraphicsScene(this);
     chess::Board* b = chess::Board::getInstance();
+
     scene->addItem(b);
     ui.view->setScene(scene);
     ui.view2->setScene(scene);
@@ -34,13 +35,13 @@ PWManager::PWManager(QWidget *parent)
     //connect scene change signal to password linedit on corresponding screen
     QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this, b] 
         { 
-            ui.password->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), passwordManager::getGameHashFromDB(ui.username->text().toStdString())))); 
+            ui.password->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), database::getGameHashFromDB(ui.username->text().toStdString())))); 
             ui.spassword->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), getHash())));
         });
 
     QObject::connect(ui.username, &QLineEdit::textChanged, this, [scene, this, b] 
         { 
-            std::string h = passwordManager::getGameHashFromDB(ui.username->text().toStdString());
+            std::string h = database::getGameHashFromDB(ui.username->text().toStdString());
             QString newPass = QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), h));
             if (!newPass.isEmpty())
             {
@@ -88,7 +89,7 @@ void PWManager::on_login_clicked()
     }
 
     //get user object from mysql database using entered username and passowrd
-    passwordManager::User masteruser = passwordManager::checkMasterLogin(textUser, textPass);
+    database::User masteruser = database::checkMasterLogin(textUser, textPass);
 
     //if either is empty username or password was incorrect
     if (masteruser.getUsername().empty() || masteruser.getUserID() == -1)
@@ -120,7 +121,7 @@ void PWManager::on_signup_clicked()
     std::string textPass = ui.spassword->text().toStdString();
 
     //check if password meets requirements
-    std::string check = passwordManager::checkPassword(textPass);
+    std::string check = database::checkPassword(textPass);
 
     //if check is not good set warning label to return message
     if (check != "good") {
@@ -130,7 +131,7 @@ void PWManager::on_signup_clicked()
     }
 
     //use createmasterlogin function to put new user into db
-    if (passwordManager::createMasterLogin(textUser, textPass, getHash()))
+    if (database::createMasterLogin(textUser, textPass, getHash()))
     {
         ui.loginMessage->setText("login successfully created");
         return;

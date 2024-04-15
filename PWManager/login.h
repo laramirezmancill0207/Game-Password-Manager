@@ -2,7 +2,7 @@
 #include <string>
 
 
-namespace passwordManager
+namespace database
 {
 
 	class User

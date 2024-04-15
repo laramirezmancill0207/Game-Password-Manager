@@ -8,29 +8,12 @@
 
 #include "bcrypt/BCrypt.hpp"
 
-namespace passwordManager
+namespace database
 {
     //create ne account in accounts table
 	bool createAccount(int userID, std::string email, std::string username, std::string password, std::string url, std::string app)
 	{
-        //set up server variables from txt file
-        std::string server;
-        std::string susername;
-        std::string spassword;
-
-        std::ifstream rfile("pw.txt");
-
-        std::getline(rfile, server);
-        std::getline(rfile, susername);
-        std::getline(rfile, spassword);
-        rfile.close();
-
-        //create qdatabase to access mysql passwordmanager database
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName(QString::fromStdString(server));
-        db.setUserName(QString::fromStdString(susername));
-        db.setPassword(QString::fromStdString(spassword));
-        db.setDatabaseName("passwordmanager");
+        QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
         //if db does not open show error and return false
         if (!db.open())
@@ -68,25 +51,7 @@ namespace passwordManager
     //delete one account from accounts table
     bool deleteAccount(int id)
     {
-        //set up server variables from txt file
-        std::string server;
-        std::string susername;
-        std::string spassword;
-
-        std::ifstream rfile("pw.txt");
-
-        std::getline(rfile, server);
-        std::getline(rfile, susername);
-        std::getline(rfile, spassword);
-        rfile.close();
-
-
-        //create qdatabase to access mysql passwordmanager database
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName(QString::fromStdString(server));
-        db.setUserName(QString::fromStdString(susername));
-        db.setPassword(QString::fromStdString(spassword));
-        db.setDatabaseName("passwordmanager");
+        QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
 
         if (!db.open())
@@ -117,25 +82,7 @@ namespace passwordManager
     {
         QSqlQueryModel* model = new QSqlQueryModel();
 
-        //set up server variables from txt file
-        std::string server;
-        std::string susername;
-        std::string spassword;
-
-        std::ifstream rfile("pw.txt");
-
-        std::getline(rfile, server);
-        std::getline(rfile, susername);
-        std::getline(rfile, spassword);
-        rfile.close();
-
-
-        //connect to mysql db
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName(QString::fromStdString(server));
-        db.setUserName(QString::fromStdString(susername));
-        db.setPassword(QString::fromStdString(spassword));
-        db.setDatabaseName("passwordmanager");
+        QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
         if (!db.open())
         {
