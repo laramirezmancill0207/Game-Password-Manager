@@ -355,6 +355,7 @@ public:
         font3.setFamilies({QString::fromUtf8("Lucida Sans Unicode")});
         font3.setPointSize(9);
         resetLogin->setFont(font3);
+        resetLogin->setCursor(QCursor(Qt::PointingHandCursor));
         resetLogin->setStyleSheet(QString::fromUtf8("QPushButton\n"
 "{\n"
 "	color: #FFF;\n"
@@ -379,6 +380,7 @@ public:
         chessLogin->setSizePolicy(sizePolicy);
         chessLogin->setMinimumSize(QSize(100, 0));
         chessLogin->setFont(font2);
+        chessLogin->setCursor(QCursor(Qt::PointingHandCursor));
         chessLogin->setStyleSheet(QString::fromUtf8("QPushButton\n"
 "{\n"
 "	color: #FFF;\n"
@@ -403,6 +405,7 @@ public:
         checkersLogin->setSizePolicy(sizePolicy);
         checkersLogin->setMinimumSize(QSize(100, 0));
         checkersLogin->setFont(font2);
+        checkersLogin->setCursor(QCursor(Qt::PointingHandCursor));
         checkersLogin->setStyleSheet(QString::fromUtf8("QPushButton\n"
 "{\n"
 "	color: #FFF;\n"

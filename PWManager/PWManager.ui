@@ -429,6 +429,9 @@ QPushButton:pressed
                 <pointsize>9</pointsize>
                </font>
               </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="styleSheet">
                <string notr="true">QPushButton
 {
@@ -470,6 +473,9 @@ QPushButton:pressed
                 <family>Lucida Sans Unicode</family>
                </font>
               </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="styleSheet">
                <string notr="true">QPushButton
 {
@@ -510,6 +516,9 @@ QPushButton:pressed
                <font>
                 <family>Lucida Sans Unicode</family>
                </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton

@@ -117,6 +117,12 @@ namespace game
 
 			//specific piece is no longer on first turn. also switch board turn
 			p->setMoved();
+
+			if (gameType == CHECKER && this->getPiece()->checkIfJumping())
+			{
+				return;
+			}
+
 			b->switchTurn();
 		}
 	}
@@ -389,6 +395,7 @@ namespace game
 		color = c;
 		type = t;
 		moved = false;
+		isJumping = false;
 		setCursor(Qt::OpenHandCursor);
 		setAcceptedMouseButtons(Qt::LeftButton);
 	}
@@ -568,6 +575,15 @@ namespace game
 	void Piece::setMoved()
 	{
 		moved = true;
+	}
+
+	bool Piece::checkIfJumping()
+	{
+		return isJumping;
+	}
+	void Piece::setJumping(bool j)
+	{
+		isJumping = j;
 	}
 
 	Square*** Board::getSquares()

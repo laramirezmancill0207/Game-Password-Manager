@@ -41,7 +41,7 @@ namespace game
 		pieceType type;
 		coordinates c;
 		bool moved;
-
+		bool isJumping;
 
 	protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
@@ -60,6 +60,9 @@ namespace game
 
 		bool checkIfMoved();
 		void setMoved();
+
+		bool checkIfJumping();
+		void setJumping(bool j);
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;

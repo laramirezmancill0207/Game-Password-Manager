@@ -65,6 +65,11 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	scene->setBackgroundBrush(pim.scaled(scene->width(), scene->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 	this->graphicsView->setScene(scene);
 
+	//connect chess buttons to clicked functions
+	QObject::connect(this->resetButton, &QPushButton::clicked, this, [this] { on_reset_clicked(); });
+	QObject::connect(this->chessButton, &QPushButton::clicked, this, [this] { on_chess_clicked(); });
+	QObject::connect(this->checkersButton, &QPushButton::clicked, this, [this] { on_checkers_clicked(); });
+
 	/*
 	* connect scene change to password linedit
 	* 
@@ -242,6 +247,34 @@ void mainpasswordmenu::on_settingsMenu_clicked()
 
 	this->menuWindow->menuAction()->setVisible(false);
 	//this->menuWindow->setEnabled(false);
+}
+
+void mainpasswordmenu::on_reset_clicked()
+{
+	game::Board* b = game::Board::getInstance();
+	b->resetBoard();
+}
+
+void mainpasswordmenu::on_chess_clicked()
+{
+	game::Board* b = game::Board::getInstance();
+
+	if (b->getGame() != game::CHESS)
+	{
+		b->setGame(game::CHESS);
+		b->resetBoard();
+	}
+}
+
+void mainpasswordmenu::on_checkers_clicked()
+{
+	game::Board* b = game::Board::getInstance();
+
+	if (b->getGame() != game::CHECKERS)
+	{
+		b->setGame(game::CHECKERS);
+		b->resetBoard();
+	}
 }
 
 void mainpasswordmenu::showEvent(QShowEvent* event)

@@ -89,13 +89,15 @@ public:
     QWidget *Page2;
     QHBoxLayout *horizontalLayout_8;
     QVBoxLayout *verticalLayout_3;
-    QPushButton *resetButton;
-    QSpacerItem *verticalSpacer;
     QLineEdit *generatedPass;
     QPushButton *copyPassButton;
     QFrame *gameWidget;
-    QHBoxLayout *horizontalLayout_7;
+    QVBoxLayout *verticalLayout_5;
     QGraphicsView *graphicsView;
+    QHBoxLayout *horizontalLayout_7;
+    QPushButton *resetButton;
+    QPushButton *chessButton;
+    QPushButton *checkersButton;
     QWidget *Page3;
     QHBoxLayout *horizontalLayout_6;
     QScrollArea *scrollArea;
@@ -116,7 +118,7 @@ public:
     {
         if (mainpasswordmenuClass->objectName().isEmpty())
             mainpasswordmenuClass->setObjectName("mainpasswordmenuClass");
-        mainpasswordmenuClass->resize(1149, 491);
+        mainpasswordmenuClass->resize(1149, 667);
         mainpasswordmenuClass->setStyleSheet(QString::fromUtf8("QMainWindow\n"
 "{\n"
 "	background-color: rgb(35, 35, 35)\n"
@@ -560,40 +562,11 @@ public:
         verticalLayout_3->setObjectName("verticalLayout_3");
         verticalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayout_3->setContentsMargins(50, -1, 50, -1);
-        resetButton = new QPushButton(Page2);
-        resetButton->setObjectName("resetButton");
+        generatedPass = new QLineEdit(Page2);
+        generatedPass->setObjectName("generatedPass");
         QSizePolicy sizePolicy5(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
         sizePolicy5.setHorizontalStretch(0);
         sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(resetButton->sizePolicy().hasHeightForWidth());
-        resetButton->setSizePolicy(sizePolicy5);
-        resetButton->setMinimumSize(QSize(200, 0));
-        resetButton->setFont(font4);
-        resetButton->setCursor(QCursor(Qt::PointingHandCursor));
-        resetButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
-"{\n"
-"	color: #FFF;\n"
-"	background-color: #0d6efd;\n"
-"	border-radius: 5px;\n"
-"	padding: 10px\n"
-"}\n"
-"QPushButton:hover\n"
-"{\n"
-"	background-color: #0055ff;\n"
-"}\n"
-"QPushButton:pressed\n"
-"{\n"
-"	border: 4px solid #98c1fe;\n"
-"}"));
-
-        verticalLayout_3->addWidget(resetButton);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
-
-        verticalLayout_3->addItem(verticalSpacer);
-
-        generatedPass = new QLineEdit(Page2);
-        generatedPass->setObjectName("generatedPass");
         sizePolicy5.setHeightForWidth(generatedPass->sizePolicy().hasHeightForWidth());
         generatedPass->setSizePolicy(sizePolicy5);
         generatedPass->setMinimumSize(QSize(200, 0));
@@ -632,14 +605,90 @@ public:
         gameWidget->setObjectName("gameWidget");
         gameWidget->setFrameShape(QFrame::StyledPanel);
         gameWidget->setFrameShadow(QFrame::Raised);
-        horizontalLayout_7 = new QHBoxLayout(gameWidget);
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_7->setObjectName("horizontalLayout_7");
+        verticalLayout_5 = new QVBoxLayout(gameWidget);
+        verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_5->setObjectName("verticalLayout_5");
         graphicsView = new QGraphicsView(gameWidget);
         graphicsView->setObjectName("graphicsView");
 
-        horizontalLayout_7->addWidget(graphicsView);
+        verticalLayout_5->addWidget(graphicsView);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName("horizontalLayout_7");
+        horizontalLayout_7->setContentsMargins(-1, 10, -1, -1);
+        resetButton = new QPushButton(gameWidget);
+        resetButton->setObjectName("resetButton");
+        sizePolicy5.setHeightForWidth(resetButton->sizePolicy().hasHeightForWidth());
+        resetButton->setSizePolicy(sizePolicy5);
+        resetButton->setMinimumSize(QSize(200, 0));
+        resetButton->setFont(font4);
+        resetButton->setCursor(QCursor(Qt::PointingHandCursor));
+        resetButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: rgb(160, 76, 255);\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: rgb(170, 51, 255);\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
+
+        horizontalLayout_7->addWidget(resetButton);
+
+        chessButton = new QPushButton(gameWidget);
+        chessButton->setObjectName("chessButton");
+        chessButton->setFont(font4);
+        chessButton->setCursor(QCursor(Qt::PointingHandCursor));
+        chessButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: rgb(160, 76, 255);\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: rgb(170, 51, 255);\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
+
+        horizontalLayout_7->addWidget(chessButton);
+
+        checkersButton = new QPushButton(gameWidget);
+        checkersButton->setObjectName("checkersButton");
+        checkersButton->setFont(font4);
+        checkersButton->setCursor(QCursor(Qt::PointingHandCursor));
+        checkersButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
+"{\n"
+"	color: #FFF;\n"
+"	background-color: rgb(160, 76, 255);\n"
+"	border-radius: 5px;\n"
+"	padding: 10px\n"
+"}\n"
+"QPushButton:hover\n"
+"{\n"
+"	background-color: rgb(170, 51, 255);\n"
+"}\n"
+"QPushButton:pressed\n"
+"{\n"
+"	border: 4px solid #98c1fe;\n"
+"}"));
+
+        horizontalLayout_7->addWidget(checkersButton);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_7);
 
 
         horizontalLayout_8->addWidget(gameWidget);
@@ -656,7 +705,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 873, 449));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 246, 166));
         gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -805,9 +854,11 @@ public:
         accemail->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Email", nullptr));
         accpassword->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         accurl->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "URL", nullptr));
-        resetButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Reset", nullptr));
         generatedPass->setPlaceholderText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         copyPassButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Copy Password", nullptr));
+        resetButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Reset", nullptr));
+        chessButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Chess", nullptr));
+        checkersButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Checkers", nullptr));
         label_11->setText(QCoreApplication::translate("mainpasswordmenuClass", "Password", nullptr));
         label_10->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
         profile->setText(QCoreApplication::translate("mainpasswordmenuClass", "Profile", nullptr));

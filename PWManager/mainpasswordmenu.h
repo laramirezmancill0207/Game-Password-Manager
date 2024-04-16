@@ -31,6 +31,10 @@ private slots:
 	void on_copyPassButton_clicked();
 	void aboutMenu();
 
+	void on_reset_clicked();
+	void on_chess_clicked();
+	void on_checkers_clicked();
+
 private:
 	int id;
 	std::string gameHash;
