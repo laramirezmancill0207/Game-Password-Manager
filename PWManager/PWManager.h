@@ -22,6 +22,9 @@ private slots:
     void on_signup_clicked();
     void on_actionSignUp_triggered();
     void on_actionLogIn_triggered();
+    void on_reset_clicked();
+    void on_chess_clicked();
+    void on_checkers_clicked();
 
 private:
     Ui::PWManagerClass ui;

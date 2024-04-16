@@ -37,12 +37,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.6.2</QtInstall>
-    <QtModules>core;gui;widgets;opengl;openglwidgets;sql</QtModules>
+    <QtInstall>Qt 6.6.2</QtInstall>
+    <QtModules>core;gui;widgets;sql</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.6.2</QtInstall>
+    <QtInstall>Qt 6.6.2</QtInstall>
     <QtModules>core;gui;widgets;opengl;openglwidgets;sql</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -84,6 +84,9 @@
       <AdditionalLibraryDirectories>C:\Users\milta\Documents\GitHub\Game-Password-Manager\PWManager\libraries\mysql-connector-c++-8.3.0-winx64\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <QtUic>
+      <QtUicDir>$(IntDir)uic\</QtUicDir>
+    </QtUic>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -118,7 +121,7 @@
     <ClCompile Include="aboutPage.cpp" />
     <ClCompile Include="accounts.cpp" />
     <ClCompile Include="board.cpp" />
-    <ClCompile Include="gameHelper.cpp" />
+    <ClCompile Include="gamePassword.cpp" />
     <ClCompile Include="libraries\bcrypt\src\bcrypt.c" />
     <ClCompile Include="libraries\bcrypt\src\crypt_blowfish.c" />
     <ClCompile Include="libraries\bcrypt\src\crypt_gensalt.c" />
@@ -130,7 +133,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gameHelper.h" />
+    <ClInclude Include="gamePassword.h" />
     <ClInclude Include="moveRules.h" />
     <QtMoc Include="aboutPage.h" />
     <ClInclude Include="accounts.h" />

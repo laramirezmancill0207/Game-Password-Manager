@@ -67,7 +67,7 @@
     <ClCompile Include="board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameHelper.cpp">
+    <ClCompile Include="gamePassword.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="movesRules.cpp">
@@ -105,7 +105,7 @@
     <ClInclude Include="board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gameHelper.h">
+    <ClInclude Include="gamePassword.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="moveRules.h">

@@ -44,10 +44,10 @@ constexpr auto qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS = QtMocHelpers::
     "",
     "QCloseEvent*",
     "event",
-    "on_addAccount_clicked",
-    "on_deleteAccount_clicked",
     "showEvent",
     "QShowEvent*",
+    "on_addAccount_clicked",
+    "on_deleteAccount_clicked",
     "refreshTable",
     "on_homeMenu_clicked",
     "on_gameMenu_clicked",
@@ -64,10 +64,10 @@ struct qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS_t {
     char stringdata2[1];
     char stringdata3[13];
     char stringdata4[6];
-    char stringdata5[22];
-    char stringdata6[25];
-    char stringdata7[10];
-    char stringdata8[12];
+    char stringdata5[10];
+    char stringdata6[12];
+    char stringdata7[22];
+    char stringdata8[25];
     char stringdata9[13];
     char stringdata10[20];
     char stringdata11[20];
@@ -85,10 +85,10 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS_t qt_m
         QT_MOC_LITERAL(28, 0),  // ""
         QT_MOC_LITERAL(29, 12),  // "QCloseEvent*"
         QT_MOC_LITERAL(42, 5),  // "event"
-        QT_MOC_LITERAL(48, 21),  // "on_addAccount_clicked"
-        QT_MOC_LITERAL(70, 24),  // "on_deleteAccount_clicked"
-        QT_MOC_LITERAL(95, 9),  // "showEvent"
-        QT_MOC_LITERAL(105, 11),  // "QShowEvent*"
+        QT_MOC_LITERAL(48, 9),  // "showEvent"
+        QT_MOC_LITERAL(58, 11),  // "QShowEvent*"
+        QT_MOC_LITERAL(70, 21),  // "on_addAccount_clicked"
+        QT_MOC_LITERAL(92, 24),  // "on_deleteAccount_clicked"
         QT_MOC_LITERAL(117, 12),  // "refreshTable"
         QT_MOC_LITERAL(130, 19),  // "on_homeMenu_clicked"
         QT_MOC_LITERAL(150, 19),  // "on_gameMenu_clicked"
@@ -102,10 +102,10 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSmainpasswordmenuENDCLASS_t qt_m
     "",
     "QCloseEvent*",
     "event",
-    "on_addAccount_clicked",
-    "on_deleteAccount_clicked",
     "showEvent",
     "QShowEvent*",
+    "on_addAccount_clicked",
+    "on_deleteAccount_clicked",
     "refreshTable",
     "on_homeMenu_clicked",
     "on_gameMenu_clicked",
@@ -133,9 +133,9 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSmainpasswordmenuENDCLASS[] = {
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
        1,    1,   80,    2, 0x08,    1 /* Private */,
-       5,    0,   83,    2, 0x08,    3 /* Private */,
-       6,    0,   84,    2, 0x08,    4 /* Private */,
-       7,    1,   85,    2, 0x08,    5 /* Private */,
+       5,    1,   83,    2, 0x08,    3 /* Private */,
+       7,    0,   86,    2, 0x08,    5 /* Private */,
+       8,    0,   87,    2, 0x08,    6 /* Private */,
        9,    0,   88,    2, 0x08,    7 /* Private */,
       10,    0,   89,    2, 0x08,    8 /* Private */,
       11,    0,   90,    2, 0x08,    9 /* Private */,
@@ -146,9 +146,9 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSmainpasswordmenuENDCLASS[] = {
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 6,    4,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 8,    4,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -172,13 +172,13 @@ Q_CONSTINIT const QMetaObject mainpasswordmenu::staticMetaObject = { {
         // method 'closeEvent'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QCloseEvent *, std::false_type>,
+        // method 'showEvent'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QShowEvent *, std::false_type>,
         // method 'on_addAccount_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_deleteAccount_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'showEvent'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QShowEvent *, std::false_type>,
         // method 'refreshTable'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_homeMenu_clicked'
@@ -204,9 +204,9 @@ void mainpasswordmenu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         (void)_t;
         switch (_id) {
         case 0: _t->closeEvent((*reinterpret_cast< std::add_pointer_t<QCloseEvent*>>(_a[1]))); break;
-        case 1: _t->on_addAccount_clicked(); break;
-        case 2: _t->on_deleteAccount_clicked(); break;
-        case 3: _t->showEvent((*reinterpret_cast< std::add_pointer_t<QShowEvent*>>(_a[1]))); break;
+        case 1: _t->showEvent((*reinterpret_cast< std::add_pointer_t<QShowEvent*>>(_a[1]))); break;
+        case 2: _t->on_addAccount_clicked(); break;
+        case 3: _t->on_deleteAccount_clicked(); break;
         case 4: _t->refreshTable(); break;
         case 5: _t->on_homeMenu_clicked(); break;
         case 6: _t->on_gameMenu_clicked(); break;

@@ -2,20 +2,19 @@
 #include "login.h"
 #include "mainpasswordmenu.h"
 #include "board.h"
-#include "gameHelper.h"
+#include "gamePassword.h"
 
 #include <string>
 #include <QGraphicsScene>
 
-chess::Board* chess::Board::instancePtr = NULL;
-checkers::Board* checkers::Board::instancePtr = NULL;
+game::Board* game::Board::instancePtr = NULL;
 
 PWManager::PWManager(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
 
-    setHash(generatePassword());
+    setHash(game::generatePassword());
 
     //create qaction pointers for eye visibility toggle on password fields
     QAction* vaction = ui.password->addAction(QIcon("icons/eyeopen.png"), QLineEdit::TrailingPosition);
@@ -27,7 +26,17 @@ PWManager::PWManager(QWidget *parent)
 
     //scene for game
     QGraphicsScene* scene = new QGraphicsScene(this);
-    chess::Board* b = chess::Board::getInstance();
+    game::Board* b = game::Board::getInstance();
+
+    //connect chess buttons to clicked functions
+    QObject::connect(ui.resetLogin, &QPushButton::clicked, this, [this] { on_reset_clicked(); });
+    QObject::connect(ui.resetSignUp, &QPushButton::clicked, this, [this] { on_reset_clicked(); });
+
+    QObject::connect(ui.chessLogin, &QPushButton::clicked, this, [this] { on_chess_clicked(); });
+    QObject::connect(ui.chessSignUp, &QPushButton::clicked, this, [this] { on_chess_clicked(); });
+
+    QObject::connect(ui.checkersLogin, &QPushButton::clicked, this, [this] { on_checkers_clicked(); });
+    QObject::connect(ui.checkersSignUp, &QPushButton::clicked, this, [this] { on_checkers_clicked(); });
 
     scene->addItem(b);
     ui.view->setScene(scene);
@@ -36,14 +45,14 @@ PWManager::PWManager(QWidget *parent)
     //connect scene change signal to password linedit on corresponding screen
     QObject::connect(scene, &QGraphicsScene::changed, this, [scene, this, b] 
         { 
-            ui.password->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), database::getGameHashFromDB(ui.username->text().toStdString())))); 
-            ui.spassword->setText(QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), getHash())));
+            ui.password->setText(QString::fromStdString(game::moveHashFuction(b->getPlayedMoves(), database::getGameHashFromDB(ui.username->text().toStdString())))); 
+            ui.spassword->setText(QString::fromStdString(game::moveHashFuction(b->getPlayedMoves(), getHash())));
         });
 
     QObject::connect(ui.username, &QLineEdit::textChanged, this, [scene, this, b] 
         { 
             std::string h = database::getGameHashFromDB(ui.username->text().toStdString());
-            QString newPass = QString::fromStdString(chess::moveHashFuction(b->getPlayedMoves(), h));
+            QString newPass = QString::fromStdString(game::moveHashFuction(b->getPlayedMoves(), h));
             if (!newPass.isEmpty())
             {
                ui.password->setText(newPass);
@@ -99,7 +108,7 @@ void PWManager::on_login_clicked()
         return;
     }
 
-    chess::Board* b = chess::Board::getInstance();
+    game::Board* b = game::Board::getInstance();
     b->resetBoard();
 
     this->close();
@@ -145,7 +154,7 @@ void PWManager::on_signup_clicked()
 //toolbar action to switch to sign up page
 void PWManager::on_actionSignUp_triggered()
 {
-    chess::Board* b = chess::Board::getInstance();
+    game::Board* b = game::Board::getInstance();
     b->resetBoard();
 
     ui.stackedWidget->setCurrentIndex(0);
@@ -155,11 +164,39 @@ void PWManager::on_actionSignUp_triggered()
 //toolbar action to switch to login page
 void PWManager::on_actionLogIn_triggered()
 {
-    chess::Board* b = chess::Board::getInstance();
+    game::Board* b = game::Board::getInstance();
     b->resetBoard();
 
     ui.stackedWidget->setCurrentIndex(1);
     ui.loginMessage->setText("");
+}
+
+void PWManager::on_reset_clicked()
+{
+    game::Board* b = game::Board::getInstance();
+    b->resetBoard();
+}
+
+void PWManager::on_chess_clicked()
+{
+    game::Board* b = game::Board::getInstance();
+
+    if (b->getGame() != game::CHESS)
+    {
+        b->setGame(game::CHESS);
+        b->resetBoard();
+    }
+}
+
+void PWManager::on_checkers_clicked()
+{
+    game::Board* b = game::Board::getInstance();
+   
+    if (b->getGame() != game::CHECKERS)
+    {
+        b->setGame(game::CHECKERS);
+        b->resetBoard();
+    }
 }
 
 std::string PWManager::getHash()

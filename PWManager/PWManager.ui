@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>863</width>
+    <width>858</width>
     <height>704</height>
    </rect>
   </property>
@@ -87,20 +87,163 @@ QGraphicsView{
       <widget class="QWidget" name="Page1">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QGraphicsView" name="view2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>480</width>
-            <height>480</height>
-           </size>
+          <property name="leftMargin">
+           <number>0</number>
           </property>
-         </widget>
+          <item>
+           <widget class="QGraphicsView" name="view2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>480</width>
+              <height>400</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="resetSignUp">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	color: #FFF;
+	background-color: rgb(160, 76, 255);
+	border-radius: 5px;
+	padding: 10px
+}
+QPushButton:hover
+{
+	background-color: rgb(170, 51, 255);
+}
+QPushButton:pressed
+{
+	border: 4px solid #98c1fe;
+}</string>
+              </property>
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="chessSignUp">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	color: #FFF;
+	background-color: rgb(160, 76, 255);
+	border-radius: 5px;
+	padding: 10px
+}
+QPushButton:hover
+{
+	background-color: rgb(170, 51, 255);
+}
+QPushButton:pressed
+{
+	border: 4px solid #98c1fe;
+}</string>
+              </property>
+              <property name="text">
+               <string>Chess</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="checkersSignUp">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	color: #FFF;
+	background-color: rgb(160, 76, 255);
+	border-radius: 5px;
+	padding: 10px
+}
+QPushButton:hover
+{
+	background-color: rgb(170, 51, 255);
+}
+QPushButton:pressed
+{
+	border: 4px solid #98c1fe;
+}</string>
+              </property>
+              <property name="text">
+               <string>Checkers</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_3">
@@ -232,23 +375,167 @@ QPushButton:pressed
       <widget class="QWidget" name="Page0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QGraphicsView" name="view">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>480</width>
-            <height>480</height>
-           </size>
+          <property name="leftMargin">
+           <number>0</number>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-         </widget>
+          <item>
+           <widget class="QGraphicsView" name="view">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>480</width>
+              <height>400</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="resetLogin">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	color: #FFF;
+	background-color: rgb(160, 76, 255);
+	border-radius: 5px;
+	padding: 10px
+}
+QPushButton:hover
+{
+	background-color: rgb(170, 51, 255);
+}
+QPushButton:pressed
+{
+	border: 4px solid #98c1fe;
+}</string>
+              </property>
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="chessLogin">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	color: #FFF;
+	background-color: rgb(160, 76, 255);
+	border-radius: 5px;
+	padding: 10px
+}
+QPushButton:hover
+{
+	background-color: rgb(170, 51, 255);
+}
+QPushButton:pressed
+{
+	border: 4px solid #98c1fe;
+}</string>
+              </property>
+              <property name="text">
+               <string>Chess</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="checkersLogin">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	color: #FFF;
+	background-color: rgb(160, 76, 255);
+	border-radius: 5px;
+	padding: 10px
+}
+QPushButton:hover
+{
+	background-color: rgb(170, 51, 255);
+}
+QPushButton:pressed
+{
+	border: 4px solid #98c1fe;
+}</string>
+              </property>
+              <property name="text">
+               <string>Checkers</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_5">

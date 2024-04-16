@@ -2,10 +2,10 @@
 #include <cmath>
 #include <algorithm>
 
-namespace chess
+namespace game
 {
 	//check if a move of a piece from a square to another square is valid
-	bool isValidMove(Square* from, Square* to, Square*** board)
+	bool isValidChessMove(Square* from, Square* to, Square*** board)
 	{
 		Piece* fromPiece = from->getPiece();
 
@@ -29,7 +29,7 @@ namespace chess
 	}
 
 	//get all valid moves from a specific square/piece on the board
-	std::vector<Square*> validMoves(Square* square, Square*** board) {
+	std::vector<Square*> validChessMoves(Square* square, Square*** board) {
 		std::vector<Square*> squares;
 		Piece* squarePiece = square->getPiece();
 
@@ -280,7 +280,7 @@ namespace chess
 	}
 
 	//if pawn reaches last rank
-	bool isPromotion(Square* square)
+	bool isChessPromotion(Square* square)
 	{
 		if (square->getPiece()->getType() == PAWN && (square->getCoordinates().y == 0 || square->getCoordinates().y == 7))
 		{
@@ -290,7 +290,7 @@ namespace chess
 	}
 
 	//for use with king
-	bool isSquareAttacked(Square* square, Square*** board)
+	bool isChessSquareAttacked(Square* square, Square*** board)
 	{
 		Piece* squarePiece = square->getPiece();
 
@@ -298,7 +298,7 @@ namespace chess
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				std::vector<Square*> values = validMoves(board[i][j], board);
+				std::vector<Square*> values = validChessMoves(board[i][j], board);
 
 				int cnt = count(values.begin(), values.end(), square);
 				if (cnt > 0)
@@ -310,18 +310,15 @@ namespace chess
 
 		return false;
 	}
-}
 
-namespace checkers
-{
-	bool isValidMove(Square* from, Square* to, Square*** board)
+	bool isValidCheckersMove(Square* from, Square* to)
 	{
 		coordinates fromCoord = from->getCoordinates();
 		coordinates toCoord = to->getCoordinates();
 
 		//diagonal 1 square movement
 
-		if (from->getPiece()->getType() == NORMAL)
+		if (from->getPiece()->getType() == CHECKER)
 		{
 			if (std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -1 : 1)))
 			{
@@ -335,7 +332,7 @@ namespace checkers
 			}
 		}
 
-		else if (from->getPiece()->getType() == KING)
+		else if (from->getPiece()->getType() == CKING)
 		{
 			if (std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
 			{
@@ -352,29 +349,31 @@ namespace checkers
 		return false;
 	}
 
-	std::vector<Square*> validMoves(Square* square, Square*** board)
+	std::vector<Square*> validCheckersMoves(Square* square, Square*** board)
 	{
 		std::vector<Square*> squares;
 		Piece* squarePiece = square->getPiece();
+
 
 		//iterate across all squares on the board
 		for (int i = 0; i < 8; i++)
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (isValidMove(square, board[i][j], board))
+				if (isValidCheckersMove(square, board[i][j]))
 				{
 					squares.push_back(board[i][j]);
 				}
 			}
 		}
+			
 		return squares;
 	}
 
 	//if piece reaches last rank
-	bool isPromotion(Square* square)
+	bool isCheckersPromotion(Square* square)
 	{
-		if (square->getPiece()->getType() == NORMAL && (square->getCoordinates().y == 0 || square->getCoordinates().y == 7))
+		if (square->getPiece()->getType() == CHECKER && (square->getCoordinates().y == 0 || square->getCoordinates().y == 7))
 		{
 			return true;
 		}

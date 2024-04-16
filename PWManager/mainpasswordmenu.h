@@ -20,9 +20,9 @@ public:
 
 private slots:
 	void closeEvent(QCloseEvent* event);
+	void showEvent(QShowEvent* event);
 	void on_addAccount_clicked();
 	void on_deleteAccount_clicked();
-	void showEvent(QShowEvent* event);
 	void refreshTable();
 	void on_homeMenu_clicked();
 	void on_gameMenu_clicked();
