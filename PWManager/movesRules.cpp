@@ -311,7 +311,7 @@ namespace game
 		return false;
 	}
 
-	bool isValidCheckersMove(Square* from, Square* to)
+	bool isValidCheckersMove(Square* from, Square* to, Square*** board)
 	{
 		coordinates fromCoord = from->getCoordinates();
 		coordinates toCoord = to->getCoordinates();
@@ -320,30 +320,47 @@ namespace game
 
 		if (from->getPiece()->getType() == CHECKER)
 		{
-			if (std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -1 : 1)))
+			if (to->getPiece() == NULL)
 			{
-				//if piece on to square and from and to square pieces are of the same color, not a valid move
-				if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
+				if (std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -1 : 1)))
 				{
-					return false;
+					return true;
 				}
 
-				return true;
-			}
+				if (std::abs(toCoord.x - fromCoord.x) == 2 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -2 : 2)))
+				{
+					Square* between = board[std::min(toCoord.x, fromCoord.x) + 1][std::min(toCoord.y, fromCoord.y) + 1];
+					//if piece on to square and from and to square pieces are of the same color, not a valid move
+					if (between->getPiece() != NULL && between->getPiece()->getColor() != from->getPiece()->getColor())
+					{
+						return true;
+					}
+
+				}
+			}		
 		}
 
 		else if (from->getPiece()->getType() == CKING)
 		{
-			if (std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
+			if (to->getPiece() == NULL)
 			{
-				//if piece on to square and from and to square pieces are of the same color, not a valid move
-				if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
+				if (std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
 				{
-					return false;
+					return true;
 				}
 
-				return true;
+				if (std::abs(toCoord.x - fromCoord.x) == 2 && std::abs(toCoord.y - fromCoord.y) == 2)
+				{
+					Square* between = board[std::min(toCoord.x, fromCoord.x) + 1][std::min(toCoord.y, fromCoord.y) + 1];
+					//if piece on to square and from and to square pieces are of the same color, not a valid move
+					if (between->getPiece() != NULL && between->getPiece()->getColor() != from->getPiece()->getColor())
+					{
+						return true;
+					}
+
+				}
 			}
+			
 		}
 
 		return false;
@@ -360,7 +377,7 @@ namespace game
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (isValidCheckersMove(square, board[i][j]))
+				if (isValidCheckersMove(square, board[i][j], board))
 				{
 					squares.push_back(board[i][j]);
 				}

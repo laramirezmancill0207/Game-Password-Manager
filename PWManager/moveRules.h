@@ -37,7 +37,7 @@ namespace game
 	bool isChessSquareAttacked(Square* square, Square*** board);
 
 	//check if squares from, to is a valid move for a checkers piece
-	bool isValidCheckersMove(Square* from, Square* to);
+	bool isValidCheckersMove(Square* from, Square* to, Square*** board);
 
 	//returns all valid moves for a checkers piece in the form of a vector of squares
 	std::vector<Square*> validCheckersMoves(Square* square, Square*** board);

@@ -69,7 +69,7 @@ namespace game
 			return;
 		}
 
-		bool isValidMove = (gameType == CHESS) ? isValidChessMove(square, this, squares) : isValidCheckersMove(square, this);;
+		bool isValidMove = (gameType == CHESS) ? isValidChessMove(square, this, squares) : isValidCheckersMove(square, this, squares);;
 
 		//if from and to square arent same. Also use isValidMove to check if allowable chess move
 		if (square != this && isValidMove) {
@@ -86,7 +86,6 @@ namespace game
 
 			this->setPiece(p);
 			square->setPiece(NULL);
-			
 
 			//graphicsscene move piece by setting parent and updating
 			p->setParentItem(this);
@@ -112,6 +111,13 @@ namespace game
 				if (isCheckersPromotion(this))
 				{
 					this->changePiece(this->getPiece()->getColor(), CKING, this);
+				}
+
+				if (std::abs(c.x - square->getCoordinates().x) == 2)
+				{
+					Square* between = squares[std::min(c.x, square->getCoordinates().x) + 1][std::min(c.y, square->getCoordinates().y) + 1];
+					delete between->getPiece();
+					between->setPiece(NULL);
 				}
 			}
 
