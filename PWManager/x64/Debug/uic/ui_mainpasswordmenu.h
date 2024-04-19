@@ -89,8 +89,10 @@ public:
     QWidget *Page2;
     QHBoxLayout *horizontalLayout_8;
     QVBoxLayout *verticalLayout_3;
+    QSpacerItem *verticalSpacer;
     QLineEdit *generatedPass;
     QPushButton *copyPassButton;
+    QSpacerItem *verticalSpacer_2;
     QFrame *gameWidget;
     QVBoxLayout *verticalLayout_5;
     QGraphicsView *graphicsView;
@@ -110,7 +112,6 @@ public:
     QPushButton *profile;
     QPushButton *pushButton;
     QMenuBar *menuB;
-    QMenu *menuDelete;
     QMenu *menuHelp;
     QMenu *menuWindow;
 
@@ -558,10 +559,14 @@ public:
         horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_8->setObjectName("horizontalLayout_8");
         verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(0);
+        verticalLayout_3->setSpacing(25);
         verticalLayout_3->setObjectName("verticalLayout_3");
         verticalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayout_3->setContentsMargins(50, -1, 50, -1);
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        verticalLayout_3->addItem(verticalSpacer);
+
         generatedPass = new QLineEdit(Page2);
         generatedPass->setObjectName("generatedPass");
         QSizePolicy sizePolicy5(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
@@ -598,6 +603,10 @@ public:
 
         verticalLayout_3->addWidget(copyPassButton);
 
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        verticalLayout_3->addItem(verticalSpacer_2);
+
 
         horizontalLayout_8->addLayout(verticalLayout_3);
 
@@ -611,6 +620,12 @@ public:
         verticalLayout_5->setObjectName("verticalLayout_5");
         graphicsView = new QGraphicsView(gameWidget);
         graphicsView->setObjectName("graphicsView");
+        QSizePolicy sizePolicy6(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Minimum);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
+        graphicsView->setSizePolicy(sizePolicy6);
+        graphicsView->setMinimumSize(QSize(500, 500));
 
         verticalLayout_5->addWidget(graphicsView);
 
@@ -620,9 +635,9 @@ public:
         horizontalLayout_7->setContentsMargins(-1, 10, -1, -1);
         resetButton = new QPushButton(gameWidget);
         resetButton->setObjectName("resetButton");
-        sizePolicy5.setHeightForWidth(resetButton->sizePolicy().hasHeightForWidth());
-        resetButton->setSizePolicy(sizePolicy5);
-        resetButton->setMinimumSize(QSize(200, 0));
+        sizePolicy2.setHeightForWidth(resetButton->sizePolicy().hasHeightForWidth());
+        resetButton->setSizePolicy(sizePolicy2);
+        resetButton->setMinimumSize(QSize(0, 0));
         resetButton->setFont(font4);
         resetButton->setCursor(QCursor(Qt::PointingHandCursor));
         resetButton->setStyleSheet(QString::fromUtf8("QPushButton\n"
@@ -705,7 +720,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 246, 166));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 873, 625));
         gridLayout = new QGridLayout(scrollAreaWidgetContents);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -720,11 +735,11 @@ public:
 
         label_11 = new QLabel(scrollAreaWidgetContents);
         label_11->setObjectName("label_11");
-        QSizePolicy sizePolicy6(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Preferred);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
-        label_11->setSizePolicy(sizePolicy6);
+        QSizePolicy sizePolicy7(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Preferred);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
+        label_11->setSizePolicy(sizePolicy7);
         label_11->setFont(font4);
 
         gridLayout->addWidget(label_11, 2, 0, 1, 1);
@@ -740,8 +755,8 @@ public:
 
         label_10 = new QLabel(scrollAreaWidgetContents);
         label_10->setObjectName("label_10");
-        sizePolicy6.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
-        label_10->setSizePolicy(sizePolicy6);
+        sizePolicy7.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
+        label_10->setSizePolicy(sizePolicy7);
         label_10->setFont(font4);
 
         gridLayout->addWidget(label_10, 1, 0, 1, 1);
@@ -790,22 +805,14 @@ public:
         menuB = new QMenuBar(mainpasswordmenuClass);
         menuB->setObjectName("menuB");
         menuB->setGeometry(QRect(0, 0, 1149, 22));
-        menuDelete = new QMenu(menuB);
-        menuDelete->setObjectName("menuDelete");
         menuHelp = new QMenu(menuB);
         menuHelp->setObjectName("menuHelp");
         menuWindow = new QMenu(menuB);
         menuWindow->setObjectName("menuWindow");
         mainpasswordmenuClass->setMenuBar(menuB);
 
-        menuB->addAction(menuDelete->menuAction());
         menuB->addAction(menuWindow->menuAction());
         menuB->addAction(menuHelp->menuAction());
-        menuDelete->addAction(actionSelected);
-        menuDelete->addAction(actionCopy);
-        menuDelete->addAction(actionPaste);
-        menuDelete->addAction(actionFind);
-        menuDelete->addAction(actionFind_Next);
         menuHelp->addAction(actionAbout);
         menuHelp->addAction(actionDocumentation);
         menuHelp->addAction(actionGithub);
@@ -863,9 +870,8 @@ public:
         label_10->setText(QCoreApplication::translate("mainpasswordmenuClass", "Username", nullptr));
         profile->setText(QCoreApplication::translate("mainpasswordmenuClass", "Profile", nullptr));
         pushButton->setText(QCoreApplication::translate("mainpasswordmenuClass", "Change Password", nullptr));
-        menuDelete->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Edit", nullptr));
         menuHelp->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Help", nullptr));
-        menuWindow->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "Window", nullptr));
+        menuWindow->setTitle(QCoreApplication::translate("mainpasswordmenuClass", "View", nullptr));
     } // retranslateUi
 
 };
