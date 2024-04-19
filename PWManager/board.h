@@ -122,6 +122,7 @@ namespace game
 		GameColor turn;
 		std::vector<Move> playedMoves;
 		Game type;
+		bool checkersJump;
 
 		Board(QGraphicsItem* parent = nullptr);
 
@@ -136,6 +137,9 @@ namespace game
 		std::vector<Move> getPlayedMoves();
 		Game getGame();
 		void setGame(Game g);
+		bool getJumping();
+		void setJumping(bool j);
+
 
 		Square*** getSquares();
 

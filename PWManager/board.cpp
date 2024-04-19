@@ -69,6 +69,12 @@ namespace game
 			return;
 		}
 
+		//if board in jumping state and dragged piece is not in jumping state return
+		if (b->getJumping() && !p->checkIfJumping())
+		{
+			return;
+		}
+
 		bool isValidMove = (gameType == CHESS) ? isValidChessMove(square, this, squares) : isValidCheckersMove(square, this, squares);;
 
 		//if from and to square arent same. Also use isValidMove to check if allowable chess move
@@ -94,6 +100,8 @@ namespace game
 
 			//add move to move vector
 			b->addMove(Move::Move(p->getType(), square->getCoordinates(), c));
+			//specific piece is no longer on first turn. also switch board turn
+			p->setMoved();
 
 			if (gameType == CHESS)
 			{
@@ -113,20 +121,28 @@ namespace game
 					this->changePiece(this->getPiece()->getColor(), CKING, this);
 				}
 
+				//if piece jumped
 				if (std::abs(c.x - square->getCoordinates().x) == 2)
 				{
+					//delete piece between
 					Square* between = squares[std::min(c.x, square->getCoordinates().x) + 1][std::min(c.y, square->getCoordinates().y) + 1];
 					delete between->getPiece();
 					between->setPiece(NULL);
+					between->update();
+
+					if (jumpAvailable(this, squares))
+					{
+						//if jump available set board and piece to jumping then return to not switch turn
+						this->getPiece()->setJumping(true);
+						b->setJumping(true);
+						return;
+					}
+					else
+					{
+						b->setJumping(false);
+						this->getPiece()->setJumping(false);
+					}
 				}
-			}
-
-			//specific piece is no longer on first turn. also switch board turn
-			p->setMoved();
-
-			if (gameType == CHECKER && this->getPiece()->checkIfJumping())
-			{
-				return;
 			}
 
 			b->switchTurn();
@@ -208,6 +224,7 @@ namespace game
 		setFlag(ItemHasNoContents);
 		turn = WHITE;
 		type = CHESS;
+		checkersJump = false;
 
 		//create squares pointer array
 		squares = new Square ** [8]();
@@ -468,6 +485,11 @@ namespace game
 		}
 		else if (b->getGame() == CHECKERS)
 		{
+			//if board and jumping state and selected piece is not. return
+			if (b->getJumping() && !this->checkIfJumping())
+			{
+				return;
+			}
 			moves = validCheckersMoves(squares[c.x][c.y], squares);
 		}
 
@@ -635,6 +657,15 @@ namespace game
 	void Board::setGame(Game g)
 	{
 		type = g;
+	}
+
+	bool Board::getJumping()
+	{
+		return checkersJump;
+	}
+	void Board::setJumping(bool j)
+	{
+		checkersJump = j;
 	}
 
 	std::vector<Move> Board::getPlayedMoves()

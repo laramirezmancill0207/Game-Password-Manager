@@ -39,6 +39,9 @@ namespace game
 	//check if squares from, to is a valid move for a checkers piece
 	bool isValidCheckersMove(Square* from, Square* to, Square*** board);
 
+	//checks if there is a jump available for a checkers piece. if so set board state to jumping and only allow a jumping move
+	bool jumpAvailable(Square* square, Square*** board);
+
 	//returns all valid moves for a checkers piece in the form of a vector of squares
 	std::vector<Square*> validCheckersMoves(Square* square, Square*** board);
 

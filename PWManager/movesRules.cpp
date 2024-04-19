@@ -322,7 +322,7 @@ namespace game
 		{
 			if (to->getPiece() == NULL)
 			{
-				if (std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -1 : 1)))
+				if (!from->getPiece()->checkIfJumping() && std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -1 : 1)))
 				{
 					return true;
 				}
@@ -344,7 +344,7 @@ namespace game
 		{
 			if (to->getPiece() == NULL)
 			{
-				if (std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
+				if (!from->getPiece()->checkIfJumping() && std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
 				{
 					return true;
 				}
@@ -362,6 +362,64 @@ namespace game
 			}
 			
 		}
+
+		return false;
+	}
+
+	bool jumpAvailable(Square* square, Square*** board)
+	{
+		coordinates coords = square->getCoordinates();
+		GameColor col = square->getColor();
+		Piece* p = square->getPiece();
+
+			if (coords.x > 1 && coords.y > 1 && board[coords.x - 1][coords.y - 1]->getPiece() != NULL && board[coords.x - 1][coords.y - 1]->getPiece()->getColor() != p->getColor())
+			{
+				if (board[coords.x - 2][coords.y - 2]->getPiece() == NULL)
+				{
+					if ((p->getType() == CHECKER && p->getColor() == WHITE) || p->getType() == CKING)
+					{
+						return true;
+					}
+					
+				}
+
+			}
+
+			if (coords.x > 1 && coords.y < 6 && board[coords.x - 1][coords.y + 1]->getPiece() != NULL && board[coords.x - 1][coords.y + 1]->getPiece()->getColor() != p->getColor())
+			{
+				if (board[coords.x - 2][coords.y + 2]->getPiece() == NULL)
+				{
+					if ((p->getType() == CHECKER && p->getColor() == BLACK) || p->getType() == CKING)
+					{
+						return true;
+					}
+				}
+
+			}
+
+			if (coords.x < 6 && coords.y > 1 && board[coords.x + 1][coords.y - 1]->getPiece() != NULL && board[coords.x + 1][coords.y - 1]->getPiece()->getColor() != p->getColor())
+			{
+				if (board[coords.x + 2][coords.y - 2]->getPiece() == NULL)
+				{
+					if ((p->getType() == CHECKER && p->getColor() == WHITE) || p->getType() == CKING)
+					{
+						return true;
+					}
+				}
+
+			}
+
+			if (coords.x < 6 && coords.y < 6 && board[coords.x + 1][coords.y + 1]->getPiece() != NULL && board[coords.x + 1][coords.y + 1]->getPiece()->getColor() != p->getColor())
+			{
+				if (board[coords.x + 2][coords.y + 2]->getPiece() == NULL)
+				{
+					if ((p->getType() == CHECKER && p->getColor() == BLACK) || p->getType() == CKING)
+					{
+						return true;
+					}
+				}
+
+			}
 
 		return false;
 	}
