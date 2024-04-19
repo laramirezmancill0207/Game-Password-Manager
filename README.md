@@ -5,19 +5,22 @@
  This is similar to how you can enter passwords using a pattern on a smartphone
  
  Initial Login/Sign Up Window:
-![pwman](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/e3cdf348-6953-4525-98f8-f11b6f1c7f73)
+![pwman](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/54321b69-8a7e-4747-87a5-b157cbf86a5a)
+
 
 
 
  
  Main Menu:
-![mainmenu](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/a354aceb-af55-4583-a04f-3f7e992c6492)
+![mainmenu](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/51d8e95b-4a68-4fe7-ae4e-b04be4db0b2c)
+
 
 
 
 
 Password Generation Screen:
-![menu](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/aaa2c2dc-22cf-4d87-b02c-246fb7f740c6)
+![menu](https://github.com/laramirezmancill0207/Game-Password-Manager/assets/90569222/80d75caa-a385-443c-9db0-f11fd26053a4)
+
 
  
  This software is developed in C++ using qt for the frontend
