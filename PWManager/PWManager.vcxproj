@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\achilles\GitHub\Game-Password-Manager\PWManager\libraries\mysql-connector-c++-8.3.0-winx64\include\jdbc;D:\achilles\GitHub\Game-Password-Manager\PWManager\libraries\bcrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\OpenSSL\OpenSSL-Win64\include;D:\achilles\GitHub\Game-Password-Manager\PWManager\libraries\mysql-connector-c++-8.3.0-winx64\include\jdbc;D:\achilles\GitHub\Game-Password-Manager\PWManager\libraries\bcrypt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>STATIC_CONCPP;</PreprocessorDefinitions>
     </ClCompile>
     <Link>

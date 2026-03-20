@@ -1,7 +1,8 @@
 #include "gamePassword.h"
 #include <random>
-
-
+#include <openssl/sha.h>
+#include <QByteArray>
+#include <QString>
 
 namespace game
 {
@@ -23,7 +24,7 @@ namespace game
 		{
 			//get random characters for length of password
 			int range = indx(mt);
-			std::uniform_int_distribution<int> indy(0, password[range].length());
+			std::uniform_int_distribution<int> indy(0, password[range].length()-1);
 			randomPass += password[range][indy(mt)];
 		}
 
@@ -32,82 +33,50 @@ namespace game
 
 	std::string moveHashFuction(std::vector<Move> playedMoves, std::string gamePassword)
 	{
-		std::string temp = "";
-
-		//only allow password of 4 or more moves
-		if (playedMoves.size() < 4)
-		{
+		// Only allow password of 4 or more moves
+		if (playedMoves.size() < 4) {
 			return "";
 		}
 
-		std::string coords = "";
-
+		std::string rawState = "";
 		int i = 0;
-		//for all played moves
+
+		// Build the raw state string from the board
 		for (auto& it : playedMoves)
 		{
 			pieceType type = it.getType();
 			coordinates from = it.getFromCoord();
 			coordinates to = it.getToCoord();
 
-			//on 3rd move add random password as salt
-			if (i == 3)
-			{
-				temp += gamePassword;
-			}
-
-			//add character to pw based on piece type
+			// Add piece identifier
 			switch (type) {
-			case KING:
-				temp += "K";
-				break;
-			case QUEEN:
-				temp += "q";
-				break;
-			case ROOK:
-				temp += "r";
-				break;
-			case BISHOP:
-				temp += "b";
-				break;
-			case KNIGHT:
-				temp += "k";
-				break;
-			case PAWN:
-				temp += "p";
-				break;
-			case CHECKER:
-				temp += "c";
-				break;
-			case CKING:
-				temp += "ck";
+			case KING:    rawState += "K"; break;
+			case QUEEN:   rawState += "q"; break;
+			case ROOK:    rawState += "r"; break;
+			case BISHOP:  rawState += "b"; break;
+			case KNIGHT:  rawState += "k"; break;
+			case PAWN:    rawState += "p"; break;
+			case CHECKER: rawState += "c"; break;
+			case CKING:   rawState += "ck"; break;
 			}
 
-			//add from coordinate numbers to coords
-			coords += std::to_string(from.x) + std::to_string(from.x);
+			// Add coordinates
+			rawState += std::to_string(from.x) + std::to_string(from.y) + std::to_string(to.x) + std::to_string(to.y);
 
-			//add from and to coordinates to temp pass
-			temp += std::to_string(from.x) + std::to_string(from.y) + std::to_string(to.x) + std::to_string(to.y);
-
+			// On 3rd move add the system generated game password as salt
+			if (i == 3) {
+				rawState += gamePassword;
+			}
 			i++;
 		}
 
-		std::hash<std::string> h;
+		// Hash the raw state using SHA-256
+		unsigned char hash[SHA256_DIGEST_LENGTH];
+		SHA256(reinterpret_cast<const unsigned char*>(rawState.c_str()), rawState.length(), hash);
 
-		//use hash of coords as seed for random
-		srand(h(coords));
-
-		std::string allChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*?-+";
-
-		//randomize temp password using seeded rand()
-		for (int j = 0; j < temp.length(); j++)
-		{
-			int r = rand() % allChars.length();
-
-			temp[j] = allChars[r];
-		}
-
-		return temp;
+		// Convert the binary hash to a readable Hex string or Base64
+		QByteArray qba(reinterpret_cast<const char*>(hash), SHA256_DIGEST_LENGTH);
+		return qba.toBase64().toStdString();
 	}
 
 	std::map<GameColor, std::map<pieceType, QPixmap>> getPieceImageMap()
