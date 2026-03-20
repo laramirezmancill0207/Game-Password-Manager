@@ -30,6 +30,7 @@ private slots:
 	void on_resetButton_clicked();
 	void on_copyPassButton_clicked();
 	void aboutMenu();
+	void on_copyAccountPassword_clicked();
 
 	void on_reset_clicked();
 	void on_chess_clicked();

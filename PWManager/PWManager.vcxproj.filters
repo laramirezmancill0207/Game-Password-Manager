@@ -73,6 +73,9 @@
     <ClCompile Include="movesRules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="crypto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="login.h">
@@ -109,6 +112,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="moveRules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

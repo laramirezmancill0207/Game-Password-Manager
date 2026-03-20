@@ -20,6 +20,7 @@
 #include "board.h"
 #include "gamePassword.h"
 #include "bcrypt/BCrypt.hpp"
+#include "crypto.h"
 
 mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	: QMainWindow(parent)
@@ -56,7 +57,7 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	
 	//handle showing and hiding delete widget on main menu
 	this->actionDelete_Menu->setChecked(true);
-	QObject::connect(this->actionDelete_Menu, &QAction::triggered, this, [this] { if (this->actionDelete_Menu->isChecked()) { this->deleteWidget->show(); } else { this->deleteWidget->hide(); }; });
+	QObject::connect(this->actionDelete_Menu, &QAction::triggered, this, [this] { if (this->actionDelete_Menu->isChecked()) { this->buttonWidget->show(); } else { this->buttonWidget->hide(); }; });
 
 	//setup game scene
 	QGraphicsScene* scene = new QGraphicsScene(this);
@@ -104,7 +105,7 @@ void mainpasswordmenu::refreshTable()
 	//use string "test" to filter table based on 4th column (application)
 	QString test = this->searchBar->text();
 	m->setSourceModel(model);
-	m->setFilterKeyColumn(4);
+	m->setFilterKeyColumn(5);
 	m->setFilterFixedString(test);
 
 	this->tableView->setModel(m);
@@ -130,8 +131,24 @@ void mainpasswordmenu::on_addAccount_clicked()
 		return;
 	}
 
+	// AES Encryption Logic
+	// Get the current Base64 Game Hash (Your Master Key)
+	std::string currentHash = this->generatedPass->text().toStdString();
+
+	// Ensure the user has actually played enough moves to generate a valid key
+	if (currentHash.empty()) {
+		QMessageBox::warning(this, "Security Error", "You must play at least 4 moves to generate an encryption key before saving a password.");
+		return;
+	}
+
+	// Encrypt the password using the game hash as the key
+	std::string aesKey = currentHash.substr(0, 32);
+	if (aesKey.length() < 32) aesKey.append(32 - aesKey.length(), '0');
+
+	std::string encryptedPassword = crypto::encryptAES(accpassword, aesKey);
+
 	//try to create account
-	bool created = database::createAccount(userID, accemail, accusername, accpassword, accurl, accapp);
+	bool created = database::createAccount(userID, accemail, accusername, encryptedPassword, accurl, accapp);
 
 	if (!created)
 	{
@@ -197,6 +214,55 @@ void mainpasswordmenu::on_deleteAccount_clicked()
 
 	//if account deleted refresh table
 	mainpasswordmenu::refreshTable();
+}
+
+void mainpasswordmenu::on_copyAccountPassword_clicked()
+{
+	// Make sure a row is actually selected
+	QModelIndexList selection = tableView->selectionModel()->selectedRows();
+	if (selection.isEmpty())
+	{
+		QMessageBox::warning(this, "Action Required", "Please select an account from the table first.");
+		return;
+	}
+
+	// Get the Master Key (The Game Hash)
+	std::string currentHash = this->generatedPass->text().toStdString();
+	if (currentHash.empty())
+	{
+		QMessageBox::critical(this, "Security Lock", "Vault locked. You must play your sequence of moves to generate the decryption key.");
+		return;
+	}
+
+	// Format the OpenSSL 32-byte key
+	std::string aesKey = currentHash.substr(0, 32);
+	if (aesKey.length() < 32) aesKey.append(32 - aesKey.length(), '0');
+
+	// Extract the encrypted password from the hidden column (Column 3)
+	QModelIndex selectedRow = selection.at(0);
+	QModelIndex passwordIndex = selectedRow.sibling(selectedRow.row(), 3);
+	std::string encryptedPassword = passwordIndex.data().toString().toStdString();
+
+	// Decrypt and Copy to Clipboard
+	try
+	{
+		std::string decryptedPassword = crypto::decryptAES(encryptedPassword, aesKey);
+
+		// If decryption results in empty string, the key was likely wrong
+		if (decryptedPassword.empty()) {
+			throw std::runtime_error("Bad Decryption");
+		}
+
+		QClipboard* clipboard = QGuiApplication::clipboard();
+		clipboard->setText(QString::fromStdString(decryptedPassword));
+
+		QMessageBox::information(this, "Success", "Password decrypted and copied to your clipboard safely.");
+	}
+	catch (...)
+	{
+		// If the user played the wrong chess moves, the hash won't match
+		QMessageBox::critical(this, "Access Denied", "Decryption failed. The game moves played do not match the key used to encrypt this password.");
+	}
 }
 
 void mainpasswordmenu::on_resetButton_clicked()

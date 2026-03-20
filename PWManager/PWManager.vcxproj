@@ -121,6 +121,7 @@
     <ClCompile Include="aboutPage.cpp" />
     <ClCompile Include="accounts.cpp" />
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="crypto.cpp" />
     <ClCompile Include="gamePassword.cpp" />
     <ClCompile Include="libraries\bcrypt\src\bcrypt.c" />
     <ClCompile Include="libraries\bcrypt\src\crypt_blowfish.c" />
@@ -133,6 +134,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="crypto.h" />
     <ClInclude Include="gamePassword.h" />
     <ClInclude Include="moveRules.h" />
     <QtMoc Include="aboutPage.h" />
