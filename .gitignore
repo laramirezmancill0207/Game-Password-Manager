@@ -1,8 +1,19 @@
+**/.vs/
+**/*.vsidx
+**/*.suo
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/*.user
 
-*.ipch
-PWManager/.vs/PWManager/v17/Browse.VC.opendb
-PWManager/pw.txt
-PWManager/x64/Debug/PWManager.pdb
-PWManager/database.json
-PWManager/x64/Debug/PWManager.pdb
-PWManager/x64/Debug/PWManager.pdb
+**/x64/
+**/Debug/
+**/Release/
+**/*.exe
+**/*.pdb
+**/*.ilk
+**/*.obj
+**/*.tlog
+**/*.lastbuildstate
+
+**/database.json

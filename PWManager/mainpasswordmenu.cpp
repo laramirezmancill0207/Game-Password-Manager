@@ -14,9 +14,8 @@
 #include <QGraphicsScene>
 #include <QClipboard>
 
-#include <shlobj.h>
-#include <shlwapi.h>
-#include <objbase.h>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "board.h"
 #include "gamePassword.h"
@@ -46,7 +45,9 @@ mainpasswordmenu::mainpasswordmenu(QWidget *parent)
 	this->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	//connect all menubar actions to appropriate function
-	QObject::connect(this->actionGithub, &QAction::triggered, this, [this] { ShellExecute(NULL, L"open", L"https://github.com/laramirezmancill0207/Game-Password-Manager", nullptr, nullptr, SW_SHOWNORMAL); });
+	QObject::connect(this->actionGithub, &QAction::triggered, this, [this] {
+		QDesktopServices::openUrl(QUrl("https://github.com/laramirezmancill0207/Game-Password-Manager"));
+		});
 	QObject::connect(this->actionAbout, &QAction::triggered, this, [this] { aboutMenu(); });
 
 	//handle showing and hiding add widget on main menu
