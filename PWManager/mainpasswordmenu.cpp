@@ -294,7 +294,7 @@ void mainpasswordmenu::on_chess_clicked()
 {
 	game::Board* b = game::Board::getInstance();
 
-	if (b->getGame() != game::CHESS)
+	if (b->getGame() != game::GameType::CHESS)
 	{
 		b->setGame(game::CHESS);
 		b->resetBoard();
@@ -305,9 +305,9 @@ void mainpasswordmenu::on_checkers_clicked()
 {
 	game::Board* b = game::Board::getInstance();
 
-	if (b->getGame() != game::CHECKERS)
+	if (b->getGame() != game::GameType::CHECKERS)
 	{
-		b->setGame(game::CHECKERS);
+		b->setGame(game::GameType::CHECKERS);
 		b->resetBoard();
 	}
 }

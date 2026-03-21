@@ -44,9 +44,9 @@ namespace game
 		// Build the raw state string from the board
 		for (auto& it : playedMoves)
 		{
-			pieceType type = it.getType();
-			coordinates from = it.getFromCoord();
-			coordinates to = it.getToCoord();
+			pieceType type = it.type;
+			coordinates from = it.from;
+			coordinates to = it.to;
 
 			// Add piece identifier
 			switch (type) {

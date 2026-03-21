@@ -8,8 +8,6 @@
 #include <string>
 #include <QGraphicsScene>
 
-game::Board* game::Board::instancePtr = NULL;
-
 PWManager::PWManager(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -168,9 +166,9 @@ void PWManager::on_checkers_clicked()
 {
     game::Board* b = game::Board::getInstance();
    
-    if (b->getGame() != game::CHECKERS)
+    if (b->getGame() != game::GameType::CHECKERS)
     {
-        b->setGame(game::CHECKERS);
+        b->setGame(game::GameType::CHECKERS);
         b->resetBoard();
     }
 }

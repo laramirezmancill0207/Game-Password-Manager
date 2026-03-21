@@ -1,50 +1,26 @@
 #pragma once
-
-#include "board.h"
+#include "GameEngine.h"
+#include <vector>
 
 namespace game
 {
-	/*
-	* strategy design pattern
-	* calls isValid x Move based on piece
-	* return bool of whether move is valid
-	*/
-	bool isValidChessMove(Square* from, Square* to, Square*** board);
+    // Strategy design pattern: routes to the correct piece logic
+    bool isValidChessMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
 
-	/*
-	* strategy design pattern
-	* calls isValid x Move based on piece
-	* returns a vector of squares correspoinding to which squares on the board the parameter "square" could move to
-	*/
-	std::vector<Square*> validChessMoves(Square* square, Square*** board);
+    // Specific Piece Rules
+    bool isValidPawnMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
+    bool isValidKnightMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
+    bool isValidBishopMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
+    bool isValidRookMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
+    bool isValidQueenMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
+    bool isValidKingMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
 
-	/*
-	* check to see if a piece makes a valid move based on specific piece rules
-	* takes squares from and to to check these rules
-	* may also take board depending on if need to check rest if board pieces, states etc.
-	*/
-	bool isValidPawnMove(Square* from, Square* to, Square*** board);
-	bool isValidKnightMove(Square* from, Square* to);
-	bool isValidBishopMove(Square* from, Square* to, Square*** board);
-	bool isValidRookMove(Square* from, Square* to, Square*** board);
-	bool isValidQueenMove(Square* from, Square* to, Square*** board);
-	bool isValidKingMove(Square* from, Square* to);
+    // State Checks
+    bool isChessPromotion(int x, int y, const PieceData board[8][8]);
+    bool isChessSquareAttacked(int targetX, int targetY, const PieceData board[8][8], GameColor attackerColor);
 
-	//check square to see if it contains a pawn promotion. return true if so
-	bool isChessPromotion(Square* square);
-
-	//check if some piece on the board is attacking a square
-	bool isChessSquareAttacked(Square* square, Square*** board);
-
-	//check if squares from, to is a valid move for a checkers piece
-	bool isValidCheckersMove(Square* from, Square* to, Square*** board);
-
-	//checks if there is a jump available for a checkers piece. if so set board state to jumping and only allow a jumping move
-	bool jumpAvailable(Square* square, Square*** board);
-
-	//returns all valid moves for a checkers piece in the form of a vector of squares
-	std::vector<Square*> validCheckersMoves(Square* square, Square*** board);
-
-	//check if a square corresponds to a checkers promotion
-	bool isCheckersPromotion(Square* square);
+    // Checkers Logic
+    bool isValidCheckersMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8]);
+    bool jumpAvailable(int x, int y, const PieceData board[8][8]);
+    bool isCheckersPromotion(int x, int y, const PieceData board[8][8]);
 }

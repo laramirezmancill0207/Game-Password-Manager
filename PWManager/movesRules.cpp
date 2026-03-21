@@ -1,458 +1,223 @@
 #include "moveRules.h"
 #include <cmath>
 #include <algorithm>
+#include <utility>
 
 namespace game
 {
-	//check if a move of a piece from a square to another square is valid
-	bool isValidChessMove(Square* from, Square* to, Square*** board)
-	{
-		Piece* fromPiece = from->getPiece();
-
-		//based on square piece type switch to appropriate function
-		switch (fromPiece->getType()) {
-		case KING:
-			return isValidKingMove(from, to);
-		case QUEEN:
-			return isValidQueenMove(from, to, board);
-		case ROOK:
-			return isValidRookMove(from, to, board);
-		case BISHOP:
-			return isValidBishopMove(from, to, board);
-		case KNIGHT:
-			return isValidKnightMove(from, to);
-		case PAWN:
-			return isValidPawnMove(from, to, board);
-		}
-
-		return false;
-	}
-
-	//get all valid moves from a specific square/piece on the board
-	std::vector<Square*> validChessMoves(Square* square, Square*** board) {
-		std::vector<Square*> squares;
-		Piece* squarePiece = square->getPiece();
-
-		//iterate across all squares on the board
-		for (int i = 0; i < 8; i++)
-		{
-			for (int j = 0; j < 8; j++)
-			{
-				//based on piece type check if move from "square" to board[i][j] is valid
-				switch (squarePiece->getType()) {
-				case KING:
-					if (isValidKingMove(square, board[i][j]))
-					{
-						squares.push_back(board[i][j]);
-					}
-					break;
-				case QUEEN:
-					if (isValidQueenMove(square, board[i][j], board))
-					{
-						squares.push_back(board[i][j]);
-					}
-					break;
-				case ROOK:
-					if (isValidRookMove(square, board[i][j], board))
-					{
-						squares.push_back(board[i][j]);
-					}
-					break;
-				case BISHOP:
-					if (isValidBishopMove(square, board[i][j], board))
-					{
-						squares.push_back(board[i][j]);
-					}
-					break;
-				case KNIGHT:
-					if (isValidKnightMove(square, board[i][j]))
-					{
-						squares.push_back(board[i][j]);
-					}
-					break;
-				case PAWN:
-					if (isValidPawnMove(square, board[i][j], board))
-					{
-						squares.push_back(board[i][j]);
-					}
-					break;
-				}
-			}
-		}
-
-		return squares;
-	}
-
-	bool isValidPawnMove(Square* from, Square* to, Square*** board)
-	{
-		//rules
-
-		coordinates fromCoord = from->getCoordinates();
-		coordinates toCoord = to->getCoordinates();
-
-		GameColor col = from->getPiece()->getColor();
-
-		//handle normal pawn movement
-		if (to->getPiece() == NULL)
-		{
-			if (fromCoord.x == toCoord.x && (toCoord.y - fromCoord.y == ((col == WHITE) ? -1 : 1))) return true;
-
-			//handle 2 square movement on first move
-			else if (!from->getPiece()->checkIfMoved() && fromCoord.x == toCoord.x && (toCoord.y - fromCoord.y == ((col == WHITE) ? -2 : 2)))
-			{
-				//if there is no piece between from square and to square
-				if (board[fromCoord.x][(col == WHITE) ? fromCoord.y - 1 : fromCoord.y + 1]->getPiece() == NULL)
-				{
-					return true;
-				}
-			}
-			
-			//en passant
-			else if (std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((col == WHITE) ? -1 : 1)))
-			{
-
-			}
-		}
-
-		//handle pawn attacks
-		else if (to->getPiece() != NULL && to->getPiece()->getColor() != col)
-		{
-			if (toCoord.y - fromCoord.y == ((col == WHITE) ? -1 : 1) && std::abs(toCoord.x - fromCoord.x) == 1)
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
-	bool isValidKnightMove(Square* from, Square* to)
-	{
-		coordinates fromCoord = from->getCoordinates();
-		coordinates toCoord = to->getCoordinates();
-
-		// 2 by 1 movement in any direction
-		if ((std::abs(toCoord.y - fromCoord.y) == 2 && std::abs(toCoord.x - fromCoord.x) == 1) || (std::abs(toCoord.y - fromCoord.y) == 1 && std::abs(toCoord.x - fromCoord.x) == 2))
-		{
-			if (to->getPiece() == NULL)
-			{
-				return true;
-			}
-
-			//if piece on "to" square
-			else if (to->getPiece() != NULL && to->getPiece()->getColor() != from->getPiece()->getColor())
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	bool isValidBishopMove(Square* from, Square* to, Square*** board)
-	{
-		coordinates fromCoord = from->getCoordinates();
-		coordinates toCoord = to->getCoordinates();
-
-		//handle bishop diagonal movement
-		if (std::abs(toCoord.x - fromCoord.x) == std::abs(toCoord.y - fromCoord.y))
-		{
-			//get start points based on which direction the bishop moves
-			int i = (fromCoord.x > toCoord.x) ? fromCoord.x - 1 : fromCoord.x + 1;
-			int j = (fromCoord.y > toCoord.y) ? fromCoord.y - 1 : fromCoord.y + 1;
-
-			//iterate through all pieces between from and to square
-			for (i; (fromCoord.x > toCoord.x) ? i > toCoord.x : i < toCoord.x; (fromCoord.x > toCoord.x) ? i-- : i++)
-			{
-				//check if there are pieces between to and from
-				if (board[i][j]->getPiece() != NULL)
-				{
-					return false;
-				}
-
-				(fromCoord.y > toCoord.y) ? j-- : j++;
-			}
-
-			//if piece on to square and from and to square pieces are of the same color, not a valid move
-			if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	bool isValidRookMove(Square* from, Square* to, Square*** board)
-	{
-		coordinates fromCoord = from->getCoordinates();
-		coordinates toCoord = to->getCoordinates();
-
-		//handle straight single direction y movement of rook
-		if (toCoord.x == fromCoord.x)
-		{
-			//iterate through all pieces between to and from
-			for (int i = std::min(toCoord.y, fromCoord.y) + 1; i < (std::max(toCoord.y, fromCoord.y)); i++)
-			{
-				//if there is a piece between from and to not valid
-				if (board[toCoord.x][i]->getPiece() != NULL)
-				{
-					return false;
-				}
-			}
-
-			//if piece on to square and from and to square pieces are of the same color, not a valid move
-			if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		//handle straight single direction x movement of rook
-
-		else if (toCoord.y == fromCoord.y)
-		{
-			//iterate through all pieces between to and from
-			for (int i = std::min(toCoord.x, fromCoord.x) + 1; i < (std::max(toCoord.x, fromCoord.x)); i++)
-			{
-				//if there is a piece between from and to not valid
-				if (board[i][toCoord.y]->getPiece() != NULL)
-				{
-					return false;
-				}
-			}
-
-			//if piece on to square and from and to square pieces are of the same color, not a valid move
-			if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-
-		return false;
-	}
-	bool isValidQueenMove(Square* from, Square* to, Square*** board)
-	{
-		//queen is the same as bishop and rook combined
-		if (isValidBishopMove(from, to, board) || isValidRookMove(from, to, board))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool isValidKingMove(Square* from, Square* to)
-	{
-		coordinates fromCoord = from->getCoordinates();
-		coordinates toCoord = to->getCoordinates();
-
-		//horizontal/vertical 1 square movement
-		if (((std::abs(toCoord.x - fromCoord.x) == 1) && (std::abs(toCoord.y - fromCoord.y) == 0)) || (std::abs(toCoord.x - fromCoord.x) == 0) && (std::abs(toCoord.y - fromCoord.y) == 1))
-		{
-			//if piece on to square and from and to square pieces are of the same color, not a valid move
-			if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		//diagonal 1 square movement
-		else if (std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
-		{
-			//if piece on to square and from and to square pieces are of the same color, not a valid move
-			if (to->getPiece() != NULL && to->getPiece()->getColor() == from->getPiece()->getColor())
-			{
-				return false;
-			}
-
-			return true;
-		}
-		return false;
-	}
-
-	//if pawn reaches last rank
-	bool isChessPromotion(Square* square)
-	{
-		if (square->getPiece()->getType() == PAWN && (square->getCoordinates().y == 0 || square->getCoordinates().y == 7))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	//for use with king
-	bool isChessSquareAttacked(Square* square, Square*** board)
-	{
-		Piece* squarePiece = square->getPiece();
-
-		for (int i = 0; i < 8; i++)
-		{
-			for (int j = 0; j < 8; j++)
-			{
-				std::vector<Square*> values = validChessMoves(board[i][j], board);
-
-				int cnt = count(values.begin(), values.end(), square);
-				if (cnt > 0)
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	bool isValidCheckersMove(Square* from, Square* to, Square*** board)
-	{
-		coordinates fromCoord = from->getCoordinates();
-		coordinates toCoord = to->getCoordinates();
-
-		//diagonal 1 square movement
-
-		if (from->getPiece()->getType() == CHECKER)
-		{
-			if (to->getPiece() == NULL)
-			{
-				if (!from->getPiece()->checkIfJumping() && std::abs(toCoord.x - fromCoord.x) == 1 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -1 : 1)))
-				{
-					return true;
-				}
-
-				if (std::abs(toCoord.x - fromCoord.x) == 2 && (toCoord.y - fromCoord.y == ((from->getPiece()->getColor() == WHITE) ? -2 : 2)))
-				{
-					Square* between = board[std::min(toCoord.x, fromCoord.x) + 1][std::min(toCoord.y, fromCoord.y) + 1];
-					//if piece on to square and from and to square pieces are of the same color, not a valid move
-					if (between->getPiece() != NULL && between->getPiece()->getColor() != from->getPiece()->getColor())
-					{
-						return true;
-					}
-
-				}
-			}		
-		}
-
-		else if (from->getPiece()->getType() == CKING)
-		{
-			if (to->getPiece() == NULL)
-			{
-				if (!from->getPiece()->checkIfJumping() && std::abs(toCoord.x - fromCoord.x) == 1 && std::abs(toCoord.y - fromCoord.y) == 1)
-				{
-					return true;
-				}
-
-				if (std::abs(toCoord.x - fromCoord.x) == 2 && std::abs(toCoord.y - fromCoord.y) == 2)
-				{
-					Square* between = board[std::min(toCoord.x, fromCoord.x) + 1][std::min(toCoord.y, fromCoord.y) + 1];
-					//if piece on to square and from and to square pieces are of the same color, not a valid move
-					if (between->getPiece() != NULL && between->getPiece()->getColor() != from->getPiece()->getColor())
-					{
-						return true;
-					}
-
-				}
-			}
-			
-		}
-
-		return false;
-	}
-
-	bool jumpAvailable(Square* square, Square*** board)
-	{
-		coordinates coords = square->getCoordinates();
-		GameColor col = square->getColor();
-		Piece* p = square->getPiece();
-
-			if (coords.x > 1 && coords.y > 1 && board[coords.x - 1][coords.y - 1]->getPiece() != NULL && board[coords.x - 1][coords.y - 1]->getPiece()->getColor() != p->getColor())
-			{
-				if (board[coords.x - 2][coords.y - 2]->getPiece() == NULL)
-				{
-					if ((p->getType() == CHECKER && p->getColor() == WHITE) || p->getType() == CKING)
-					{
-						return true;
-					}
-					
-				}
-
-			}
-
-			if (coords.x > 1 && coords.y < 6 && board[coords.x - 1][coords.y + 1]->getPiece() != NULL && board[coords.x - 1][coords.y + 1]->getPiece()->getColor() != p->getColor())
-			{
-				if (board[coords.x - 2][coords.y + 2]->getPiece() == NULL)
-				{
-					if ((p->getType() == CHECKER && p->getColor() == BLACK) || p->getType() == CKING)
-					{
-						return true;
-					}
-				}
-
-			}
-
-			if (coords.x < 6 && coords.y > 1 && board[coords.x + 1][coords.y - 1]->getPiece() != NULL && board[coords.x + 1][coords.y - 1]->getPiece()->getColor() != p->getColor())
-			{
-				if (board[coords.x + 2][coords.y - 2]->getPiece() == NULL)
-				{
-					if ((p->getType() == CHECKER && p->getColor() == WHITE) || p->getType() == CKING)
-					{
-						return true;
-					}
-				}
-
-			}
-
-			if (coords.x < 6 && coords.y < 6 && board[coords.x + 1][coords.y + 1]->getPiece() != NULL && board[coords.x + 1][coords.y + 1]->getPiece()->getColor() != p->getColor())
-			{
-				if (board[coords.x + 2][coords.y + 2]->getPiece() == NULL)
-				{
-					if ((p->getType() == CHECKER && p->getColor() == BLACK) || p->getType() == CKING)
-					{
-						return true;
-					}
-				}
-
-			}
-
-		return false;
-	}
-
-	std::vector<Square*> validCheckersMoves(Square* square, Square*** board)
-	{
-		std::vector<Square*> squares;
-		Piece* squarePiece = square->getPiece();
-
-
-		//iterate across all squares on the board
-		for (int i = 0; i < 8; i++)
-		{
-			for (int j = 0; j < 8; j++)
-			{
-				if (isValidCheckersMove(square, board[i][j], board))
-				{
-					squares.push_back(board[i][j]);
-				}
-			}
-		}
-			
-		return squares;
-	}
-
-	//if piece reaches last rank
-	bool isCheckersPromotion(Square* square)
-	{
-		if (square->getPiece()->getType() == CHECKER && (square->getCoordinates().y == 0 || square->getCoordinates().y == 7))
-		{
-			return true;
-		}
-		return false;
-	}
+    // CHESS LOGIC
+
+    bool isValidChessMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        PieceData fromPiece = board[fromX][fromY];
+
+        switch (fromPiece.type) {
+        case KING:   return isValidKingMove(fromX, fromY, toX, toY, board);
+        case QUEEN:  return isValidQueenMove(fromX, fromY, toX, toY, board);
+        case ROOK:   return isValidRookMove(fromX, fromY, toX, toY, board);
+        case BISHOP: return isValidBishopMove(fromX, fromY, toX, toY, board);
+        case KNIGHT: return isValidKnightMove(fromX, fromY, toX, toY, board);
+        case PAWN:   return isValidPawnMove(fromX, fromY, toX, toY, board);
+        default:     return false;
+        }
+    }
+
+    bool isValidPawnMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        GameColor col = board[fromX][fromY].color;
+        int direction = (col == WHITE) ? -1 : 1;
+
+        // Normal forward movement
+        if (board[toX][toY].type == EMPTY) {
+            if (fromX == toX && (toY - fromY == direction)) return true;
+
+            // 2 squares forward on first move
+            if (!board[fromX][fromY].hasMoved && fromX == toX && (toY - fromY == direction * 2)) {
+                if (board[fromX][fromY + direction].type == EMPTY) {
+                    return true;
+                }
+            }
+        }
+        // Attacking diagonally
+        else if (board[toX][toY].color != col && board[toX][toY].type != EMPTY) {
+            if (toY - fromY == direction && std::abs(toX - fromX) == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool isValidKnightMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        if ((std::abs(toY - fromY) == 2 && std::abs(toX - fromX) == 1) ||
+            (std::abs(toY - fromY) == 1 && std::abs(toX - fromX) == 2)) {
+
+            if (board[toX][toY].type == EMPTY || board[toX][toY].color != board[fromX][fromY].color) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool isValidBishopMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        if (std::abs(toX - fromX) == std::abs(toY - fromY)) {
+            int stepX = (toX > fromX) ? 1 : -1;
+            int stepY = (toY > fromY) ? 1 : -1;
+
+            int currX = fromX + stepX;
+            int currY = fromY + stepY;
+
+            while (currX != toX && currY != toY) {
+                if (board[currX][currY].type != EMPTY) return false;
+                currX += stepX;
+                currY += stepY;
+            }
+
+            if (board[toX][toY].type == EMPTY || board[toX][toY].color != board[fromX][fromY].color) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool isValidRookMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        if (toX == fromX || toY == fromY) {
+            int stepX = (toX == fromX) ? 0 : ((toX > fromX) ? 1 : -1);
+            int stepY = (toY == fromY) ? 0 : ((toY > fromY) ? 1 : -1);
+
+            int currX = fromX + stepX;
+            int currY = fromY + stepY;
+
+            while (currX != toX || currY != toY) {
+                if (board[currX][currY].type != EMPTY) return false;
+                currX += stepX;
+                currY += stepY;
+            }
+
+            if (board[toX][toY].type == EMPTY || board[toX][toY].color != board[fromX][fromY].color) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool isValidQueenMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        return isValidBishopMove(fromX, fromY, toX, toY, board) ||
+            isValidRookMove(fromX, fromY, toX, toY, board);
+    }
+
+    bool isValidKingMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        if (std::abs(toX - fromX) <= 1 && std::abs(toY - fromY) <= 1) {
+            if (board[toX][toY].type == EMPTY || board[toX][toY].color != board[fromX][fromY].color) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool isChessPromotion(int x, int y, const PieceData board[8][8])
+    {
+        return board[x][y].type == PAWN && (y == 0 || y == 7);
+    }
+
+    // CHECKERS LOGIC
+
+    bool isValidCheckersMove(int fromX, int fromY, int toX, int toY, const PieceData board[8][8])
+    {
+        PieceData piece = board[fromX][fromY];
+
+        // Target square must always be empty in Checkers
+        if (board[toX][toY].type != EMPTY) return false;
+
+        int dx = std::abs(toX - fromX);
+        int dy = toY - fromY;
+        int absDy = std::abs(dy);
+
+        // White moves UP (-1), Black moves DOWN (+1)
+        int forwardDir = (piece.color == WHITE) ? -1 : 1;
+
+        if (piece.type == CHECKER) {
+            // Normal 1-square diagonal move
+            if (!piece.isJumping && dx == 1 && dy == forwardDir) {
+                return true;
+            }
+            // 2-square Jump Move
+            if (dx == 2 && dy == forwardDir * 2) {
+                int midX = (fromX + toX) / 2;
+                int midY = (fromY + toY) / 2;
+                PieceData midPiece = board[midX][midY];
+
+                // Can only jump over opponent pieces
+                if (midPiece.type != EMPTY && midPiece.color != piece.color) {
+                    return true;
+                }
+            }
+        }
+        else if (piece.type == CKING) {
+            // Kings can move diagonally in ANY direction
+            if (!piece.isJumping && dx == 1 && absDy == 1) {
+                return true;
+            }
+            // Kings jump in ANY direction
+            if (dx == 2 && absDy == 2) {
+                int midX = (fromX + toX) / 2;
+                int midY = (fromY + toY) / 2;
+                PieceData midPiece = board[midX][midY];
+
+                if (midPiece.type != EMPTY && midPiece.color != piece.color) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool jumpAvailable(int x, int y, const PieceData board[8][8])
+    {
+        PieceData p = board[x][y];
+        if (p.type == EMPTY) return false;
+
+        int forwardDir = (p.color == WHITE) ? -1 : 1;
+        std::vector<std::pair<int, int>> directions;
+
+        // Standard checkers only jump forward. Kings jump all 4 ways.
+        if (p.type == CHECKER) {
+            directions = { {1, forwardDir}, {-1, forwardDir} };
+        }
+        else if (p.type == CKING) {
+            directions = { {1, 1}, {1, -1}, {-1, 1}, {-1, -1} };
+        }
+
+        for (auto dir : directions) {
+            int midX = x + dir.first;
+            int midY = y + dir.second;
+            int landX = x + dir.first * 2;
+            int landY = y + dir.second * 2;
+
+            // Strict bounds checking before reading the array
+            if (landX >= 0 && landX <= 7 && landY >= 0 && landY <= 7) {
+                PieceData midPiece = board[midX][midY];
+                PieceData landPiece = board[landX][landY];
+
+                if (midPiece.type != EMPTY && midPiece.color != p.color && landPiece.type == EMPTY) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool isCheckersPromotion(int x, int y, const PieceData board[8][8])
+    {
+        PieceData p = board[x][y];
+        if (p.type == CHECKER) {
+            if (p.color == WHITE && y == 0) return true;
+            if (p.color == BLACK && y == 7) return true;
+        }
+        return false;
+    }
 }
-

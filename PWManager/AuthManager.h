@@ -3,7 +3,7 @@
 
 namespace controllers
 {
-    // A clean struct to pass authentication data back to the UI
+    // A struct to pass authentication data back to the UI
     struct AuthResult {
         bool success;
         std::string message;

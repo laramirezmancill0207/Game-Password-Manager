@@ -1,47 +1,19 @@
 #pragma once
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 #include <QPixmap>
-#include <QGraphicsView>
+#include <QGraphicsSceneDragDropEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <vector>
-#include <QGraphicsScene>
-#include <QGraphicsSceneContextMenuEvent>
-
-QT_BEGIN_NAMESPACE
-class QGraphicsSceneMouseEvent;
-class QParallelAnimationGroup;
-QT_END_NAMESPACE
+#include "GameEngine.h"
 
 namespace game
 {
-	typedef enum game { CHESS, CHECKERS } Game;
-
-	typedef enum color { WHITE, BLACK, RED, LIGHTRED, NONE } GameColor;
-
-	typedef enum piece { KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, EMPTY, CHECKER, CKING } pieceType;
-
-	struct coordinates
-	{
-		int x, y;
-	};
-
-	//base class for game
-	class baseGame : public QGraphicsObject
-	{
-	public:
-		baseGame(QGraphicsItem* parent = nullptr);
-	};
-
-	/*
-	* piece class inherits from base game
-	*/
-	class Piece : public baseGame
+	class Piece : public QGraphicsObject
 	{
 	private:
 		GameColor color;
 		pieceType type;
-		coordinates c;
-		bool moved;
-		bool isJumping;
+		int gridX, gridY;
 
 	protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
@@ -49,103 +21,62 @@ namespace game
 		void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
 	public:
-		Piece(QGraphicsItem* parent = nullptr, GameColor c = NONE, pieceType t = EMPTY);
+		Piece(QGraphicsItem* parent = nullptr, GameColor c = NONE, pieceType t = EMPTY, int x = 0, int y = 0);
 
 		GameColor getColor();
 		pieceType getType();
-		void setColor(GameColor c);
-		void setType(pieceType t);
-		void setCoordinates(int x, int y);
-		coordinates getCoordinates();
-
-		bool checkIfMoved();
-		void setMoved();
-
-		bool checkIfJumping();
-		void setJumping(bool j);
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 	};
 
-	class Square : public baseGame
+	// Visual Square
+	class Square : public QGraphicsObject
 	{
 	private:
+		int gridX, gridY;
 		GameColor color;
-		Piece *piece;
-		coordinates c;
+		bool dragOver = false;
 
 	protected:
 		void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
 		void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) override;
 		void dropEvent(QGraphicsSceneDragDropEvent* event) override;
 
-		//QColor color = Qt::lightGray;
-		bool dragOver = false;
 	public:
-		Square(QGraphicsItem *parent = nullptr);
-		~Square();
+		Square(QGraphicsItem* parent = nullptr, int x = 0, int y = 0);
 
-		coordinates getCoordinates();
-		void setCoordinates(int x, int y);
-		Piece* getPiece();
-		void setPiece(Piece* p);
-		void changePiece(GameColor c = NONE, pieceType t = EMPTY, QGraphicsItem* parent = nullptr);
 		void setColor(GameColor col);
 		GameColor getColor();
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
-
 	};
 
-	class Move
-	{
-	private:
-		pieceType type;
-		coordinates from;
-		coordinates to;
-	public:
-		Move(pieceType ty, coordinates f, coordinates t);
-
-		pieceType getType();
-		coordinates getFromCoord();
-		coordinates getToCoord();
-	};
-
-	//singleton design pattern
-	class Board : public baseGame
+	// The Renderer
+	class Board : public QGraphicsObject
 	{
 	private:
 		static Board* instancePtr;
-		Square*** squares;
-		GameColor turn;
-		std::vector<Move> playedMoves;
-		Game type;
-		bool checkersJump;
+		Square* squares[8][8];
+		Piece* pieces[8][8];
+
+		GameEngine engine;
 
 		Board(QGraphicsItem* parent = nullptr);
 
 	public:
 		~Board();
-
 		static Board* getInstance();
+		Square* getSquare(int x, int y) { return squares[x][y]; }
 
-		GameColor getTurn();
-		void switchTurn();
-		void addMove(Move m);
-		std::vector<Move> getPlayedMoves();
-		Game getGame();
-		void setGame(Game g);
-		bool getJumping();
-		void setJumping(bool j);
+		GameEngine* getEngine();
 
-
-		Square*** getSquares();
-
-		void setupChessBoard();
-		void setupCheckersBoard();
 		void resetBoard();
+		void syncVisuals();
+		std::vector<Move> getPlayedMoves();
+		GameType getGame();
+		void setGame(GameType g);
 
 		QRectF boundingRect() const override;
 		void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;

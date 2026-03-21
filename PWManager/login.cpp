@@ -19,15 +19,18 @@ namespace database
     {
         QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
+        //if db not able to open show error and return empty user
         if (!db.open()) {
             qDebug() << db.lastError();
             return User("", "", "", -1);
         }
 
+        //query to select the user with entered username and password
         QSqlQuery qry;
         qry.prepare("SELECT * FROM masteruser WHERE username = ?");
         qry.addBindValue(QString::fromStdString(inputU));
 
+        //run if query can not be executed
         if (!qry.exec()) {
             qDebug() << db.lastError();
             db.close();
