@@ -12,95 +12,68 @@
 #include <QSqlDatabase>
 #include <QDebug>
 
-#include "bcrypt/BCrypt.hpp"
-
 
 namespace database
 {
-    User checkMasterLogin(std::string inputU, std::string inputP)
+    User getUserByUsername(std::string inputU)
     {
         QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
-        //if db not able to open show error and return empty user
-        if (!db.open())
-        {
+        if (!db.open()) {
             qDebug() << db.lastError();
-            db.close();
-            
-            return User("", "", "", - 1);
+            return User("", "", "", -1);
         }
 
-        //query to select the user with entered username and password
         QSqlQuery qry;
         qry.prepare("SELECT * FROM masteruser WHERE username = ?");
         qry.addBindValue(QString::fromStdString(inputU));
 
-        //run if query can not be executed
-        if (!qry.exec())
-        {
+        if (!qry.exec()) {
             qDebug() << db.lastError();
             db.close();
-            
-            return User("", "", "", - 1);
+            return User("", "", "", -1);
         }
 
-        //if selection exists, (only one can exist based on db requirements) return the user with db values
-        if (qry.next())
-        {
-
-            std::string pw = qry.value("password").toString().toStdString();
-
-            if (BCrypt::validatePassword(inputP, pw))
-            {
-                db.close();
-                
-                return User(qry.value("username").toString().toStdString(), qry.value("password").toString().toStdString(), qry.value("gameHash").toString().toStdString(), qry.value("id").toInt());
-            }
-
+        // If the user exists, return the database row as a User object
+        if (qry.next()) {
+            User foundUser(
+                qry.value("username").toString().toStdString(),
+                qry.value("password").toString().toStdString(),
+                qry.value("gameHash").toString().toStdString(),
+                qry.value("id").toInt()
+            );
+            db.close();
+            return foundUser;
         }
 
         db.close();
-        
-        return User("", "", "", - 1);
+        return User("", "", "", -1);
     }
-    
 
-    bool createMasterLogin(std::string inputU, std::string inputP, std::string generatedPass)
+    bool createMasterLogin(std::string inputU, std::string hashedPassword, std::string generatedPass)
     {
         QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
 
-        if (!db.open())
-        {
+        if (!db.open()) {
             qDebug() << db.lastError();
-            db.close();
-            
             return false;
         }
 
-        //hash using bcrypt
-        QString hashed = QString::fromStdString(BCrypt::generateHash(inputP));
-
-
-        //query to insert a new user into masteruser table with entered values
         QSqlQuery qry;
         qry.prepare("INSERT INTO masteruser (username, password, gameHash) VALUES(?,?,?)");
         qry.addBindValue(QString::fromStdString(inputU));
-        qry.addBindValue(hashed);
+        // The password is now hashed before it reaches this function
+        qry.addBindValue(QString::fromStdString(hashedPassword));
         qry.addBindValue(QString::fromStdString(generatedPass));
 
-        //if query cant execute return false
-        if (!qry.exec())
-        {
+        if (!qry.exec()) {
             qDebug() << db.lastError();
             db.close();
-            
             return false;
         }
 
         db.close();
-        
         return true;
-
     }
     
     std::string getGameHashFromDB(std::string inputU)

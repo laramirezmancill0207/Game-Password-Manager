@@ -113,6 +113,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AuthManager.cpp" />
     <ClCompile Include="VaultManager.cpp" />
     <ClCompile Include="VaultManager.h" />
     <QtRcc Include="PWManager.qrc" />
@@ -136,6 +137,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AuthManager.h" />
     <ClInclude Include="crypto.h" />
     <ClInclude Include="gamePassword.h" />
     <ClInclude Include="moveRules.h" />

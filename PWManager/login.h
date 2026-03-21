@@ -1,10 +1,8 @@
 #pragma once
 #include <string>
 
-
 namespace database
 {
-	//user class to define sql masteruser
 	class User
 	{
 	public:
@@ -17,6 +15,7 @@ namespace database
 		}
 		int getUserID() { return userID; }
 		std::string getUsername() { return username; }
+		std::string getPassword() { return password; }
 		std::string getGameHash() { return gameHash; }
 	private:
 		std::string username;
@@ -24,25 +23,13 @@ namespace database
 		std::string gameHash;
 		int userID;
 	};
-	
-	/*
-	* check inputted username and password with sql masterusers
-	* check if login exists in sql database
-	* return a User corresponding to data in db or empty user
-	*/
-	User checkMasterLogin(std::string inputU, std::string inputP);
 
-	/*
-	* create new login within SQL database using inputU, inputP, and a generatedPass
-	* returns bool of whether successful
-	*/
-	bool createMasterLogin(std::string inputU, std::string inputP, std::string generatedPass);
+	// Simply retrieves a user record from the DB by username. Returns empty User if not found.
+	User getUserByUsername(std::string inputU);
 
-	//simply uses input username to get gamehash from user database
+	// Inserts a new user into the database. The password must ALREADY be hashed before passing it here.
+	bool createMasterLogin(std::string inputU, std::string hashedPassword, std::string generatedPass);
+
+	// Simply uses input username to get gamehash from user database
 	std::string getGameHashFromDB(std::string inputU);
-
-	//check whether a provided password abides by set rules
-	std::string checkPassword(std::string password);
-
 }
-

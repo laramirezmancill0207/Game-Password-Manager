@@ -3,6 +3,7 @@
 #include "mainpasswordmenu.h"
 #include "board.h"
 #include "gamePassword.h"
+#include "AuthManager.h"
 
 #include <string>
 #include <QGraphicsScene>
@@ -92,19 +93,12 @@ void PWManager::on_login_clicked()
     std::string textUser = ui.username->text().toStdString();
     std::string textPass = ui.password->text().toStdString();
 
-    if (textUser.empty() || textPass.empty())
-    {
-        ui.loginMessage->setText("Please enter both a username and password");
-        return;
-    }
+    // The UI passes the raw text to the controller, and the controller handles the rest
+    controllers::AuthResult result = controllers::AuthManager::attemptLogin(textUser, textPass);
 
-    //get user object from mysql database using entered username and passowrd
-    database::User masteruser = database::checkMasterLogin(textUser, textPass);
-
-    //if either is empty username or password was incorrect
-    if (masteruser.getUsername().empty() || masteruser.getUserID() == -1)
+    if (!result.success)
     {
-        ui.loginMessage->setText("Either username or password is incorrect");
+        ui.loginMessage->setText(QString::fromStdString(result.message));
         return;
     }
 
@@ -113,43 +107,25 @@ void PWManager::on_login_clicked()
 
     this->close();
 
-    //create new window for main password manager if login successful
+    // Create new window using the clean data returned from AuthManager
     window = new mainpasswordmenu();
-
-    //set hidden label to userID for later use
-    window->setID(masteruser.getUserID());
-    window->setGameHash(masteruser.getGameHash());
-
+    window->setID(result.userId);
+    window->setGameHash(result.gameHash);
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->show();
 }
 
-//sign up page when sign up button clicked
 void PWManager::on_signup_clicked()
 {
     std::string textUser = ui.susername->text().toStdString();
     std::string textPass = ui.spassword->text().toStdString();
 
-    //check if password meets requirements
-    std::string check = database::checkPassword(textPass);
+    // Let AuthManager handle the regex rules and the registration pipeline
+    controllers::AuthResult result = controllers::AuthManager::registerAccount(textUser, textPass, getHash());
 
-    //if check is not good set warning label to return message
-    if (check != "good") {
-
-        ui.loginMessage->setText(QString::fromStdString(check));
-        return;
-    }
-
-    //use createmasterlogin function to put new user into db
-    if (database::createMasterLogin(textUser, textPass, getHash()))
-    {
-        ui.loginMessage->setText("login successfully created");
-        return;
-    }
-
-    ui.loginMessage->setText("login was not able to be created");
-
+    ui.loginMessage->setText(QString::fromStdString(result.message));
 }
+
 
 //toolbar action to switch to sign up page
 void PWManager::on_actionSignUp_triggered()
