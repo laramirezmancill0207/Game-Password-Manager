@@ -76,6 +76,12 @@
     <ClCompile Include="crypto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VaultManager.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VaultManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="login.h">

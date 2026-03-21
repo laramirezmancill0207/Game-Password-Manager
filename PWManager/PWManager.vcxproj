@@ -113,6 +113,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="VaultManager.cpp" />
+    <ClCompile Include="VaultManager.h" />
     <QtRcc Include="PWManager.qrc" />
     <QtUic Include="aboutPage.ui" />
     <QtUic Include="mainpasswordmenu.ui" />
